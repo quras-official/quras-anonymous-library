@@ -1,0 +1,289 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\QurasModule">
+      <UniqueIdentifier>{24f9d6a7-d9e7-4534-a168-5e08b351aa44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\QurasModule\crypto">
+      <UniqueIdentifier>{6dd33aa1-4efc-4df8-ab6e-9a110329da55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\QurasModule\compat">
+      <UniqueIdentifier>{6e0ec450-9260-426e-b344-8732fc952cd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\QurasModule\circuit">
+      <UniqueIdentifier>{1efdbb30-7232-46df-87e5-88201764c6d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\QurasModule\utils">
+      <UniqueIdentifier>{848049a8-a833-4945-8a37-02c999860ff3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\QurasModule\support">
+      <UniqueIdentifier>{9d35eec7-6832-4451-8c98-02fd45eb529e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\QurasModule\support\allocators">
+      <UniqueIdentifier>{bea76ab5-b77c-43f2-a81b-9308f8ee7755}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{343f9fc0-04b5-4794-ad93-294d1f23636c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\QurasModule\transaction">
+      <UniqueIdentifier>{100602b0-0a7f-405f-be70-6839c08197a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\LinkModules">
+      <UniqueIdentifier>{964806b9-8c09-4fce-83f3-b1e83e08cb84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\test">
+      <UniqueIdentifier>{d07e3250-4e32-4411-9fe9-babeb1465c95}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\QurasCrypto.h">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\proof.h">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\serialize.h">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\uint256.h">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\utilstrencodings.h">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\tinyformat.h">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\crypto\common.h">
+      <Filter>Source Files\QurasModule\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\compat\endian.h">
+      <Filter>Source Files\QurasModule\compat</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\compat\byteswap.h">
+      <Filter>Source Files\QurasModule\compat</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\uint252.h">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\circuit\gadget.h">
+      <Filter>Source Files\QurasModule\circuit</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\circuit\utils.h">
+      <Filter>Source Files\QurasModule\circuit</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\utils\util.h">
+      <Filter>Source Files\QurasModule\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\circuit\prfs.h">
+      <Filter>Source Files\QurasModule\circuit</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\circuit\commitment.h">
+      <Filter>Source Files\QurasModule\circuit</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\circuit\merkle.h">
+      <Filter>Source Files\QurasModule\circuit</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\circuit\note.h">
+      <Filter>Source Files\QurasModule\circuit</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\IncrementalMerkleTree.h">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\Quras.h">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\crypto\sha256.h">
+      <Filter>Source Files\QurasModule\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\Note.h">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\Address.h">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\prf.h">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\NoteEncryption.h">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\JoinSplit.h">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\sync.h">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\threadsafety.h">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\timedata.h">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\compat.h">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\utils\utiltime.h">
+      <Filter>Source Files\QurasModule\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\hash.h">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\version.h">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\crypto\ripemd160.h">
+      <Filter>Source Files\QurasModule\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\random.h">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\support\cleanse.h">
+      <Filter>Source Files\QurasModule\support</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\amount.h">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\streams.h">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\support\allocators\zeroafterfree.h">
+      <Filter>Source Files\QurasModule\support\allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="test\joinsplit_test.h">
+      <Filter>Source Files\test</Filter>
+    </ClInclude>
+    <ClInclude Include="common\global.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="QurasModules\transaction\transaction.h">
+      <Filter>Source Files\QurasModule\transaction</Filter>
+    </ClInclude>
+    <ClInclude Include="AsyncJoinSplitInfo.h">
+      <Filter>Source Files\LinkModules</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="app.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Quras_snarks.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AssemblyInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gadgetEx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QurasModules\QurasCrypto.cpp">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClCompile>
+    <ClCompile Include="QurasModules\proof.cpp">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClCompile>
+    <ClCompile Include="QurasModules\uint256.cpp">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClCompile>
+    <ClCompile Include="QurasModules\utilstrencodings.cpp">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClCompile>
+    <ClCompile Include="QurasModules\utils\util.cpp">
+      <Filter>Source Files\QurasModule\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="QurasModules\IncrementalMerkleTree.cpp">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClCompile>
+    <ClCompile Include="QurasModules\crypto\sha256.cpp">
+      <Filter>Source Files\QurasModule\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="QurasModules\Note.cpp">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClCompile>
+    <ClCompile Include="QurasModules\Address.cpp">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClCompile>
+    <ClCompile Include="QurasModules\prf.cpp">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClCompile>
+    <ClCompile Include="QurasModules\NoteEncryption.cpp">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClCompile>
+    <ClCompile Include="QurasModules\JoinSplit.cpp">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClCompile>
+    <ClCompile Include="QurasModules\sync.cpp">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClCompile>
+    <ClCompile Include="QurasModules\timedata.cpp">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClCompile>
+    <ClCompile Include="QurasModules\utils\utiltime.cpp">
+      <Filter>Source Files\QurasModule\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="QurasModules\crypto\ripemd160.cpp">
+      <Filter>Source Files\QurasModule\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="QurasModules\random.cpp">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClCompile>
+    <ClCompile Include="QurasModules\support\cleanse.cpp">
+      <Filter>Source Files\QurasModule\support</Filter>
+    </ClCompile>
+    <ClCompile Include="QurasModules\amount.cpp">
+      <Filter>Source Files\QurasModule</Filter>
+    </ClCompile>
+    <ClCompile Include="test\joinsplit_test.cpp">
+      <Filter>Source Files\test</Filter>
+    </ClCompile>
+    <ClCompile Include="common\global.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="QurasModules\transaction\transaction.cpp">
+      <Filter>Source Files\QurasModule\transaction</Filter>
+    </ClCompile>
+    <ClCompile Include="AsyncJoinSplitInfo.cpp">
+      <Filter>Source Files\LinkModules</Filter>
+    </ClCompile>
+    <ClCompile Include="Perform_JoinSplit.cpp">
+      <Filter>Source Files\LinkModules</Filter>
+    </ClCompile>
+    <ClCompile Include="Key.cpp">
+      <Filter>Source Files\LinkModules</Filter>
+    </ClCompile>
+    <ClCompile Include="CmMerkleTree.cpp">
+      <Filter>Source Files\LinkModules</Filter>
+    </ClCompile>
+    <ClCompile Include="Witnesses.cpp">
+      <Filter>Source Files\LinkModules</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="app.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

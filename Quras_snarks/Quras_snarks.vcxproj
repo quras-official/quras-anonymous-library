@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{49A99FE8-EFE7-4378-B10B-EEE3074FFDAE}</ProjectGuid>
+    <TargetFrameworkVersion>
+    </TargetFrameworkVersion>
+    <Keyword>ManagedCProj</Keyword>
+    <RootNamespace>Qurassnarks</RootNamespace>
+    <WindowsTargetPlatformVersion>7.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CLRSupport>true</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CLRSupport>false</CLRSupport>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CLRSupport>false</CLRSupport>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <AdditionalIncludeDirectories>../common/include</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>legacy_stdio_definitions.lib;snark.lib;ff.lib;libgcc.a;libgmp.a;libgmpxx.a;libcryptoMD.lib;zm.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>../common/libs/debug</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>DEBUG;WIN32;WIN64;NO_PROCPS;CURVE_BN128;BN_SUPPORT_SNARK=1;LOWMEM=1;MULTICORE=1;BINARY_OUTPUT;MONTGOMERY_OUTPUT;USE_MIXED_ADDITION=1;USE_ASM;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <AdditionalIncludeDirectories>../common/include</AdditionalIncludeDirectories>
+      <CompileAsManaged>
+      </CompileAsManaged>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <CallingConvention>Cdecl</CallingConvention>
+      <CompileAs>CompileAsCpp</CompileAs>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>legacy_stdio_definitions.lib;snarkd.lib;ffd.lib;libgcc.a;libgmp.a;libgmpxx.a;libcryptoMD.lib;zmd.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;libboost_filesystem-vc141-mt-gd-x64-1_66.lib;libboost_system-vc141-mt-gd-x64-1_66.lib;libboost_thread-vc141-mt-gd-x64-1_66.lib;libboost_date_time-vc141-mt-gd-x64-1_66.lib;libboost_chrono-vc141-mt-gd-x64-1_66.lib;libboost_program_options-vc141-mt-gd-x64-1_66.lib;ws2_32.lib;libsodium.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>../common/libs/lib_debug</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies />
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN64;_WINDOWS;NDEBUG;NO_PROCPS;CURVE_BN128;BN_SUPPORT_SNARK=1;LOWMEM=1;BINARY_OUTPUT;MONTGOMERY_OUTPUT;USE_MIXED_ADDITION=1;USE_ASM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <AdditionalIncludeDirectories>../common/include;</AdditionalIncludeDirectories>
+      <CompileAsManaged>false</CompileAsManaged>
+      <CompileAs>Default</CompileAs>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <Optimization>Disabled</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>legacy_stdio_definitions.lib;snark.lib;ff.lib;libgcc.a;libgmp.a;libcryptoMD.lib;zm.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;ws2_32.lib;libsodium.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>../common/libs/lib_release</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="AsyncJoinSplitInfo.h" />
+    <ClInclude Include="common\global.h" />
+    <ClInclude Include="QurasModules\Address.h" />
+    <ClInclude Include="QurasModules\amount.h" />
+    <ClInclude Include="QurasModules\circuit\commitment.h" />
+    <ClInclude Include="QurasModules\circuit\gadget.h" />
+    <ClInclude Include="QurasModules\circuit\merkle.h" />
+    <ClInclude Include="QurasModules\circuit\note.h" />
+    <ClInclude Include="QurasModules\circuit\prfs.h" />
+    <ClInclude Include="QurasModules\circuit\utils.h" />
+    <ClInclude Include="QurasModules\compat.h" />
+    <ClInclude Include="QurasModules\compat\byteswap.h" />
+    <ClInclude Include="QurasModules\compat\endian.h" />
+    <ClInclude Include="QurasModules\crypto\common.h" />
+    <ClInclude Include="QurasModules\crypto\ripemd160.h" />
+    <ClInclude Include="QurasModules\crypto\sha256.h" />
+    <ClInclude Include="QurasModules\hash.h" />
+    <ClInclude Include="QurasModules\IncrementalMerkleTree.h" />
+    <ClInclude Include="QurasModules\JoinSplit.h" />
+    <ClInclude Include="QurasModules\Note.h" />
+    <ClInclude Include="QurasModules\NoteEncryption.h" />
+    <ClInclude Include="QurasModules\prf.h" />
+    <ClInclude Include="QurasModules\proof.h" />
+    <ClInclude Include="QurasModules\Quras.h" />
+    <ClInclude Include="QurasModules\QurasCrypto.h" />
+    <ClInclude Include="QurasModules\random.h" />
+    <ClInclude Include="QurasModules\serialize.h" />
+    <ClInclude Include="QurasModules\streams.h" />
+    <ClInclude Include="QurasModules\support\allocators\zeroafterfree.h" />
+    <ClInclude Include="QurasModules\support\cleanse.h" />
+    <ClInclude Include="QurasModules\sync.h" />
+    <ClInclude Include="QurasModules\threadsafety.h" />
+    <ClInclude Include="QurasModules\timedata.h" />
+    <ClInclude Include="QurasModules\tinyformat.h" />
+    <ClInclude Include="QurasModules\transaction\transaction.h" />
+    <ClInclude Include="QurasModules\uint252.h" />
+    <ClInclude Include="QurasModules\uint256.h" />
+    <ClInclude Include="QurasModules\utilstrencodings.h" />
+    <ClInclude Include="QurasModules\utils\util.h" />
+    <ClInclude Include="QurasModules\utils\utiltime.h" />
+    <ClInclude Include="QurasModules\version.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="test\joinsplit_test.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="app.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="AsyncJoinSplitInfo.cpp" />
+    <ClCompile Include="CmMerkleTree.cpp" />
+    <ClCompile Include="common\global.cpp" />
+    <ClCompile Include="gadgetEx.cpp" />
+    <ClCompile Include="Key.cpp" />
+    <ClCompile Include="Perform_JoinSplit.cpp" />
+    <ClCompile Include="QurasModules\Address.cpp" />
+    <ClCompile Include="QurasModules\amount.cpp" />
+    <ClCompile Include="QurasModules\crypto\ripemd160.cpp" />
+    <ClCompile Include="QurasModules\crypto\sha256.cpp" />
+    <ClCompile Include="QurasModules\IncrementalMerkleTree.cpp" />
+    <ClCompile Include="QurasModules\JoinSplit.cpp" />
+    <ClCompile Include="QurasModules\Note.cpp" />
+    <ClCompile Include="QurasModules\NoteEncryption.cpp" />
+    <ClCompile Include="QurasModules\prf.cpp" />
+    <ClCompile Include="QurasModules\proof.cpp" />
+    <ClCompile Include="QurasModules\QurasCrypto.cpp" />
+    <ClCompile Include="QurasModules\random.cpp" />
+    <ClCompile Include="QurasModules\support\cleanse.cpp" />
+    <ClCompile Include="QurasModules\sync.cpp" />
+    <ClCompile Include="QurasModules\timedata.cpp" />
+    <ClCompile Include="QurasModules\transaction\transaction.cpp" />
+    <ClCompile Include="QurasModules\uint256.cpp" />
+    <ClCompile Include="QurasModules\utilstrencodings.cpp" />
+    <ClCompile Include="QurasModules\utils\util.cpp" />
+    <ClCompile Include="QurasModules\utils\utiltime.cpp" />
+    <ClCompile Include="Quras_snarks.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="test\joinsplit_test.cpp" />
+    <ClCompile Include="Witnesses.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="app.ico" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
