@@ -181,7 +181,7 @@ int test_joinsplit_locals()
 		};
 
 		boost::array<JSOutput, 2> outputs = {
-			JSOutput(recipient_addr, 10, 1, assetId),
+			JSOutput(recipient_addr, 10, assetId),
 			JSOutput(assetId) // dummy output
 		};
 
@@ -281,7 +281,7 @@ int test_joinsplit_locals()
 		PaymentAddress second_addr = second_recipient.address();
 
 		boost::array<JSOutput, 2> outputs = {
-		JSOutput(second_addr, 9, 1, random_uint256()),
+		JSOutput(second_addr, 9, random_uint256()),
 		JSOutput() // dummy output
 		};
 
@@ -432,7 +432,16 @@ void test_genereate_key()
 {
 	printf("Starting generation of keys\n");
 
-	JoinSplit<2, 2>::Generate("d:\\QurasKey\\ChangeNote\\r1cs.key", "d:\\QurasKey\\ChangeNote\\vk.key", "d:\\QurasKey\\ChangeNote\\pk.key");
+	JoinSplit<2, 2>::Generate("crypto//r1cs.key", "crypto//vk.key", "crypto//pk.key");
+
+	printf("Finished generation of keys\n");
+}
+
+void test_generate_key(uint256 seedKey)
+{
+	printf("Starting generation of keys\n");
+
+	JoinSplit<2, 2>::Generate(seedKey, "crypto//r1cs.key", "crypto//vk.key", "crypto//pk.key");
 
 	printf("Finished generation of keys\n");
 }

@@ -105,8 +105,6 @@ public:
         {
             random_ = 0;
         }
-#else
-        random_ = std::fopen( "/dev/urandom", "rb" );
 #endif
 
         std::memset(rd_, 0, sizeof(rd_));

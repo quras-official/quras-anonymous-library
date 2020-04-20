@@ -29,6 +29,8 @@ namespace libquras {
 	CCriticalSection cs_ParamsIO;
 	CCriticalSection cs_LoadKeys;
 
+	uint256 randomSeed;
+
 	template<typename T>
 	void saveToFile(const std::string path, T& obj) {
 		LOCK(cs_ParamsIO);
@@ -109,6 +111,31 @@ namespace libquras {
 			
 			auto r1cs = pb.get_constraint_system();
 			
+			saveToFile(r1csPath, r1cs);
+
+			r1cs_ppzksnark_keypair<ppzksnark_ppT> keypair = r1cs_ppzksnark_generator<ppzksnark_ppT>(r1cs);
+
+			saveToFile(vkPath, keypair.vk);
+			saveToFile(pkPath, keypair.pk);
+		}
+
+		static void generate(uint256 seedHash,
+			const std::string r1csPath,
+			const std::string vkPath,
+			const std::string pkPath)
+		{
+			protoboard<FieldT> pb;
+
+			int n = FieldT::capacity();
+
+			joinsplit_gadget<FieldT, NumInputs, NumOutputs> g(pb);
+
+			randomSeed = seedHash;
+
+			g.generate_r1cs_constraints();
+
+			auto r1cs = pb.get_constraint_system();
+
 			saveToFile(r1csPath, r1cs);
 
 			r1cs_ppzksnark_keypair<ppzksnark_ppT> keypair = r1cs_ppzksnark_generator<ppzksnark_ppT>(r1cs);
@@ -381,6 +408,16 @@ namespace libquras {
 	}
 
 	template<size_t NumInputs, size_t NumOutputs>
+	void JoinSplit<NumInputs, NumOutputs>::Generate(uint256 seedHash,
+		const std::string r1csPath,
+		const std::string vkPath,
+		const std::string pkPath)
+	{
+		initialize_curve_params();
+		JoinSplitCircuit<NumInputs, NumOutputs>::generate(seedHash, r1csPath, vkPath, pkPath);
+	}
+
+	template<size_t NumInputs, size_t NumOutputs>
 	JoinSplit<NumInputs, NumOutputs>* JoinSplit<NumInputs, NumOutputs>::Prepared(const std::string vkPath,
 		const std::string pkPath)
 	{
@@ -426,7 +463,7 @@ namespace libquras {
 		return Note(addr.a_pk, value, rho, r, assetID);
 	}
 
-	JSOutput::JSOutput(uint256 assetID) : addr(uint256(), uint256()), value(0), fee(0),assetID(assetID) {
+	JSOutput::JSOutput(uint256 assetID) : addr(uint256(), uint256()), value(0), assetID(assetID) {
 		SpendingKey a_sk = SpendingKey::random();
 		addr = a_sk.address();
 	}
