@@ -79,7 +79,7 @@ extern "C" {          // we need to export the C interface
 		delete pJsOutput;
 	}
 
-	EXPORT void Jsoutput_Init(JSOutput* pJsOutput, char* a_pk_, char* pk_enc_, CAmount value, CAmount fee, char* memo, char* assetID_)
+	EXPORT void Jsoutput_Init(JSOutput* pJsOutput, char* a_pk_, char* pk_enc_, CAmount value, char* memo, char* assetID_)
 	{
 		uint256 a_pk = ConvertFromBytesInv(a_pk_);
 		uint256 pk_enc = ConvertFromBytesInv(pk_enc_);
@@ -87,7 +87,6 @@ extern "C" {          // we need to export the C interface
 
 		pJsOutput->addr = PaymentAddress(a_pk, pk_enc);
 		pJsOutput->value = value;
-		pJsOutput->fee = fee;
 		pJsOutput->assetID = assetId;
 
 		for (int i = 0; i < strlen(memo); i++)

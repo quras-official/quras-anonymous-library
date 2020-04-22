@@ -34,13 +34,12 @@ namespace libquras {
 	public:
 		PaymentAddress addr;
 		uint64_t value;
-		uint64_t fee;
 		uint256 assetID;
 		boost::array<unsigned char, QR_MEMO_SIZE> memo = { { 0xF6 } };  // 0xF6 is invalid UTF8 as per spec, rest of array is 0x00
 
 		JSOutput();
 		JSOutput(uint256 assetID);
-		JSOutput(PaymentAddress addr, uint64_t value, uint64_t fee, uint256 assetID) : addr(addr), value(value), fee(fee), assetID(assetID) { }
+		JSOutput(PaymentAddress addr, uint64_t value, uint256 assetID) : addr(addr), value(value), assetID(assetID) { }
 
 		Note note(const uint252& phi, const uint256& r, size_t i, const uint256& h_sig) const;
 	};
@@ -51,6 +50,10 @@ namespace libquras {
 		virtual ~JoinSplit() {}
 
 		static void Generate(const std::string r1csPath,
+			const std::string vkPath,
+			const std::string pkPath);
+		static void Generate(uint256 seedHash,
+			const std::string r1csPath,
 			const std::string vkPath,
 			const std::string pkPath);
 		static JoinSplit<NumInputs, NumOutputs>* Prepared(const std::string vkPath,
