@@ -229,11 +229,8 @@ namespace libquras {
 				out_nullifiers[i] = inputs[i].nullifier();
 			}
 
-			// Sample randomSeed
-			out_randomSeed = random_uint256();
-
 			// Compute h_sig
-			uint256 h_sig = this->h_sig(out_randomSeed, out_nullifiers, pubKeyHash);
+			uint256 h_sig = this->h_sig(randomSeed, out_nullifiers, pubKeyHash);
 
 			// Sample phi
 			uint252 phi = random_uint252();
