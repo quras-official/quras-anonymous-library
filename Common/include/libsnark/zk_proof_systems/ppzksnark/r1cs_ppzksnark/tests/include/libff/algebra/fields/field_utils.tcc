@@ -82,7 +82,7 @@ std::vector<FieldT> pack_int_vector_into_field_element_vector(const std::vector<
 template<typename FieldT>
 std::vector<FieldT> pack_bit_vector_into_field_element_vector(const bit_vector &v, const size_t chunk_bits)
 {
-    assert(chunk_bits <= FieldT::capacity());
+    assert_except(chunk_bits <= FieldT::capacity());
 
     const size_t repacked_size = div_ceil(v.size(), chunk_bits);
     std::vector<FieldT> result(repacked_size);
@@ -160,7 +160,7 @@ bit_vector convert_field_element_to_bit_vector(const FieldT &el, const size_t bi
 template<typename FieldT>
 FieldT convert_bit_vector_to_field_element(const bit_vector &v)
 {
-    assert(v.size() <= FieldT::size_in_bits());
+    assert_except(v.size() <= FieldT::size_in_bits());
 
     FieldT res = FieldT::zero();
     FieldT c = FieldT::one();
@@ -182,7 +182,7 @@ void batch_invert(std::vector<FieldT> &vec)
 
     for (auto el : vec)
     {
-        assert(!el.is_zero());
+        assert_except(!el.is_zero());
         prod.emplace_back(acc);
         acc = acc * el;
     }

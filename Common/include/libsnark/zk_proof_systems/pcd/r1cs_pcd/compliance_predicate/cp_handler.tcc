@@ -106,7 +106,7 @@ void compliance_predicate_handler<FieldT, protoboardT>::generate_r1cs_witness(co
 template<typename FieldT, typename protoboardT>
 r1cs_pcd_compliance_predicate<FieldT> compliance_predicate_handler<FieldT, protoboardT>::get_compliance_predicate() const
 {
-    assert(incoming_messages.size() == max_arity);
+    assert_except(incoming_messages.size() == max_arity);
 
     const size_t outgoing_message_payload_length = outgoing_message->all_vars.size() - 1;
 
@@ -160,7 +160,7 @@ size_t compliance_predicate_handler<FieldT, protoboardT>::get_arity() const
 template<typename FieldT, typename protoboardT>
 std::shared_ptr<r1cs_pcd_message<FieldT> > compliance_predicate_handler<FieldT, protoboardT>::get_incoming_message(const size_t message_idx) const
 {
-    assert(message_idx < max_arity);
+    assert_except(message_idx < max_arity);
     return incoming_messages[message_idx]->get_message();
 }
 

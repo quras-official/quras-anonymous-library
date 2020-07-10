@@ -107,7 +107,7 @@
 //
 // Error handling: Define TINYFORMAT_ERROR to customize the error handling for
 // format strings which are unsupported or have the wrong number of format
-// specifiers (calls assert() by default).
+// specifiers (calls assert_except() by default).
 //
 // User defined types: Uses operator<< for user defined types by default.
 // Overload formatValue() for more control.
@@ -123,7 +123,7 @@ namespace tinyformat {}
 // Namespace alias to encourage brevity
 namespace tfm = tinyformat;
 
-// Error handling; calls assert() by default.
+// Error handling; calls assert_except() by default.
 #define TINYFORMAT_ERROR(reasonString) throw std::runtime_error(reasonString)
 
 // Define for C++11 variadic templates which make the code shorter & more
@@ -138,9 +138,10 @@ namespace tfm = tinyformat;
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
+#include <assert_except.hpp>
 
 #ifndef TINYFORMAT_ERROR
-#   define TINYFORMAT_ERROR(reason) assert(0 && reason)
+#   define TINYFORMAT_ERROR(reason) assert_except(0 && reason)
 #endif
 
 #if !defined(TINYFORMAT_USE_VARIADIC_TEMPLATES) && !defined(TINYFORMAT_NO_VARIADIC_TEMPLATES)
@@ -212,7 +213,7 @@ namespace tinyformat {
 		template<typename T, typename fmtT, bool convertible = is_convertible<T, fmtT>::value>
 		struct formatValueAsType
 		{
-			static void invoke(std::ostream& /*out*/, const T& /*value*/) { assert(0); }
+			static void invoke(std::ostream& /*out*/, const T& /*value*/) { assert_except(0); }
 		};
 		// Specialized version for types that can actually be converted to fmtT, as
 		// indicated by the "convertible" template parameter.
@@ -876,7 +877,7 @@ inline void formatValue(std::ostream& out, const char* /*fmtBegin*/,  \
         template<TINYFORMAT_ARGTYPES(n)>                       \
         FormatListN(TINYFORMAT_VARARGS(n))                     \
             : FormatList(&m_formatterStore[0], n)              \
-        { assert(n == N); init(0, TINYFORMAT_PASSARGS(n)); }   \
+        { assert_except(n == N); init(0, TINYFORMAT_PASSARGS(n)); }   \
                                                                \
         template<TINYFORMAT_ARGTYPES(n)>                       \
         void init(int i, TINYFORMAT_VARARGS(n))                \

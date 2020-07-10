@@ -27,7 +27,7 @@ namespace boost { namespace proto
     /// \code
     /// proto::terminal<int>::type i = {42};
     /// proto::terminal<int>::type & j = proto::_expr()(i);
-    /// assert( boost::addressof(i) == boost::addressof(j) );
+    /// assert_except( boost::addressof(i) == boost::addressof(j) );
     /// \endcode
     struct _expr : transform<_expr>
     {
@@ -60,7 +60,7 @@ namespace boost { namespace proto
     /// \code
     /// proto::terminal<int>::type i = {42};
     /// char ch = proto::_state()(i, 'a');
-    /// assert( ch == 'a' );
+    /// assert_except( ch == 'a' );
     /// \endcode
     struct _state : transform<_state>
     {
@@ -94,7 +94,7 @@ namespace boost { namespace proto
     /// proto::terminal<int>::type i = {42};
     /// std::string str("hello");
     /// std::string & data = proto::_data()(i, 'a', str);
-    /// assert( &str == &data );
+    /// assert_except( &str == &data );
     /// \endcode
     struct _data : transform<_data>
     {
@@ -116,7 +116,7 @@ namespace boost { namespace proto
     /// \code
     /// proto::terminal<int>::type i = {42};
     /// proto::terminal<int>::type & j = proto::_child_c<0>()(-i);
-    /// assert( boost::addressof(i) == boost::addressof(j) );
+    /// assert_except( boost::addressof(i) == boost::addressof(j) );
     /// \endcode
     template<int N>
     struct _child_c : transform<_child_c<N> >
@@ -157,7 +157,7 @@ namespace boost { namespace proto
     /// \code
     /// proto::terminal<int>::type i = {42};
     /// int j = proto::_value()(i);
-    /// assert( 42 == j );
+    /// assert_except( 42 == j );
     /// \endcode
     struct _value : transform<_value>
     {
@@ -217,7 +217,7 @@ namespace boost { namespace proto
     /// proto::terminal<int>::type i = {42};
     /// boost::reference_wrapper<proto::terminal<int>::type> j
     ///     = proto::when<_, proto::_byref(_)>()(i);
-    /// assert( boost::addressof(i) == boost::addressof(j.get()) );
+    /// assert_except( boost::addressof(i) == boost::addressof(j.get()) );
     /// \endcode
     struct _byref : callable
     {
@@ -264,7 +264,7 @@ namespace boost { namespace proto
     /// proto::terminal<int>::type i = {42};
     /// int j = 67;
     /// int k = proto::when<_, proto::_byval(proto::_state)>()(i, boost::ref(j));
-    /// assert( 67 == k );
+    /// assert_except( 67 == k );
     /// \endcode
     struct _byval : callable
     {

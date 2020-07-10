@@ -133,8 +133,8 @@ template<typename FieldT>
 bool r1cs_constraint_system<FieldT>::is_satisfied(const r1cs_primary_input<FieldT> &primary_input,
                                                   const r1cs_auxiliary_input<FieldT> &auxiliary_input) const
 {
-    assert(primary_input.size() == num_inputs());
-    assert(primary_input.size() + auxiliary_input.size() == num_variables());
+    assert_except(primary_input.size() == num_inputs());
+    assert_except(primary_input.size() + auxiliary_input.size() == num_variables());
 
     r1cs_variable_assignment<FieldT> full_variable_assignment = primary_input;
     full_variable_assignment.insert(full_variable_assignment.end(), auxiliary_input.begin(), auxiliary_input.end());

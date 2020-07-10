@@ -29,6 +29,8 @@
 // BOOST_ASSERT, BOOST_ASSERT_MSG, BOOST_ASSERT_IS_VOID
 //
 
+#include <assert_except.hpp>
+
 #undef BOOST_ASSERT
 #undef BOOST_ASSERT_MSG
 #undef BOOST_ASSERT_IS_VOID
@@ -57,8 +59,8 @@ namespace boost
 
 # include <assert.h> // .h to support old libraries w/o <cassert> - effect is the same
 
-# define BOOST_ASSERT(expr) assert(expr)
-# define BOOST_ASSERT_MSG(expr, msg) assert((expr)&&(msg))
+# define BOOST_ASSERT(expr) assert_except(expr)
+# define BOOST_ASSERT_MSG(expr, msg) assert_except((expr)&&(msg))
 #if defined(NDEBUG)
 # define BOOST_ASSERT_IS_VOID
 #endif

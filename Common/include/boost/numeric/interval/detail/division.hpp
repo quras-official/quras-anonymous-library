@@ -25,7 +25,7 @@ template<class T, class Policies> inline
 interval<T, Policies> div_non_zero(const interval<T, Policies>& x,
                                    const interval<T, Policies>& y)
 {
-  // assert(!in_zero(y));
+  // assert_except(!in_zero(y));
   typename Policies::rounding rnd;
   typedef interval<T, Policies> I;
   const T& xl = x.lower();
@@ -52,7 +52,7 @@ interval<T, Policies> div_non_zero(const interval<T, Policies>& x,
 template<class T, class Policies> inline
 interval<T, Policies> div_non_zero(const T& x, const interval<T, Policies>& y)
 {
-  // assert(!in_zero(y));
+  // assert_except(!in_zero(y));
   typename Policies::rounding rnd;
   typedef interval<T, Policies> I;
   const T& yl = y.lower();
@@ -66,7 +66,7 @@ interval<T, Policies> div_non_zero(const T& x, const interval<T, Policies>& y)
 template<class T, class Policies> inline
 interval<T, Policies> div_positive(const interval<T, Policies>& x, const T& yu)
 {
-  // assert(::boost::numeric::interval_lib::user::is_pos(yu));
+  // assert_except(::boost::numeric::interval_lib::user::is_pos(yu));
   if (::boost::numeric::interval_lib::user::is_zero(x.lower()) &&
       ::boost::numeric::interval_lib::user::is_zero(x.upper()))
     return x;
@@ -86,7 +86,7 @@ interval<T, Policies> div_positive(const interval<T, Policies>& x, const T& yu)
 template<class T, class Policies> inline
 interval<T, Policies> div_positive(const T& x, const T& yu)
 {
-  // assert(::boost::numeric::interval_lib::user::is_pos(yu));
+  // assert_except(::boost::numeric::interval_lib::user::is_pos(yu));
   typedef interval<T, Policies> I;
   if (::boost::numeric::interval_lib::user::is_zero(x))
     return I(static_cast<T>(0), static_cast<T>(0), true);
@@ -101,7 +101,7 @@ interval<T, Policies> div_positive(const T& x, const T& yu)
 template<class T, class Policies> inline
 interval<T, Policies> div_negative(const interval<T, Policies>& x, const T& yl)
 {
-  // assert(::boost::numeric::interval_lib::user::is_neg(yl));
+  // assert_except(::boost::numeric::interval_lib::user::is_neg(yl));
   if (::boost::numeric::interval_lib::user::is_zero(x.lower()) &&
       ::boost::numeric::interval_lib::user::is_zero(x.upper()))
     return x;
@@ -121,7 +121,7 @@ interval<T, Policies> div_negative(const interval<T, Policies>& x, const T& yl)
 template<class T, class Policies> inline
 interval<T, Policies> div_negative(const T& x, const T& yl)
 {
-  // assert(::boost::numeric::interval_lib::user::is_neg(yl));
+  // assert_except(::boost::numeric::interval_lib::user::is_neg(yl));
   typedef interval<T, Policies> I;
   if (::boost::numeric::interval_lib::user::is_zero(x))
     return I(static_cast<T>(0), static_cast<T>(0), true);
@@ -154,7 +154,7 @@ template<class T, class Policies> inline
 interval<T, Policies> div_zero_part1(const interval<T, Policies>& x,
                                      const interval<T, Policies>& y, bool& b)
 {
-  // assert(::boost::numeric::interval_lib::user::is_neg(y.lower()) && ::boost::numeric::interval_lib::user::is_pos(y.upper()));
+  // assert_except(::boost::numeric::interval_lib::user::is_neg(y.lower()) && ::boost::numeric::interval_lib::user::is_pos(y.upper()));
   if (::boost::numeric::interval_lib::user::is_zero(x.lower()) && ::boost::numeric::interval_lib::user::is_zero(x.upper()))
     { b = false; return x; }
   typename Policies::rounding rnd;
@@ -176,7 +176,7 @@ template<class T, class Policies> inline
 interval<T, Policies> div_zero_part2(const interval<T, Policies>& x,
                                      const interval<T, Policies>& y)
 {
-  // assert(::boost::numeric::interval_lib::user::is_neg(y.lower()) && ::boost::numeric::interval_lib::user::is_pos(y.upper()) && (div_zero_part1(x, y, b), b));
+  // assert_except(::boost::numeric::interval_lib::user::is_neg(y.lower()) && ::boost::numeric::interval_lib::user::is_pos(y.upper()) && (div_zero_part1(x, y, b), b));
   typename Policies::rounding rnd;
   typedef interval<T, Policies> I;
   typedef typename Policies::checking checking;

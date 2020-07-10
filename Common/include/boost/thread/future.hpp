@@ -4958,7 +4958,7 @@ namespace detail {
               )));
 #ifdef BOOST_THREAD_PROVIDES_EXECUTORS
     } else if (underlying_cast<int>(policy) & int(launch::executor)) {
-      assert(this->future_->get_executor());
+      assert_except(this->future_->get_executor());
       typedef executor Ex;
       Ex& ex = *(this->future_->get_executor());
       return BOOST_THREAD_MAKE_RV_REF((boost::detail::make_future_executor_continuation_shared_state<Ex, BOOST_THREAD_FUTURE<R>, future_type>(ex,
@@ -4978,7 +4978,7 @@ namespace detail {
                   )));
 #ifdef BOOST_THREAD_PROVIDES_EXECUTORS
         } else if (underlying_cast<int>(policy_) & int(launch::executor)) {
-          assert(this->future_->get_executor());
+          assert_except(this->future_->get_executor());
           typedef executor Ex;
           Ex& ex = *(this->future_->get_executor());
           return BOOST_THREAD_MAKE_RV_REF((boost::detail::make_future_executor_continuation_shared_state<Ex, BOOST_THREAD_FUTURE<R>, future_type>(ex,
@@ -5080,7 +5080,7 @@ namespace detail {
               )));
 #ifdef BOOST_THREAD_PROVIDES_EXECUTORS
     } else if (underlying_cast<int>(policy) & int(launch::executor)) {
-      assert(this->future_->get_executor());
+      assert_except(this->future_->get_executor());
       typedef executor Ex;
       Ex& ex = *(this->future_->get_executor());
       return BOOST_THREAD_MAKE_RV_REF((boost::detail::make_future_executor_continuation_shared_state<Ex, BOOST_THREAD_FUTURE<R>, future_type>(ex,
@@ -5104,7 +5104,7 @@ namespace detail {
                   )));
 #ifdef BOOST_THREAD_PROVIDES_EXECUTORS
         } else if (underlying_cast<int>(policy_) & int(launch::executor)) {
-          assert(this->future_->get_executor());
+          assert_except(this->future_->get_executor());
           typedef executor Ex;
           Ex& ex = *(this->future_->get_executor());
           return BOOST_THREAD_MAKE_RV_REF((boost::detail::make_future_executor_continuation_shared_state<Ex, BOOST_THREAD_FUTURE<R>, future_type>(ex,
@@ -5366,7 +5366,7 @@ namespace detail
     void launch_continuation()
     {
       boost::unique_lock<boost::mutex> lk(this->mutex);
-      // assert(wrapped.is_ready());
+      // assert_except(wrapped.is_ready());
       if (! unwrapped.valid() )
       {
         if (wrapped.has_exception()) {
@@ -5383,7 +5383,7 @@ namespace detail
           }
         }
       } else {
-        // assert(unwrapped.is_ready());
+        // assert_except(unwrapped.is_ready());
         if (unwrapped.has_exception()) {
           this->mark_exceptional_finish_internal(unwrapped.get_exception_ptr(), lk);
         } else {
@@ -5406,7 +5406,7 @@ namespace detail
     void launch_continuation()
     {
       boost::unique_lock<boost::mutex> lk(this->mutex);
-      // assert(wrapped.is_ready());
+      // assert_except(wrapped.is_ready());
       if (! unwrapped.valid() )
       {
         if (wrapped.has_exception()) {
@@ -5423,7 +5423,7 @@ namespace detail
           }
         }
       } else {
-        // assert(unwrapped.is_ready());
+        // assert_except(unwrapped.is_ready());
         if (unwrapped.has_exception()) {
           this->mark_exceptional_finish_internal(unwrapped.get_exception_ptr(), lk);
         } else {

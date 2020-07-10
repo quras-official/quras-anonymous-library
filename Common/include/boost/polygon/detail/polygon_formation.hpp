@@ -7,6 +7,7 @@
 */
 #include<iostream>
 #include<cassert>
+#include <assert_except.h>
 #ifndef BOOST_POLYGON_POLYGON_FORMATION_HPP
 #define BOOST_POLYGON_POLYGON_FORMATION_HPP
 namespace boost { namespace polygon{
@@ -1052,7 +1053,7 @@ namespace polygon_formation {
 
   template <typename Unit>
   inline point_data<Unit> PolyLine<Unit>::getPoint(unsigned int index) const {
-    //assert(isValid() && headp_->isValid()) ("PolyLine: headp_ must be valid");
+    //assert_except(isValid() && headp_->isValid()) ("PolyLine: headp_ must be valid");
     point_data<Unit> pt;
     pt.set(HORIZONTAL, ptdata_[index]);
     pt.set(VERTICAL, ptdata_[index]);
@@ -1073,7 +1074,7 @@ namespace polygon_formation {
 
   template <typename Unit>
   inline Unit PolyLine<Unit>::operator[] (unsigned int index) const {
-    //assert(ptdata_.size() > index) ("PolyLine: out of bounds index");
+    //assert_except(ptdata_.size() > index) ("PolyLine: out of bounds index");
     return ptdata_[index];
   }
 
@@ -1160,7 +1161,7 @@ namespace polygon_formation {
 
   template <typename Unit>
   inline bool ActiveTail<Unit>::isOtherTail(const ActiveTail<Unit>& b) {
-    //       assert( (tailp_ == b.getOtherTail() && getOtherTail() == b.tailp_) ||
+    //       assert_except( (tailp_ == b.getOtherTail() && getOtherTail() == b.tailp_) ||
     //                     (tailp_ != b.getOtherTail() && getOtherTail() != b.tailp_))
     //         ("ActiveTail: Active tails out of sync");
     return otherTailp_ == &b;
@@ -1622,7 +1623,7 @@ namespace polygon_formation {
               if(usize+2 < vertexThreshold){
                  //cut-off the lower piece (succ1, succ) join (succ1, pred)//
                  succ1 = succ; --succ1;
-                 assert((succ1 != tailMap_.end()) &&
+                 assert_except((succ1 != tailMap_.end()) &&
                   ((succ->second)->getOtherActiveTail() == succ1->second));
                  closePartialSimplePolygon(currentX, succ1->second, succ->second);
                  tailPair = createActiveTailsAsPair<Unit>(currentX, succ1->first,
@@ -1635,7 +1636,7 @@ namespace polygon_formation {
               }else if(bsize+2 < vertexThreshold){
                  //cut-off the upper piece () join ()//
                  pred1 = pred; ++pred1;
-                 assert(pred1 != tailMap_.end() &&
+                 assert_except(pred1 != tailMap_.end() &&
                   ((pred1->second)->getOtherActiveTail() == pred->second));
                  closePartialSimplePolygon(currentX, pred->second, pred1->second);
 
@@ -1647,9 +1648,9 @@ namespace polygon_formation {
                  //cut both and create an left edge between (pred->first, succ1)//
                  succ1 = succ; --succ1;
                  pred1 = pred; ++pred1;
-                 assert(pred1 != tailMap_.end() && succ1 != tailMap_.end());
-                 assert((pred1->second)->getOtherActiveTail() == pred->second);
-                 assert((succ1->second)->getOtherActiveTail() == succ->second);
+                 assert_except(pred1 != tailMap_.end() && succ1 != tailMap_.end());
+                 assert_except((pred1->second)->getOtherActiveTail() == pred->second);
+                 assert_except((succ1->second)->getOtherActiveTail() == succ->second);
 
                  closePartialSimplePolygon(currentX, succ1->second, succ->second);
                  closePartialSimplePolygon(currentX, pred->second, pred1->second);
@@ -1679,7 +1680,7 @@ namespace polygon_formation {
            if(pfig_size >= vertexThreshold){
               //cut-off piece from [pred, pred1] , add [begin, pred1]//
               pred1 = pred; ++pred1;
-              assert((pred1 != tailMap_.end()) &&
+              assert_except((pred1 != tailMap_.end()) &&
                ((pred1->second)->getOtherActiveTail() == pred->second));
               closePartialSimplePolygon(currentX, pred->second, pred1->second);
 
@@ -1701,7 +1702,7 @@ namespace polygon_formation {
             if(pfig_size >= vertexThreshold){
                //this figure needs cutting here//
                succ1 = succ; --succ1;
-               assert((succ1 != tailMap_.end()) &&
+               assert_except((succ1 != tailMap_.end()) &&
                   (succ1->second == pfig->getOtherActiveTail()));
                ppfig = succ1->second;
                closePartialSimplePolygon(currentX, ppfig, pfig);
@@ -1737,14 +1738,14 @@ namespace polygon_formation {
      Unit begin, end;
      size_t i = 0;
      //If rightEdges is non-empty Then tailMap_ is non-empty //
-     assert(rightEdges.empty() || !tailMap_.empty() );
+     assert_except(rightEdges.empty() || !tailMap_.empty() );
 
      while( i < rightEdges.size() ){
         //find the interval in the tailMap which contains this interval//
         pred = tailMap_.lower_bound(rightEdges[i].get(HIGH));
-        assert(pred != tailMap_.end());
+        assert_except(pred != tailMap_.end());
         succ = pred; --succ;
-        assert(pred != succ);
+        assert_except(pred != succ);
         end =  pred->first; begin = succ->first;
 
         //we now have a [begin, end] //
@@ -1757,7 +1758,7 @@ namespace polygon_formation {
         ActiveTail<Unit> *ppfig = pred->second;
         size_t partial_fig_size = pfig->getPolyLineSize();
         //Invariant://
-        assert(succ->second && (pfig)->getOtherActiveTail() == ppfig);
+        assert_except(succ->second && (pfig)->getOtherActiveTail() == ppfig);
 
         hint = succ;
         Unit key = rightEdges[i].get(LOW);
@@ -1810,7 +1811,7 @@ namespace polygon_formation {
         }else if(partial_fig_size+vertex_delta >= vertexThreshold){
            //close the figure and add a pseudo left-edge//
            closePartialSimplePolygon(currentX, pfig, ppfig);
-           assert(begin != solid_opening_begin || end != solid_opening_end);
+           assert_except(begin != solid_opening_begin || end != solid_opening_end);
 
            if(begin != solid_opening_begin && end != solid_opening_end){
                insertNewLeftEdgeIntoTailMap(currentX, solid_opening_begin,

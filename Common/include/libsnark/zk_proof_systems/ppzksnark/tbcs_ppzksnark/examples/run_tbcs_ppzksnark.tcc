@@ -75,7 +75,7 @@ bool run_tbcs_ppzksnark(const tbcs_example &example,
 
     libff::print_header("TBCS ppzkSNARK Online Verifier");
     bool ans2 = tbcs_ppzksnark_online_verifier_strong_IC<ppT>(pvk, example.primary_input, proof);
-    assert(ans == ans2);
+    assert_except(ans == ans2);
 
     libff::leave_block("Call to run_tbcs_ppzksnark");
 

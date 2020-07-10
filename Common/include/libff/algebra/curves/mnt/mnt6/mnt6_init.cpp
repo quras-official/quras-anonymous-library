@@ -44,11 +44,11 @@ void init_mnt6_params()
     typedef bigint<mnt6_r_limbs> bigint_r;
     typedef bigint<mnt6_q_limbs> bigint_q;
 
-    assert(sizeof(mp_limb_t) == 8 || sizeof(mp_limb_t) == 4); // Montgomery assumes this
+    assert_except(sizeof(mp_limb_t) == 8 || sizeof(mp_limb_t) == 4); // Montgomery assumes this
 
     /* parameters for scalar field Fr */
     mnt6_modulus_r = bigint_r("475922286169261325753349249653048451545124879242694725395555128576210262817955800483758081");
-    assert(mnt6_Fr::modulus_is_valid());
+    assert_except(mnt6_Fr::modulus_is_valid());
     if (sizeof(mp_limb_t) == 8)
     {
         mnt6_Fr::Rsquared = bigint_r("273000478523237720910981655601160860640083126627235719712980612296263966512828033847775776");
@@ -73,7 +73,7 @@ void init_mnt6_params()
 
     /* parameters for base field Fq */
     mnt6_modulus_q = bigint_q("475922286169261325753349249653048451545124878552823515553267735739164647307408490559963137");
-    assert(mnt6_Fq::modulus_is_valid());
+    assert_except(mnt6_Fq::modulus_is_valid());
     if (sizeof(mp_limb_t) == 8)
     {
         mnt6_Fq::Rsquared = bigint_q("163983144722506446826715124368972380525894397127205577781234305496325861831001705438796139");

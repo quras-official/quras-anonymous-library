@@ -46,11 +46,11 @@ void pairing_test()
     ans1.print();
     ans2.print();
     ans3.print();
-    assert(ans1 == ans2);
-    assert(ans2 == ans3);
+    assert_except(ans1 == ans2);
+    assert_except(ans2 == ans3);
 
-    assert(ans1 != GT_one);
-    assert((ans1^Fr<ppT>::field_char()) == GT_one);
+    assert_except(ans1 != GT_one);
+    assert_except((ans1^Fr<ppT>::field_char()) == GT_one);
     printf("\n\n");
 }
 
@@ -70,7 +70,7 @@ void double_miller_loop_test()
     const Fqk<ppT> ans_1 = ppT::miller_loop(prec_P1, prec_Q1);
     const Fqk<ppT> ans_2 = ppT::miller_loop(prec_P2, prec_Q2);
     const Fqk<ppT> ans_12 = ppT::double_miller_loop(prec_P1, prec_Q1, prec_P2, prec_Q2);
-    assert(ans_1 * ans_2 == ans_12);
+    assert_except(ans_1 * ans_2 == ans_12);
 }
 
 template<typename ppT>
@@ -99,11 +99,11 @@ void affine_pairing_test()
     ans1.print();
     ans2.print();
     ans3.print();
-    assert(ans1 == ans2);
-    assert(ans2 == ans3);
+    assert_except(ans1 == ans2);
+    assert_except(ans2 == ans3);
 
-    assert(ans1 != GT_one);
-    assert((ans1^Fr<ppT>::field_char()) == GT_one);
+    assert_except(ans1 != GT_one);
+    assert_except((ans1^Fr<ppT>::field_char()) == GT_one);
     printf("\n\n");
 }
 

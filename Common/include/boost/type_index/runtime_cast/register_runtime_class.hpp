@@ -76,7 +76,7 @@ inline type_index runtime_class_construct_type_id(T const*) {
 ///
 /// base1* pb1 = get_object();
 /// if(derived2* pb2 = boost::typeindex::runtime_cast<derived2*>(pb1)) {
-///     assert(boost::typeindex::type_id_runtime(*pb1)) == boost::typeindex::type_id<derived2>());
+///     assert_except(boost::typeindex::type_id_runtime(*pb1)) == boost::typeindex::type_id<derived2>());
 /// }
 /// \endcode
 ///

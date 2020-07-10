@@ -395,7 +395,7 @@ r1cs_gg_ppzksnark_proof<ppT> r1cs_gg_ppzksnark_prover(const r1cs_gg_ppzksnark_pr
     libff::enter_block("Call to r1cs_gg_ppzksnark_prover");
 
 #ifdef DEBUG
-    assert(pk.constraint_system.is_satisfied(primary_input, auxiliary_input));
+    assert_except(pk.constraint_system.is_satisfied(primary_input, auxiliary_input));
 #endif
 
     libff::enter_block("Compute the polynomial H");
@@ -403,15 +403,15 @@ r1cs_gg_ppzksnark_proof<ppT> r1cs_gg_ppzksnark_prover(const r1cs_gg_ppzksnark_pr
 
     /* We are dividing degree 2(d-1) polynomial by degree d polynomial
        and not adding a PGHR-style ZK-patch, so our H is degree d-2 */
-    assert(!qap_wit.coefficients_for_H[qap_wit.degree()-2].is_zero());
-    assert(qap_wit.coefficients_for_H[qap_wit.degree()-1].is_zero());
-    assert(qap_wit.coefficients_for_H[qap_wit.degree()].is_zero());
+    assert_except(!qap_wit.coefficients_for_H[qap_wit.degree()-2].is_zero());
+    assert_except(qap_wit.coefficients_for_H[qap_wit.degree()-1].is_zero());
+    assert_except(qap_wit.coefficients_for_H[qap_wit.degree()].is_zero());
     libff::leave_block("Compute the polynomial H");
 
 #ifdef DEBUG
     const libff::Fr<ppT> t = libff::Fr<ppT>::random_element();
     qap_instance_evaluation<libff::Fr<ppT> > qap_inst = r1cs_to_qap_instance_map_with_evaluation(pk.constraint_system, t);
-    assert(qap_inst.is_satisfied(qap_wit));
+    assert_except(qap_inst.is_satisfied(qap_wit));
 #endif
 
     /* Choose two random field elements for prover zero-knowledge. */
@@ -419,11 +419,11 @@ r1cs_gg_ppzksnark_proof<ppT> r1cs_gg_ppzksnark_prover(const r1cs_gg_ppzksnark_pr
     const libff::Fr<ppT> s = libff::Fr<ppT>::random_element();
 
 #ifdef DEBUG
-    assert(qap_wit.coefficients_for_ABCs.size() == qap_wit.num_variables());
-    assert(pk.A_query.size() == qap_wit.num_variables()+1);
-    assert(pk.B_query.domain_size() == qap_wit.num_variables()+1);
-    assert(pk.H_query.size() == qap_wit.degree() - 1);
-    assert(pk.L_query.size() == qap_wit.num_variables() - qap_wit.num_inputs());
+    assert_except(qap_wit.coefficients_for_ABCs.size() == qap_wit.num_variables());
+    assert_except(pk.A_query.size() == qap_wit.num_variables()+1);
+    assert_except(pk.B_query.domain_size() == qap_wit.num_variables()+1);
+    assert_except(pk.H_query.size() == qap_wit.degree() - 1);
+    assert_except(pk.L_query.size() == qap_wit.num_variables() - qap_wit.num_inputs());
 #endif
 
 #ifdef MULTICORE
@@ -526,7 +526,7 @@ bool r1cs_gg_ppzksnark_online_verifier_weak_IC(const r1cs_gg_ppzksnark_processed
                                                const r1cs_gg_ppzksnark_proof<ppT> &proof)
 {
     libff::enter_block("Call to r1cs_gg_ppzksnark_online_verifier_weak_IC");
-    assert(pvk.gamma_ABC_g1.domain_size() >= primary_input.size());
+    assert_except(pvk.gamma_ABC_g1.domain_size() >= primary_input.size());
 
     libff::enter_block("Accumulate input");
     const accumulation_vector<libff::G1<ppT> > accumulated_IC = pvk.gamma_ABC_g1.template accumulate_chunk<libff::Fr<ppT> >(primary_input.begin(), primary_input.end(), 0);
@@ -627,7 +627,7 @@ bool r1cs_gg_ppzksnark_affine_verifier_weak_IC(const r1cs_gg_ppzksnark_verificat
                                                const r1cs_gg_ppzksnark_proof<ppT> &proof)
 {
     libff::enter_block("Call to r1cs_gg_ppzksnark_affine_verifier_weak_IC");
-    assert(vk.gamma_ABC_g1.domain_size() >= primary_input.size());
+    assert_except(vk.gamma_ABC_g1.domain_size() >= primary_input.size());
 
     libff::affine_ate_G2_precomp<ppT> pvk_vk_gamma_g2_precomp = ppT::affine_ate_precompute_G2(vk.gamma_g2);
     libff::affine_ate_G2_precomp<ppT> pvk_vk_delta_g2_precomp = ppT::affine_ate_precompute_G2(vk.delta_g2);

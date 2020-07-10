@@ -33,7 +33,7 @@ void test_sap(const size_t sap_degree, const size_t num_inputs, const bool binar
     libff::enter_block("Call to test_sap");
 
     const size_t num_constraints = (sap_degree - 1) / 2 - num_inputs;
-    assert(num_constraints >= 1);
+    assert_except(num_constraints >= 1);
 
     libff::print_indent(); printf("* Requested SAP degree: %zu\n", sap_degree);
     libff::print_indent(); printf("* Actual SAP degree: %zu\n", 2 * num_constraints + 2 * num_inputs + 1);
@@ -54,7 +54,7 @@ void test_sap(const size_t sap_degree, const size_t num_inputs, const bool binar
     libff::leave_block("Generate constraint system and assignment");
 
     libff::enter_block("Check satisfiability of constraint system");
-    assert(example.constraint_system.is_satisfied(example.primary_input, example.auxiliary_input));
+    assert_except(example.constraint_system.is_satisfied(example.primary_input, example.auxiliary_input));
     libff::leave_block("Check satisfiability of constraint system");
 
     const FieldT t = FieldT::random_element(),
@@ -74,11 +74,11 @@ void test_sap(const size_t sap_degree, const size_t num_inputs, const bool binar
     libff::leave_block("Compute SAP witness");
 
     libff::enter_block("Check satisfiability of SAP instance 1");
-    assert(sap_inst_1.is_satisfied(sap_wit));
+    assert_except(sap_inst_1.is_satisfied(sap_wit));
     libff::leave_block("Check satisfiability of SAP instance 1");
 
     libff::enter_block("Check satisfiability of SAP instance 2");
-    assert(sap_inst_2.is_satisfied(sap_wit));
+    assert_except(sap_inst_2.is_satisfied(sap_wit));
     libff::leave_block("Check satisfiability of SAP instance 2");
 
     libff::leave_block("Call to test_sap");

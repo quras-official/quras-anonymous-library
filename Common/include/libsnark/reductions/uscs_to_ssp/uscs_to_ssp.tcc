@@ -156,7 +156,7 @@ ssp_witness<FieldT> uscs_to_ssp_witness_map(const uscs_constraint_system<FieldT>
 
     /* sanity check */
 
-    assert(cs.is_satisfied(primary_input, auxiliary_input));
+    assert_except(cs.is_satisfied(primary_input, auxiliary_input));
 
     uscs_variable_assignment<FieldT> full_variable_assignment = primary_input;
     full_variable_assignment.insert(full_variable_assignment.end(), auxiliary_input.begin(), auxiliary_input.end());
@@ -165,7 +165,7 @@ ssp_witness<FieldT> uscs_to_ssp_witness_map(const uscs_constraint_system<FieldT>
 
     libff::enter_block("Compute evaluation of polynomial V on set S");
     std::vector<FieldT> aA(domain->m, FieldT::zero());
-    assert(domain->m >= cs.num_constraints());
+    assert_except(domain->m >= cs.num_constraints());
     for (size_t i = 0; i < cs.num_constraints(); ++i)
     {
         aA[i] += cs.constraints[i].evaluate(full_variable_assignment);

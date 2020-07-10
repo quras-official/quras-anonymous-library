@@ -36,12 +36,12 @@ knapsack_CRH_with_field_out_gadget<FieldT>::knapsack_CRH_with_field_out_gadget(p
     input_block(input_block),
     output(output)
 {
-    assert(input_block.bits.size() == input_len);
+    assert_except(input_block.bits.size() == input_len);
     if (num_cached_coefficients < dimension * input_len)
     {
         sample_randomness(input_len);
     }
-    assert(output.size() == this->get_digest_len());
+    assert_except(output.size() == this->get_digest_len());
 }
 
 template<typename FieldT>
@@ -147,7 +147,7 @@ knapsack_CRH_with_bit_out_gadget<FieldT>::knapsack_CRH_with_bit_out_gadget(proto
     input_block(input_block),
     output_digest(output_digest)
 {
-    assert(output_digest.bits.size() == this->get_digest_len());
+    assert_except(output_digest.bits.size() == this->get_digest_len());
 
     output.resize(dimension);
 
@@ -234,7 +234,7 @@ void knapsack_CRH_with_bit_out_gadget<FieldT>::sample_randomness(const size_t in
 template<typename FieldT>
 void test_knapsack_CRH_with_bit_out_gadget_internal(const size_t dimension, const libff::bit_vector &input_bits, const libff::bit_vector &digest_bits)
 {
-    assert(knapsack_dimension<FieldT>::dimension == dimension);
+    assert_except(knapsack_dimension<FieldT>::dimension == dimension);
     knapsack_CRH_with_bit_out_gadget<FieldT>::sample_randomness(input_bits.size());
     protoboard<FieldT> pb;
 
@@ -246,12 +246,12 @@ void test_knapsack_CRH_with_bit_out_gadget_internal(const size_t dimension, cons
     H.generate_r1cs_constraints();
     H.generate_r1cs_witness();
 
-    assert(output_digest.get_digest().size() == digest_bits.size());
-    assert(pb.is_satisfied());
+    assert_except(output_digest.get_digest().size() == digest_bits.size());
+    assert_except(pb.is_satisfied());
 
     const size_t num_constraints = pb.num_constraints();
     const size_t expected_constraints = knapsack_CRH_with_bit_out_gadget<FieldT>::expected_constraints();
-    assert(num_constraints == expected_constraints);
+    assert_except(num_constraints == expected_constraints);
 }
 
 } // libsnark

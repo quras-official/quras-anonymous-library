@@ -52,7 +52,7 @@ ed25519_sigT sigSign<default_r1cs_ppzkadsnark_pp>(const ed25519_skT &sk, const l
 
     crypto_sign_ed25519_amd64_51_30k(signature,&sigmalen,message,16+320,sk.sk_bytes);
 
-    assert(sigmalen == 64+16+320);
+    assert_except(sigmalen == 64+16+320);
 
     for(size_t i = 0; i<64;i++)
         sigma.sig_bytes[i] = signature[i];
@@ -95,8 +95,8 @@ bool sigBatchVerif<default_r1cs_ppzkadsnark_pp>(const ed25519_vkT &vk, const std
                                                 const std::vector<ed25519_sigT> &sigs) {
     std::stringstream stream;
 
-    assert(labels.size() == Lambdas.size());
-    assert(labels.size() == sigs.size());
+    assert_except(labels.size() == Lambdas.size());
+    assert_except(labels.size() == sigs.size());
 
     unsigned long long msglen[labels.size()];
     unsigned long long siglen[labels.size()];
@@ -110,9 +110,9 @@ bool sigBatchVerif<default_r1cs_ppzkadsnark_pp>(const ed25519_vkT &vk, const std
     }
 
     unsigned char *messagemem = (unsigned char*)malloc(labels.size()*(64+16+320));
-    assert(messagemem != NULL);
+    assert_except(messagemem != NULL);
     unsigned char *signaturemem = (unsigned char*)malloc(labels.size()*(64+16+320));
-    assert(signaturemem != NULL);
+    assert_except(signaturemem != NULL);
 
     for(size_t i = 0; i < labels.size(); i++) {
         siglen[i] = 64+16+320;

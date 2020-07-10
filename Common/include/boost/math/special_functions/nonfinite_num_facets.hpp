@@ -489,7 +489,7 @@ namespace boost {
             ++it;
             if(match_string(it, end, ct, "nan"))
             { // "1.#QNAN", "1.#SNAN"
- //             ++it; // removed as caused assert() cannot increment iterator).
+ //             ++it; // removed as caused assert_except() cannot increment iterator).
 // (match_string consumes string, so not needed?).
 // https://svn.boost.org/trac/boost/ticket/5467
 // Change in nonfinite_num_facet.hpp Paul A. Bristow 11 Apr 11 makes legacy_test.cpp work OK.

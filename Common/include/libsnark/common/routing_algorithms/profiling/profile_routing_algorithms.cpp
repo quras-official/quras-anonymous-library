@@ -22,7 +22,7 @@ void profile_benes_algorithm(const size_t n)
 {
     printf("* Size: %zu\n", n);
 
-    assert(n == 1ull<<libff::log2(n));
+    assert_except(n == 1ull<<libff::log2(n));
 
     libff::enter_block("Generate permutation");
     integer_permutation permutation(n);

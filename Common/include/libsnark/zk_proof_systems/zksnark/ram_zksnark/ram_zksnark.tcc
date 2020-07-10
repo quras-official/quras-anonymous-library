@@ -131,7 +131,7 @@ ram_zksnark_proof<ram_zksnark_ppT> ram_zksnark_prover(const ram_zksnark_proving_
     typedef ram_zksnark_PCD_pp<ram_zksnark_ppT> pcdT;
     typedef libff::Fr<typename pcdT::curve_A_pp> FieldT; // XXX
 
-    assert(libff::log2(time_bound) <= ramT::timestamp_length);
+    assert_except(libff::log2(time_bound) <= ramT::timestamp_length);
 
     libff::enter_block("Call to ram_zksnark_prover");
     libff::enter_block("Generate compliance predicate for RAM");

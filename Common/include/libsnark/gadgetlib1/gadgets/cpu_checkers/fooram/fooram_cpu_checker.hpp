@@ -91,7 +91,7 @@ public:
 
     void generate_r1cs_constraints();
 
-    void generate_r1cs_witness() { assert(0); }
+    void generate_r1cs_witness() { assert_except(0); }
 
     void generate_r1cs_witness_address();
 

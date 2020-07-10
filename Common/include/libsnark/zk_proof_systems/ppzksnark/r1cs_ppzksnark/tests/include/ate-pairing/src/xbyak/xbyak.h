@@ -676,7 +676,7 @@ public:
 	enum {
 		es, cs, ss, ds, fs, gs
 	};
-	explicit Segment(int idx) : idx_(idx) { assert(0 <= idx_ && idx_ < 6); }
+	explicit Segment(int idx) : idx_(idx) { assert_except(0 <= idx_ && idx_ < 6); }
 	int getIdx() const { return idx_; }
 	const char *toString() const
 	{

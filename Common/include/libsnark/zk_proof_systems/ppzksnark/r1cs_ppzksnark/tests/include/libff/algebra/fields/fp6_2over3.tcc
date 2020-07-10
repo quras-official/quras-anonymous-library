@@ -96,8 +96,8 @@ template<mp_size_t n, const bigint<n>& modulus>
 Fp6_2over3_model<n,modulus> Fp6_2over3_model<n,modulus>::mul_by_2345(const Fp6_2over3_model<n,modulus> &other) const
 {
     /* Devegili OhEig Scott Dahab --- Multiplication and Squaring on Pairing-Friendly Fields.pdf; Section 3 (Karatsuba) */
-    assert(other.c0.c0.is_zero());
-    assert(other.c0.c1.is_zero());
+    assert_except(other.c0.c0.is_zero());
+    assert_except(other.c0.c1.is_zero());
 
     const my_Fp3 &B = other.c1, &A = other.c0,
                  &b = this->c1, &a = this->c0;

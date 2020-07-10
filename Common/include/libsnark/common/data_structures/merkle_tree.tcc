@@ -30,8 +30,8 @@ typename HashT::hash_value_type two_to_one_CRH(const typename HashT::hash_value_
     new_input.insert(new_input.end(), r.begin(), r.end());
 
     const size_t digest_size = HashT::get_digest_len();
-    assert(l.size() == digest_size);
-    assert(r.size() == digest_size);
+    assert_except(l.size() == digest_size);
+    assert_except(r.size() == digest_size);
 
     return HashT::get_hash(new_input);
 }
@@ -40,10 +40,10 @@ template<typename HashT>
 merkle_tree<HashT>::merkle_tree(const size_t depth, const size_t value_size) :
     depth(depth), value_size(value_size)
 {
-    assert(depth < sizeof(size_t) * 8);
+    assert_except(depth < sizeof(size_t) * 8);
 
     digest_size = HashT::get_digest_len();
-    assert(value_size <= digest_size);
+    assert_except(value_size <= digest_size);
 
     hash_value_type last(digest_size);
     hash_defaults.reserve(depth+1);
@@ -63,7 +63,7 @@ merkle_tree<HashT>::merkle_tree(const size_t depth,
                                 const std::vector<libff::bit_vector> &contents_as_vector) :
     merkle_tree<HashT>(depth, value_size)
 {
-    assert(libff::log2(contents_as_vector.size()) <= depth);
+    assert_except(libff::log2(contents_as_vector.size()) <= depth);
     for (size_t address = 0; address < contents_as_vector.size(); ++address)
     {
         const size_t idx = address + (1ull<<depth) - 1;
@@ -100,7 +100,7 @@ merkle_tree<HashT>::merkle_tree(const size_t depth,
 
     if (!contents.empty())
     {
-        assert(contents.rbegin()->first < 1ull<<depth);
+        assert_except(contents.rbegin()->first < 1ull<<depth);
 
         for (auto it = contents.begin(); it != contents.end(); ++it)
         {
@@ -153,7 +153,7 @@ merkle_tree<HashT>::merkle_tree(const size_t depth,
 template<typename HashT>
 libff::bit_vector merkle_tree<HashT>::get_value(const size_t address) const
 {
-    assert(libff::log2(address) <= depth);
+    assert_except(libff::log2(address) <= depth);
 
     auto it = values.find(address);
     libff::bit_vector padded_result = (it == values.end() ? libff::bit_vector(digest_size) : it->second);
@@ -166,10 +166,10 @@ template<typename HashT>
 void merkle_tree<HashT>::set_value(const size_t address,
                                    const libff::bit_vector &value)
 {
-    assert(libff::log2(address) <= depth);
+    assert_except(libff::log2(address) <= depth);
     size_t idx = address + (1ull<<depth) - 1;
 
-    assert(value.size() == value_size);
+    assert_except(value.size() == value_size);
     values[address] = value;
     hashes[idx] = value;
     hashes[idx].resize(digest_size);
@@ -200,7 +200,7 @@ template<typename HashT>
 typename HashT::merkle_authentication_path_type merkle_tree<HashT>::get_path(const size_t address) const
 {
     typename HashT::merkle_authentication_path_type result(depth);
-    assert(libff::log2(address) <= depth);
+    assert_except(libff::log2(address) <= depth);
     size_t idx = address + (1ull<<depth) - 1;
 
     for (size_t layer = depth; layer > 0; --layer)

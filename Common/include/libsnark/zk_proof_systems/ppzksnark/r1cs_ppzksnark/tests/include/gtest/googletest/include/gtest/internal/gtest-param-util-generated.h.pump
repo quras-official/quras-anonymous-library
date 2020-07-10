@@ -150,7 +150,7 @@ $for j, [[
     // Advance should not be called on beyond-of-range iterators
     // so no component iterators must be beyond end of range, either.
     virtual void Advance() {
-      assert(!AtEnd());
+      assert_except(!AtEnd());
       ++current$(i)_;
 
 $for k [[

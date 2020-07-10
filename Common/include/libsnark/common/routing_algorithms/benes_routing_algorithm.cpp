@@ -116,7 +116,7 @@ size_t benes_packet_cross_source(const size_t dimension, const size_t column_idx
 size_t benes_num_columns(const size_t num_packets)
 {
     const size_t dimension = libff::log2(num_packets);
-    assert(num_packets == 1ull<<dimension);
+    assert_except(num_packets == 1ull<<dimension);
 
     return 2*dimension;
 }
@@ -125,7 +125,7 @@ benes_topology generate_benes_topology(const size_t num_packets)
 {
     const size_t num_columns = benes_num_columns(num_packets);
     const size_t dimension = libff::log2(num_packets);
-    assert(num_packets == 1ull<<dimension);
+    assert_except(num_packets == 1ull<<dimension);
 
     benes_topology result(num_columns);
 
@@ -162,9 +162,9 @@ void route_benes_inner(const size_t dimension,
                        benes_routing &routing)
 {
 #ifdef DEBUG
-    assert(permutation.size() == subnetwork_size);
-    assert(permutation.is_valid());
-    assert(permutation.inverse() == permutation_inv);
+    assert_except(permutation.size() == subnetwork_size);
+    assert_except(permutation.is_valid());
+    assert_except(permutation.inverse() == permutation_inv);
 #endif
 
     if (column_idx_start == column_idx_end)
@@ -203,7 +203,7 @@ void route_benes_inner(const size_t dimension,
         /* now the other neighbor of wprime must be back-routed via the lower network, so get vprime, the neighbor on RHS and v, its target on LHS */
         const size_t vprime = benes_packet_cross_source(dimension, column_idx_end, wprime);
         const size_t v = permutation_inv.get(vprime);
-        assert(!lhs_routed[v-subnetwork_offset]);
+        assert_except(!lhs_routed[v-subnetwork_offset]);
 
         /* back-route (column_idx_end, vprime) using the lower subnetwork */
         routing[column_idx_end-1][benes_rhs_packet_source(dimension, column_idx_end, vprime, false)] = benes_get_switch_setting_from_subnetwork(dimension, column_idx_end-1, vprime, false);

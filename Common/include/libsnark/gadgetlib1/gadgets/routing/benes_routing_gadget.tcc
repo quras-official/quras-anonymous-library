@@ -36,9 +36,9 @@ benes_routing_gadget<FieldT>::benes_routing_gadget(protoboard<FieldT> &pb,
     packet_size(routing_input_bits[0].size()),
     num_subpackets(libff::div_ceil(packet_size, FieldT::capacity()))
 {
-    assert(lines_to_unpack <= routing_input_bits.size());
-    assert(num_packets == 1ull<<libff::log2(num_packets));
-    assert(routing_input_bits.size() == num_packets);
+    assert_except(lines_to_unpack <= routing_input_bits.size());
+    assert_except(num_packets == 1ull<<libff::log2(num_packets));
+    assert_except(routing_input_bits.size() == num_packets);
 
     neighbors = generate_benes_topology(num_packets);
 
@@ -194,7 +194,7 @@ template<typename FieldT>
 void test_benes_routing_gadget(const size_t num_packets, const size_t packet_size)
 {
     const size_t dimension = libff::log2(num_packets);
-    assert(num_packets == 1ull<<dimension);
+    assert_except(num_packets == 1ull<<dimension);
 
     printf("testing benes_routing_gadget by routing 2^%zu-entry vector of %zu bits (Fp fits all %zu bit integers)\n", dimension, packet_size, FieldT::capacity());
 
@@ -224,18 +224,18 @@ void test_benes_routing_gadget(const size_t num_packets, const size_t packet_siz
     libff::print_time("generated routing assignment");
 
     printf("positive test\n");
-    assert(pb.is_satisfied());
+    assert_except(pb.is_satisfied());
     for (size_t packet_idx = 0; packet_idx < num_packets; ++packet_idx)
     {
         for (size_t bit_idx = 0; bit_idx < packet_size; ++bit_idx)
         {
-            assert(pb.val(outbits[permutation.get(packet_idx)][bit_idx]) == pb.val(randbits[packet_idx][bit_idx]));
+            assert_except(pb.val(outbits[permutation.get(packet_idx)][bit_idx]) == pb.val(randbits[packet_idx][bit_idx]));
         }
     }
 
     printf("negative test\n");
     pb.val(pb_variable<FieldT>(10)) = FieldT(12345);
-    assert(!pb.is_satisfied());
+    assert_except(!pb.is_satisfied());
 
     printf("num_constraints = %zu, num_variables = %zu\n",
            pb.num_constraints(),

@@ -36,7 +36,7 @@ void test_ram_ppzksnark(const size_t w,
 
     const bool test_serialization = true;
     const bool bit = run_ram_ppzksnark<ppT>(example, test_serialization);
-    assert(bit);
+    assert_except(bit);
 
     libff::print_header("(leave) Test RAM ppzkSNARK");
 }

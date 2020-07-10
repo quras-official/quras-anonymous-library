@@ -298,7 +298,7 @@ mnt4_G2 mnt4_G2::mixed_add(const mnt4_G2 &other) const
     }
 
 #ifdef DEBUG
-    assert(other.is_special());
+    assert_except(other.is_special());
 #endif
 
     const mnt4_Fq2 &X1Z2 = (this->X_);                   // X1Z2 = X1*Z2 (but other is special and not zero)

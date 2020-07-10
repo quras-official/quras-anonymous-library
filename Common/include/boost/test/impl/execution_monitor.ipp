@@ -694,14 +694,14 @@ public:
     // access methods
     static sigjmp_buf&      jump_buffer()
     {
-        assert( !!s_active_handler );
+        assert_except( !!s_active_handler );
 
         return s_active_handler->m_sigjmp_buf;
     }
 
     static system_signal_exception&  sys_sig()
     {
-        assert( !!s_active_handler );
+        assert_except( !!s_active_handler );
 
         return s_active_handler->m_sys_sig;
     }
@@ -774,7 +774,7 @@ signal_handler::signal_handler( bool catch_system_errors, bool detect_fpe, unsig
 
 signal_handler::~signal_handler()
 {
-    assert( s_active_handler == this );
+    assert_except( s_active_handler == this );
 
     if( m_timeout > 0 )
         ::alarm( 0 );

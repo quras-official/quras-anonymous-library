@@ -49,7 +49,7 @@ knowledge_commitment<T1, T2> kc_multi_exp_with_mixed_addition(const knowledge_co
     while (index_it != vec.indices.end() && *index_it < max_idx)
     {
         const size_t scalar_position = (*index_it) - min_idx;
-        assert(scalar_position < scalar_length);
+        assert_except(scalar_position < scalar_length);
 
         const FieldT scalar = *(scalar_start + scalar_position);
 

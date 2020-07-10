@@ -444,7 +444,7 @@ r1cs_se_ppzksnark_proof<ppT> r1cs_se_ppzksnark_prover(const r1cs_se_ppzksnark_pr
     libff::enter_block("Call to r1cs_se_ppzksnark_prover");
 
 #ifdef DEBUG
-    assert(pk.constraint_system.is_satisfied(primary_input, auxiliary_input));
+    assert_except(pk.constraint_system.is_satisfied(primary_input, auxiliary_input));
 #endif
 
     const libff::Fr<ppT> d1 = libff::Fr<ppT>::random_element(),
@@ -458,15 +458,15 @@ r1cs_se_ppzksnark_proof<ppT> r1cs_se_ppzksnark_prover(const r1cs_se_ppzksnark_pr
 #ifdef DEBUG
     const libff::Fr<ppT> t = libff::Fr<ppT>::random_element();
     sap_instance_evaluation<libff::Fr<ppT> > sap_inst = r1cs_to_sap_instance_map_with_evaluation(pk.constraint_system, t);
-    assert(sap_inst.is_satisfied(sap_wit));
+    assert_except(sap_inst.is_satisfied(sap_wit));
 #endif
 
 #ifdef DEBUG
-    assert(pk.A_query.size() == sap_wit.num_variables() + 1);
-    assert(pk.B_query.size() == sap_wit.num_variables() + 1);
-    assert(pk.C_query_1.size() == sap_wit.num_variables() - sap_wit.num_inputs());
-    assert(pk.C_query_2.size() == sap_wit.num_variables() + 1);
-    assert(pk.G_gamma2_Z_t.size() >= sap_wit.degree() - 1);
+    assert_except(pk.A_query.size() == sap_wit.num_variables() + 1);
+    assert_except(pk.B_query.size() == sap_wit.num_variables() + 1);
+    assert_except(pk.C_query_1.size() == sap_wit.num_variables() - sap_wit.num_inputs());
+    assert_except(pk.C_query_2.size() == sap_wit.num_variables() + 1);
+    assert_except(pk.G_gamma2_Z_t.size() >= sap_wit.degree() - 1);
 #endif
 
 #ifdef MULTICORE

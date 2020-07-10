@@ -43,7 +43,7 @@ consistency_enforcer_gadget<FieldT>::consistency_enforcer_gadget(tinyram_protobo
     packed_outgoing_registers(packed_outgoing_registers),
     outgoing_flag(outgoing_flag)
 {
-    assert(desidx.size() == pb.ap.reg_arg_width());
+    assert_except(desidx.size() == pb.ap.reg_arg_width());
 
     packed_outgoing_desval.allocate(pb, FMT(this->annotation_prefix, " packed_outgoing_desval"));
     is_register_instruction.allocate(pb, FMT(this->annotation_prefix, " is_register_instruction"));
@@ -323,18 +323,18 @@ void test_arithmetic_consistency_enforcer_gadget()
 
         g.generate_r1cs_witness();
 
-        assert(this->pb.val(outgoing_pc) == FieldT(12346));
+        assert_except(this->pb.val(outgoing_pc) == FieldT(12346));
 
         for (size_t j = 0; j < ap.k; ++j)
         {
-            assert(this->pb.val(packed_outgoing_registers[j]) ==
+            assert_except(this->pb.val(packed_outgoing_registers[j]) ==
                    this->pb.val(i == j ?
                                 instruction_results[tinyram_opcode_AND] :
                                 packed_incoming_registers[j]));
         }
 
-        assert(this->pb.val(outgoing_flag) == this->pb.val(instruction_flags[tinyram_opcode_AND]));
-        assert(pb.is_satisfied());
+        assert_except(this->pb.val(outgoing_flag) == this->pb.val(instruction_flags[tinyram_opcode_AND]));
+        assert_except(pb.is_satisfied());
     }
 
     printf("arithmetic test successful\n");
@@ -348,7 +348,7 @@ void test_arithmetic_consistency_enforcer_gadget()
     g.generate_r1cs_witness();
 
     this->pb.val(outgoing_pc) == FieldT(12345);
-    assert(pb.is_satisfied());
+    assert_except(pb.is_satisfied());
 
     this->pb.val(incoming_load_flag) = FieldT::zero();
     printf("test that firstload doesn't increment PC successful\n");
@@ -369,10 +369,10 @@ void test_arithmetic_consistency_enforcer_gadget()
 
         for (size_t j = 0; j < ap.k; ++j)
         {
-            assert(this->pb.val(packed_outgoing_registers[j]) == this->pb.val(packed_incoming_registers[j]));
+            assert_except(this->pb.val(packed_outgoing_registers[j]) == this->pb.val(packed_incoming_registers[j]));
         }
 
-        assert(pb.is_satisfied());
+        assert_except(pb.is_satisfied());
     }
 
     printf("non-arithmetic test successful\n");
@@ -435,14 +435,14 @@ void test_control_flow_consistency_enforcer_gadget()
 
         g.generate_r1cs_witness();
 
-        assert(this->pb.val(outgoing_pc) == this->pb.val(instruction_results[tinyram_opcode_JMP]));
-        assert(this->pb.val(outgoing_flag) == this->pb.val(incoming_flag));
+        assert_except(this->pb.val(outgoing_pc) == this->pb.val(instruction_results[tinyram_opcode_JMP]));
+        assert_except(this->pb.val(outgoing_flag) == this->pb.val(incoming_flag));
 
         for (size_t j = 0; j < ap.k; ++j)
         {
-            assert(this->pb.val(packed_outgoing_registers[j]) == this->pb.val(packed_incoming_registers[j]));
+            assert_except(this->pb.val(packed_outgoing_registers[j]) == this->pb.val(packed_incoming_registers[j]));
         }
-        assert(pb.is_satisfied());
+        assert_except(pb.is_satisfied());
     }
 
     libff::print_time("control_flow_consistency_enforcer tests successful");
@@ -499,18 +499,18 @@ void test_special_consistency_enforcer_gadget()
 
     g.generate_r1cs_witness();
 
-    assert(this->pb.val(outgoing_flag) == this->pb.val(incoming_flag));
+    assert_except(this->pb.val(outgoing_flag) == this->pb.val(incoming_flag));
     for (size_t j = 0; j < ap.k; ++j)
     {
-        assert(this->pb.val(packed_outgoing_registers[j]) == this->pb.val(packed_incoming_registers[j]));
+        assert_except(this->pb.val(packed_outgoing_registers[j]) == this->pb.val(packed_incoming_registers[j]));
     }
 
-    assert(this->pb.val(outgoing_pc) == this->pb.val(incoming_pc));
-    assert(pb.is_satisfied());
+    assert_except(this->pb.val(outgoing_pc) == this->pb.val(incoming_pc));
+    assert_except(pb.is_satisfied());
 
     printf("test that ACCEPT preserves registers\n");
     this->pb.val(packed_outgoing_registers[0]) = FieldT::zero();
-    assert(!pb.is_satisfied());
+    assert_except(!pb.is_satisfied());
 
     /* test that other special instructions (e.g. STORE) don't and also preserve registers */
     printf("test that others (e.g. STORE) don't stall\n");
@@ -523,24 +523,24 @@ void test_special_consistency_enforcer_gadget()
 
     g.generate_r1cs_witness();
 
-    assert(this->pb.val(outgoing_flag) == this->pb.val(incoming_flag));
+    assert_except(this->pb.val(outgoing_flag) == this->pb.val(incoming_flag));
     for (size_t j = 0; j < ap.k; ++j)
     {
-        assert(this->pb.val(packed_outgoing_registers[j]) == this->pb.val(packed_incoming_registers[j]));
+        assert_except(this->pb.val(packed_outgoing_registers[j]) == this->pb.val(packed_incoming_registers[j]));
     }
 
-    assert(this->pb.val(outgoing_pc) == this->pb.val(incoming_pc) + FieldT::one());
-    assert(pb.is_satisfied());
+    assert_except(this->pb.val(outgoing_pc) == this->pb.val(incoming_pc) + FieldT::one());
+    assert_except(pb.is_satisfied());
 
     printf("test that STORE preserves registers\n");
     this->pb.val(packed_outgoing_registers[0]) = FieldT::zero();
-    assert(!pb.is_satisfied());
+    assert_except(!pb.is_satisfied());
 
     printf("test that STORE can't have load_flag\n");
     g.generate_r1cs_witness();
     this->pb.val(incoming_load_flag) = FieldT::one();
 
-    assert(!pb.is_satisfied());
+    assert_except(!pb.is_satisfied());
 
     /* test that load can modify outgoing register and sets load_flag */
     printf("test that LOAD sets load_flag\n");
@@ -554,12 +554,12 @@ void test_special_consistency_enforcer_gadget()
 
     g.generate_r1cs_witness();
 
-    assert(this->pb.val(outgoing_load_flag) == FieldT::one());
-    assert(pb.is_satisfied());
+    assert_except(this->pb.val(outgoing_load_flag) == FieldT::one());
+    assert_except(pb.is_satisfied());
 
     printf("test that LOAD can modify registers\n");
     this->pb.val(packed_outgoing_registers[0]) = FieldT::zero();
-    assert(pb.is_satisfied());
+    assert_except(pb.is_satisfied());
 
     /* test that postload clears load_flag */
     printf("test that postload clears load_flag\n");
@@ -573,8 +573,8 @@ void test_special_consistency_enforcer_gadget()
 
     g.generate_r1cs_witness();
 
-    assert(this->pb.val(outgoing_load_flag) == FieldT::zero());
-    assert(pb.is_satisfied());
+    assert_except(this->pb.val(outgoing_load_flag) == FieldT::zero());
+    assert_except(pb.is_satisfied());
 
     /* test non-special instructions */
     printf("test non-special instructions\n");
@@ -587,13 +587,13 @@ void test_special_consistency_enforcer_gadget()
     this->pb.val(incoming_load_flag) = FieldT::zero();
     g.generate_r1cs_witness();
 
-    assert(pb.is_satisfied());
+    assert_except(pb.is_satisfied());
 
     printf("test that non-special can't have load_flag\n");
     g.generate_r1cs_witness();
     this->pb.val(incoming_load_flag) = FieldT::one();
 
-    assert(!pb.is_satisfied());
+    assert_except(!pb.is_satisfied());
 
     libff::print_time("special_consistency_enforcer_gadget tests successful");
 }

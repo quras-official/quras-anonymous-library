@@ -153,7 +153,7 @@ public:
                 static_cast<boost::uintmax_t>(brange) + 1;
             j = static_cast<base_unsigned>(detail::muldiv(off, k, divisor));
         }
-        // assert(0 <= j && j < k);
+        // assert_except(0 <= j && j < k);
         y = v[j];
         v[j] = _rng();
         return y;

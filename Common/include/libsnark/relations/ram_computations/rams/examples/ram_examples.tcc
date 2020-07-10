@@ -53,7 +53,7 @@ ram_example<ramT> gen_ram_example_simple(const ram_architecture_params<ramT> &ap
         result.boot_trace.set_trace_entry(boot_pos++, std::make_pair((1ull<<(ap.dwaddr_len()-1)) + i, std::rand() % (1ull<<(2*ap.w))));
     }
 
-    assert(boot_pos == boot_trace_size_bound);
+    assert_except(boot_pos == boot_trace_size_bound);
 
     libff::leave_block("Call to gen_ram_example_simple");
     return result;
@@ -67,8 +67,8 @@ ram_example<ramT> gen_ram_example_complex(const ram_architecture_params<ramT> &a
     const size_t program_size = boot_trace_size_bound / 2;
     const size_t input_size = boot_trace_size_bound - program_size;
 
-    assert(2*ap.w/8*program_size < 1ull<<(ap.w-1));
-    assert(ap.w/8*input_size < 1ull<<(ap.w-1));
+    assert_except(2*ap.w/8*program_size < 1ull<<(ap.w-1));
+    assert_except(ap.w/8*input_size < 1ull<<(ap.w-1));
 
     ram_example<ramT> result;
 

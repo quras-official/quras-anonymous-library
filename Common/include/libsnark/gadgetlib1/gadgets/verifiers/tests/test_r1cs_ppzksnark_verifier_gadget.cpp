@@ -39,13 +39,13 @@ void test_verifier(const std::string &annotation_A, const std::string &annotatio
     const size_t primary_input_size = 3;
 
     r1cs_example<FieldT_A> example = generate_r1cs_example_with_field_input<FieldT_A>(num_constraints, primary_input_size);
-    assert(example.primary_input.size() == primary_input_size);
+    assert_except(example.primary_input.size() == primary_input_size);
 
-    assert(example.constraint_system.is_satisfied(example.primary_input, example.auxiliary_input));
+    assert_except(example.constraint_system.is_satisfied(example.primary_input, example.auxiliary_input));
     const r1cs_ppzksnark_keypair<ppT_A> keypair = r1cs_ppzksnark_generator<ppT_A>(example.constraint_system);
     const r1cs_ppzksnark_proof<ppT_A> pi = r1cs_ppzksnark_prover<ppT_A>(keypair.pk, example.primary_input, example.auxiliary_input);
     bool bit = r1cs_ppzksnark_verifier_strong_IC<ppT_A>(keypair.vk, example.primary_input, pi);
-    assert(bit);
+    assert_except(bit);
 
     const size_t elt_size = FieldT_A::size_in_bits();
     const size_t primary_input_size_in_bits = elt_size * primary_input_size;
@@ -88,14 +88,14 @@ void test_verifier(const std::string &annotation_A, const std::string &annotatio
     pb.val(result) = FieldT_B::one();
 
     printf("positive test:\n");
-    assert(pb.is_satisfied());
+    assert_except(pb.is_satisfied());
 
     pb.val(primary_input_bits[0]) = FieldT_B::one() - pb.val(primary_input_bits[0]);
     verifier.generate_r1cs_witness();
     pb.val(result) = FieldT_B::one();
 
     printf("negative test:\n");
-    assert(!pb.is_satisfied());
+    assert_except(!pb.is_satisfied());
     PRINT_CONSTRAINT_PROFILING();
     printf("number of constraints for verifier: %zu (verifier is implemented in %s constraints and verifies %s proofs))\n",
            pb.num_constraints(), annotation_B.c_str(), annotation_A.c_str());
@@ -111,13 +111,13 @@ void test_hardcoded_verifier(const std::string &annotation_A, const std::string 
     const size_t primary_input_size = 3;
 
     r1cs_example<FieldT_A> example = generate_r1cs_example_with_field_input<FieldT_A>(num_constraints, primary_input_size);
-    assert(example.primary_input.size() == primary_input_size);
+    assert_except(example.primary_input.size() == primary_input_size);
 
-    assert(example.constraint_system.is_satisfied(example.primary_input, example.auxiliary_input));
+    assert_except(example.constraint_system.is_satisfied(example.primary_input, example.auxiliary_input));
     const r1cs_ppzksnark_keypair<ppT_A> keypair = r1cs_ppzksnark_generator<ppT_A>(example.constraint_system);
     const r1cs_ppzksnark_proof<ppT_A> pi = r1cs_ppzksnark_prover<ppT_A>(keypair.pk, example.primary_input, example.auxiliary_input);
     bool bit = r1cs_ppzksnark_verifier_strong_IC<ppT_A>(keypair.vk, example.primary_input, pi);
-    assert(bit);
+    assert_except(bit);
 
     const size_t elt_size = FieldT_A::size_in_bits();
     const size_t primary_input_size_in_bits = elt_size * primary_input_size;
@@ -154,14 +154,14 @@ void test_hardcoded_verifier(const std::string &annotation_A, const std::string 
     pb.val(result) = FieldT_B::one();
 
     printf("positive test:\n");
-    assert(pb.is_satisfied());
+    assert_except(pb.is_satisfied());
 
     pb.val(primary_input_bits[0]) = FieldT_B::one() - pb.val(primary_input_bits[0]);
     online_verifier.generate_r1cs_witness();
     pb.val(result) = FieldT_B::one();
 
     printf("negative test:\n");
-    assert(!pb.is_satisfied());
+    assert_except(!pb.is_satisfied());
     PRINT_CONSTRAINT_PROFILING();
     printf("number of constraints for verifier: %zu (verifier is implemented in %s constraints and verifies %s proofs))\n",
            pb.num_constraints(), annotation_B.c_str(), annotation_A.c_str());
@@ -187,8 +187,8 @@ void test_mul(const std::string &annotation)
         y.generate_r1cs_witness(y_val);
         mul.generate_r1cs_witness();
         const FpExtT res = xy.get_element();
-        assert(res == x_val*y_val);
-        assert(pb.is_satisfied());
+        assert_except(res == x_val*y_val);
+        assert_except(pb.is_satisfied());
     }
     printf("number of constraints for %s_mul = %zu\n", annotation.c_str(), pb.num_constraints());
 }
@@ -210,8 +210,8 @@ void test_sqr(const std::string &annotation)
         x.generate_r1cs_witness(x_val);
         sqr.generate_r1cs_witness();
         const FpExtT res = xsq.get_element();
-        assert(res == x_val.squared());
-        assert(pb.is_satisfied());
+        assert_except(res == x_val.squared());
+        assert_except(pb.is_satisfied());
     }
     printf("number of constraints for %s_sqr = %zu\n", annotation.c_str(), pb.num_constraints());
 }
@@ -237,8 +237,8 @@ void test_cyclotomic_sqr(const std::string &annotation)
         x.generate_r1cs_witness(x_val);
         sqr.generate_r1cs_witness();
         const FpExtT res = xsq.get_element();
-        assert(res == x_val.squared());
-        assert(pb.is_satisfied());
+        assert_except(res == x_val.squared());
+        assert_except(pb.is_satisfied());
     }
     printf("number of constraints for %s_cyclotomic_sqr = %zu\n", annotation.c_str(), pb.num_constraints());
 }
@@ -258,8 +258,8 @@ void test_Frobenius(const std::string &annotation)
         x.generate_r1cs_witness(x_val);
         x_frob.evaluate();
         const FpExtT res = x_frob.get_element();
-        assert(res == x_val.Frobenius_map(i));
-        assert(pb.is_satisfied());
+        assert_except(res == x_val.Frobenius_map(i));
+        assert_except(pb.is_satisfied());
     }
 
     printf("Frobenius map for %s correct\n", annotation.c_str());
@@ -312,7 +312,7 @@ void test_full_pairing(const std::string &annotation)
     compute_prec_Q.generate_r1cs_witness();
     miller.generate_r1cs_witness();
     finexp.generate_r1cs_witness();
-    assert(pb.is_satisfied());
+    assert_except(pb.is_satisfied());
 
     libff::affine_ate_G1_precomp<other_curve<ppT> > native_prec_P = other_curve<ppT>::affine_ate_precompute_G1(P_val);
     libff::affine_ate_G2_precomp<other_curve<ppT> > native_prec_Q = other_curve<ppT>::affine_ate_precompute_G2(Q_val);
@@ -323,7 +323,7 @@ void test_full_pairing(const std::string &annotation)
     finexp.result->get_element().print();
     native_finexp_result.print();
 
-    assert(finexp.result->get_element() == native_finexp_result);
+    assert_except(finexp.result->get_element() == native_finexp_result);
 
     printf("number of constraints for full pairing (Fr is %s)  = %zu\n", annotation.c_str(), pb.num_constraints());
 }
@@ -358,7 +358,7 @@ void test_full_precomputed_pairing(const std::string &annotation)
 
     miller.generate_r1cs_witness();
     finexp.generate_r1cs_witness();
-    assert(pb.is_satisfied());
+    assert_except(pb.is_satisfied());
 
     libff::affine_ate_G1_precomp<other_curve<ppT> > native_prec_P = other_curve<ppT>::affine_ate_precompute_G1(P_val);
     libff::affine_ate_G2_precomp<other_curve<ppT> > native_prec_Q = other_curve<ppT>::affine_ate_precompute_G2(Q_val);
@@ -369,7 +369,7 @@ void test_full_precomputed_pairing(const std::string &annotation)
     finexp.result->get_element().print();
     native_finexp_result.print();
 
-    assert(finexp.result->get_element() == native_finexp_result);
+    assert_except(finexp.result->get_element() == native_finexp_result);
 
     printf("number of constraints for full precomputed pairing (Fr is %s)  = %zu\n", annotation.c_str(), pb.num_constraints());
 }

@@ -69,8 +69,8 @@ ram_ppzksnark_verification_key<ram_ppzksnark_ppT> ram_ppzksnark_verification_key
         const size_t input_pos = it.first;
         const address_and_value av = it.second;
 
-        assert(input_pos < primary_input_size_bound);
-        assert(result.bound_primary_input_locations.find(input_pos) == result.bound_primary_input_locations.end());
+        assert_except(input_pos < primary_input_size_bound);
+        assert_except(result.bound_primary_input_locations.find(input_pos) == result.bound_primary_input_locations.end());
 
         const std::vector<FieldT> packed_input_element = ram_to_r1cs<ram_ppT>::pack_primary_input_address_and_value(ap, av);
         result.r1cs_vk.encoded_IC_query = result.r1cs_vk.encoded_IC_query.template accumulate_chunk<FieldT>(packed_input_element.begin(), packed_input_element.end(), packed_input_element_size * (primary_input_size_bound - 1 - input_pos));

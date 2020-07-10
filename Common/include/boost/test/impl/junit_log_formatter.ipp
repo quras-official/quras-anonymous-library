@@ -183,7 +183,7 @@ public:
     {
         // we enter here because we know that the tu has been skipped.
         // either junit has not seen this tu, or it is indicated as disabled
-        assert(m_map_test.count(tu.p_id) == 0 || results_collector.results( tu.p_id ).p_skipped);
+        assert_except(m_map_test.count(tu.p_id) == 0 || results_collector.results( tu.p_id ).p_skipped);
 
         std::list<std::string> out;
 
@@ -529,14 +529,14 @@ void
 junit_log_formatter::test_unit_finish( std::ostream& /*ostr*/, test_unit const& tu, unsigned long /*elapsed*/ )
 {
     // the time is already stored in the result_reporter
-    assert( tu.p_id == list_path_to_root.back() );
+    assert_except( tu.p_id == list_path_to_root.back() );
     list_path_to_root.pop_back();
 }
 
 void
 junit_log_formatter::test_unit_aborted( std::ostream& /*ostr*/, test_unit const& tu )
 {
-    assert( tu.p_id == list_path_to_root.back() );
+    assert_except( tu.p_id == list_path_to_root.back() );
     //list_path_to_root.pop_back();
 }
 
@@ -578,7 +578,7 @@ junit_log_formatter::log_exception_start( std::ostream& /*ostr*/, log_checkpoint
         entry.logentry_type = "execution timeout";
         break;
     case execution_exception::user_error:
-        entry.logentry_type = "user, assert() or CRT error";
+        entry.logentry_type = "user, assert_except() or CRT error";
         break;
     case execution_exception::user_fatal_error:
         // Looks like never used
@@ -626,7 +626,7 @@ void
 junit_log_formatter::log_exception_finish( std::ostream& /*ostr*/ )
 {
     // sealing the last entry
-    assert(!get_current_log_entry().assertion_entries.back().sealed);
+    assert_except(!get_current_log_entry().assertion_entries.back().sealed);
     get_current_log_entry().assertion_entries.back().sealed = true;
 }
 
@@ -712,7 +712,7 @@ junit_log_formatter::log_entry_value( std::ostream& /*ostr*/, const_string value
     if(last_entry.skipping)
         return;
 
-    assert(last_entry.assertion_entries.empty() || !last_entry.assertion_entries.back().sealed);
+    assert_except(last_entry.assertion_entries.empty() || !last_entry.assertion_entries.back().sealed);
 
     if(!last_entry.assertion_entries.empty())
     {
@@ -735,7 +735,7 @@ junit_log_formatter::log_entry_finish( std::ostream& /*ostr*/ )
     junit_impl::junit_log_helper& last_entry = get_current_log_entry();
     if(!last_entry.skipping)
     {
-        assert(last_entry.assertion_entries.empty() || !last_entry.assertion_entries.back().sealed);
+        assert_except(last_entry.assertion_entries.empty() || !last_entry.assertion_entries.back().sealed);
 
         if(!last_entry.assertion_entries.empty()) {
             junit_impl::junit_log_helper::assertion_entry& log_entry = last_entry.assertion_entries.back();
@@ -760,7 +760,7 @@ junit_log_formatter::entry_context_start( std::ostream& /*ostr*/, log_level )
         return;
 
     std::vector< junit_impl::junit_log_helper::assertion_entry > &v_failure_or_error = last_entry.assertion_entries;
-    assert(!v_failure_or_error.back().sealed);
+    assert_except(!v_failure_or_error.back().sealed);
 
     junit_impl::junit_log_helper::assertion_entry& last_log_entry = v_failure_or_error.back();
     if(m_is_last_assertion_or_error)
@@ -782,7 +782,7 @@ junit_log_formatter::entry_context_finish( std::ostream& /*ostr*/, log_level )
     junit_impl::junit_log_helper& last_entry = get_current_log_entry();
     if(last_entry.skipping)
         return;
-    assert(!get_current_log_entry().assertion_entries.back().sealed);
+    assert_except(!get_current_log_entry().assertion_entries.back().sealed);
 }
 
 //____________________________________________________________________________//
@@ -794,7 +794,7 @@ junit_log_formatter::log_entry_context( std::ostream& /*ostr*/, log_level , cons
     if(last_entry.skipping)
         return;
 
-    assert(!last_entry.assertion_entries.back().sealed);
+    assert_except(!last_entry.assertion_entries.back().sealed);
     junit_impl::junit_log_helper::assertion_entry& last_log_entry = get_current_log_entry().assertion_entries.back();
 
     last_log_entry.output +=

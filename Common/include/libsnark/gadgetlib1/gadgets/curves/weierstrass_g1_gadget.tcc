@@ -243,8 +243,8 @@ G1_multiscalar_mul_gadget<ppT>::G1_multiscalar_mul_gadget(protoboard<FieldT> &pb
     num_points(points.size()),
     scalar_size(scalars.size())
 {
-    assert(num_points >= 1);
-    assert(num_points * elt_size == scalar_size);
+    assert_except(num_points >= 1);
+    assert_except(num_points * elt_size == scalar_size);
 
     for (size_t i = 0; i < num_points; ++i)
     {
@@ -302,7 +302,7 @@ void G1_multiscalar_mul_gadget<ppT>::generate_r1cs_constraints()
     }
 
     const size_t num_constraints_after = this->pb.num_constraints();
-    assert(num_constraints_after - num_constraints_before == 4 * (scalar_size-num_points) + (4 + 2) * scalar_size);
+    assert_except(num_constraints_after - num_constraints_before == 4 * (scalar_size-num_points) + (4 + 2) * scalar_size);
 }
 
 template<typename ppT>

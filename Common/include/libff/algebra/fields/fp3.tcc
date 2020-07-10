@@ -164,7 +164,7 @@ Fp3_model<n,modulus> Fp3_model<n,modulus>::sqrt() const
     }
     if (check != one)
     {
-        assert(0);
+        assert_except(0);
     }
 #endif
 

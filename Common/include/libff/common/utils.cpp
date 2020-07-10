@@ -46,14 +46,14 @@ size_t log2(size_t n)
 
 size_t to_twos_complement(int i, size_t w)
 {
-    assert(i >= -(1ll<<(w-1)));
-    assert(i < (1ll<<(w-1)));
+    assert_except(i >= -(1ll<<(w-1)));
+    assert_except(i < (1ll<<(w-1)));
     return (i >= 0) ? i : i + (1ll<<w);
 }
 
 size_t from_twos_complement(size_t i, size_t w)
 {
-    assert(i < (1ull<<w));
+    assert_except(i < (1ull<<w));
     return (i < (1ull<<(w-1))) ? i : i - (1ull<<w);
 }
 
@@ -88,9 +88,12 @@ long long div_ceil(long long x, long long y)
 
 bool is_little_endian()
 {
-    uint64_t a = 0x12345678;
-    unsigned char *c = (unsigned char*)(&a);
-    return (*c = 0x78);
+    union {
+    int i;
+    char c[sizeof(int)];
+    } x;
+    x.i = 1;
+    return (x.c[0] == 1);
 }
 
 std::string FORMAT(const std::string &prefix, const char* format, ...)

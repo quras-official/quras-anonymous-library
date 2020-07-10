@@ -18,7 +18,7 @@ void profile_tally(const size_t arity, const size_t max_layer)
     const bool test_multi_type = true;
     const bool test_same_type_optimization = false;
     const bool bit = run_r1cs_mp_ppzkpcd_tally_example<PCD_ppT>(wordsize, arity, max_layer, test_serialization, test_multi_type, test_same_type_optimization);
-    assert(bit);
+    assert_except(bit);
 }
 
 int main(void)

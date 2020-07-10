@@ -26,31 +26,31 @@ void test_mixed_add()
     el = GroupT::zero();
     el.to_special();
     result = base.mixed_add(el);
-    assert(result == base + el);
+    assert_except(result == base + el);
 
     base = GroupT::zero();
     el = GroupT::random_element();
     el.to_special();
     result = base.mixed_add(el);
-    assert(result == base + el);
+    assert_except(result == base + el);
 
     base = GroupT::random_element();
     el = GroupT::zero();
     el.to_special();
     result = base.mixed_add(el);
-    assert(result == base + el);
+    assert_except(result == base + el);
 
     base = GroupT::random_element();
     el = GroupT::random_element();
     el.to_special();
     result = base.mixed_add(el);
-    assert(result == base + el);
+    assert_except(result == base + el);
 
     base = GroupT::random_element();
     el = base;
     el.to_special();
     result = base.mixed_add(el);
-    assert(result == base.dbl());
+    assert_except(result == base.dbl());
 }
 
 template<typename GroupT>
@@ -61,53 +61,53 @@ void test_group()
     bigint<1> randsum = bigint<1>("121160274");
 
     GroupT zero = GroupT::zero();
-    assert(zero == zero);
+    assert_except(zero == zero);
     GroupT one = GroupT::one();
-    assert(one == one);
+    assert_except(one == one);
     GroupT two = bigint<1>(2l) * GroupT::one();
-    assert(two == two);
+    assert_except(two == two);
     GroupT five = bigint<1>(5l) * GroupT::one();
 
     GroupT three = bigint<1>(3l) * GroupT::one();
     GroupT four = bigint<1>(4l) * GroupT::one();
 
-    assert(two+five == three+four);
+    assert_except(two+five == three+four);
 
     GroupT a = GroupT::random_element();
     GroupT b = GroupT::random_element();
 
-    assert(one != zero);
-    assert(a != zero);
-    assert(a != one);
+    assert_except(one != zero);
+    assert_except(a != zero);
+    assert_except(a != one);
 
-    assert(b != zero);
-    assert(b != one);
+    assert_except(b != zero);
+    assert_except(b != one);
 
-    assert(a.dbl() == a + a);
-    assert(b.dbl() == b + b);
-    assert(one.add(two) == three);
-    assert(two.add(one) == three);
-    assert(a + b == b + a);
-    assert(a - a == zero);
-    assert(a - b == a + (-b));
-    assert(a - b == (-b) + a);
+    assert_except(a.dbl() == a + a);
+    assert_except(b.dbl() == b + b);
+    assert_except(one.add(two) == three);
+    assert_except(two.add(one) == three);
+    assert_except(a + b == b + a);
+    assert_except(a - a == zero);
+    assert_except(a - b == a + (-b));
+    assert_except(a - b == (-b) + a);
 
     // handle special cases
-    assert(zero + (-a) == -a);
-    assert(zero - a == -a);
-    assert(a - zero == a);
-    assert(a + zero == a);
-    assert(zero + a == a);
+    assert_except(zero + (-a) == -a);
+    assert_except(zero - a == -a);
+    assert_except(a - zero == a);
+    assert_except(a + zero == a);
+    assert_except(zero + a == a);
 
-    assert((a + b).dbl() == (a + b) + (b + a));
-    assert(bigint<1>("2") * (a + b) == (a + b) + (b + a));
+    assert_except((a + b).dbl() == (a + b) + (b + a));
+    assert_except(bigint<1>("2") * (a + b) == (a + b) + (b + a));
 
-    assert((rand1 * a) + (rand2 * a) == (randsum * a));
+    assert_except((rand1 * a) + (rand2 * a) == (randsum * a));
 
-    assert(GroupT::order() * a == zero);
-    assert(GroupT::order() * one == zero);
-    assert((GroupT::order() * a) - a != zero);
-    assert((GroupT::order() * one) - one != zero);
+    assert_except(GroupT::order() * a == zero);
+    assert_except(GroupT::order() * one == zero);
+    assert_except((GroupT::order() * a) - a != zero);
+    assert_except((GroupT::order() * one) - one != zero);
 
     test_mixed_add<GroupT>();
 }
@@ -116,7 +116,7 @@ template<typename GroupT>
 void test_mul_by_q()
 {
     GroupT a = GroupT::random_element();
-    assert((GroupT::base_field_char()*a) == a.mul_by_q());
+    assert_except((GroupT::base_field_char()*a) == a.mul_by_q());
 }
 
 template<typename GroupT>
@@ -130,7 +130,7 @@ void test_output()
         ss << g;
         GroupT gg;
         ss >> gg;
-        assert(g == gg);
+        assert_except(g == gg);
         /* use a random point in next iteration */
         g = GroupT::random_element();
     }

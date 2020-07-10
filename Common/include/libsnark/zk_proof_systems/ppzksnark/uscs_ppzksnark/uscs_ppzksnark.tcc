@@ -232,14 +232,14 @@ uscs_ppzksnark_keypair<ppT> uscs_ppzksnark_generator(const uscs_ppzksnark_constr
 
     /* sanity checks */
 
-    assert(Vt_table.size() == ssp_inst.num_variables() + 2);
+    assert_except(Vt_table.size() == ssp_inst.num_variables() + 2);
     printf("Ht_table.size() = %zu, ssp_inst.degree() + 1 = %zu\n", Ht_table.size(), ssp_inst.degree() + 1);
-    assert(Ht_table.size() == ssp_inst.degree() + 1);
-    assert(Xt_table.size() == ssp_inst.num_inputs() + 1);
-    assert(Vt_table_minus_Xt_table.size() == ssp_inst.num_variables() + 2 - ssp_inst.num_inputs() - 1);
+    assert_except(Ht_table.size() == ssp_inst.degree() + 1);
+    assert_except(Xt_table.size() == ssp_inst.num_inputs() + 1);
+    assert_except(Vt_table_minus_Xt_table.size() == ssp_inst.num_variables() + 2 - ssp_inst.num_inputs() - 1);
     for (size_t i = 0; i < ssp_inst.num_inputs()+1; ++i)
     {
-        assert(!Xt_table[i].is_zero());
+        assert_except(!Xt_table[i].is_zero());
     }
 
     const libff::Fr<ppT> alpha = libff::Fr<ppT>::random_element();
@@ -347,16 +347,16 @@ uscs_ppzksnark_proof<ppT> uscs_ppzksnark_prover(const uscs_ppzksnark_proving_key
     libff::leave_block("Compute the polynomial H");
 
     /* sanity checks */
-    assert(pk.constraint_system.is_satisfied(primary_input, auxiliary_input));
-    assert(pk.V_g1_query.size() == ssp_wit.num_variables() + 2 - ssp_wit.num_inputs() - 1);
-    assert(pk.alpha_V_g1_query.size() == ssp_wit.num_variables() + 2 - ssp_wit.num_inputs() - 1);
-    assert(pk.H_g1_query.size() == ssp_wit.degree() + 1);
-    assert(pk.V_g2_query.size() == ssp_wit.num_variables() + 2);
+    assert_except(pk.constraint_system.is_satisfied(primary_input, auxiliary_input));
+    assert_except(pk.V_g1_query.size() == ssp_wit.num_variables() + 2 - ssp_wit.num_inputs() - 1);
+    assert_except(pk.alpha_V_g1_query.size() == ssp_wit.num_variables() + 2 - ssp_wit.num_inputs() - 1);
+    assert_except(pk.H_g1_query.size() == ssp_wit.degree() + 1);
+    assert_except(pk.V_g2_query.size() == ssp_wit.num_variables() + 2);
 
 #ifdef DEBUG
     const libff::Fr<ppT> t = libff::Fr<ppT>::random_element();
     ssp_instance_evaluation<libff::Fr<ppT> > ssp_inst = uscs_to_ssp_instance_map_with_evaluation(pk.constraint_system, t);
-    assert(ssp_inst.is_satisfied(ssp_wit));
+    assert_except(ssp_inst.is_satisfied(ssp_wit));
 #endif
 
     libff::G1<ppT> V_g1       = ssp_wit.d*pk.V_g1_query[pk.V_g1_query.size()-1];
@@ -450,11 +450,11 @@ bool uscs_ppzksnark_online_verifier_weak_IC(const uscs_ppzksnark_processed_verif
                                             const uscs_ppzksnark_proof<ppT> &proof)
 {
     libff::enter_block("Call to uscs_ppzksnark_online_verifier_weak_IC");
-    assert(pvk.encoded_IC_query.domain_size() >= primary_input.size());
+    assert_except(pvk.encoded_IC_query.domain_size() >= primary_input.size());
 
     libff::enter_block("Compute input-dependent part of V");
     const accumulation_vector<libff::G1<ppT> > accumulated_IC = pvk.encoded_IC_query.template accumulate_chunk<libff::Fr<ppT> >(primary_input.begin(), primary_input.end(), 0);
-    assert(accumulated_IC.is_fully_accumulated());
+    assert_except(accumulated_IC.is_fully_accumulated());
     const libff::G1<ppT> &acc = accumulated_IC.first;
     libff::leave_block("Compute input-dependent part of V");
 

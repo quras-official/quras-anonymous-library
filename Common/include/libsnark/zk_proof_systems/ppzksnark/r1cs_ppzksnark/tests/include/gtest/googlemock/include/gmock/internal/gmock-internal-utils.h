@@ -278,15 +278,15 @@ GTEST_API_ FailureReporterInterface* GetFailureReporter();
 // as Google Mock might be used to mock the log sink itself.  We
 // inline this function to prevent it from showing up in the stack
 // trace.
-inline void Assert(bool condition, const char* file, int line,
+inline void assert_except(bool condition, const char* file, int line,
                    const std::string& msg) {
   if (!condition) {
     GetFailureReporter()->ReportFailure(FailureReporterInterface::kFatal,
                                         file, line, msg);
   }
 }
-inline void Assert(bool condition, const char* file, int line) {
-  Assert(condition, file, line, "Assertion failed.");
+inline void assert_except(bool condition, const char* file, int line) {
+  assert_except(condition, file, line, "Assertion failed.");
 }
 
 // Verifies that condition is true; generates a non-fatal failure if
@@ -374,7 +374,7 @@ template <typename T> struct DecayArray<T[]> {
 // crashes).
 template <typename T>
 inline T Invalid() {
-  Assert(false, "", -1, "Internal error: attempt to return invalid value");
+  assert_except(false, "", -1, "Internal error: attempt to return invalid value");
   // This statement is unreachable, and would never terminate even if it
   // could be reached. It is provided only to placate compiler warnings
   // about missing return statements.

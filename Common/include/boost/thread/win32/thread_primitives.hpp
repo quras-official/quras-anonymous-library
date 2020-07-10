@@ -35,6 +35,7 @@
 //#include <boost/detail/winapi/synchronization.hpp>
 #include <boost/thread/win32/interlocked_read.hpp>
 #include <algorithm>
+#include <assert_except.hpp>
 
 #if BOOST_PLAT_WINDOWS_RUNTIME
 #include <thread>

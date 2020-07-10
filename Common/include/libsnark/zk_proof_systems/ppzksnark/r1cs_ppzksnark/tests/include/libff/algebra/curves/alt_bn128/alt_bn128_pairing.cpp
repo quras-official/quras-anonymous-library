@@ -345,9 +345,9 @@ alt_bn128_ate_G2_precomp alt_bn128_ate_precompute_G2(const alt_bn128_G2& Q)
     }
 
     alt_bn128_G2 Q1 = Qcopy.mul_by_q();
-    assert(Q1.Z == alt_bn128_Fq2::one());
+    assert_except(Q1.Z == alt_bn128_Fq2::one());
     alt_bn128_G2 Q2 = Q1.mul_by_q();
-    assert(Q2.Z == alt_bn128_Fq2::one());
+    assert_except(Q2.Z == alt_bn128_Fq2::one());
 
     if (alt_bn128_ate_is_loop_count_neg)
     {

@@ -26,7 +26,7 @@ digest_variable<FieldT>::digest_variable(protoboard<FieldT> &pb,
                                          const std::string &annotation_prefix) :
     gadget<FieldT>(pb, annotation_prefix), digest_size(digest_size)
 {
-    assert(bits.size() <= digest_size);
+    assert_except(bits.size() <= digest_size);
     bits = partial_bits;
     while (bits.size() != digest_size)
     {
@@ -83,7 +83,7 @@ block_variable<FieldT>::block_variable(protoboard<FieldT> &pb,
                                        const std::string &annotation_prefix) :
     gadget<FieldT>(pb, annotation_prefix)
 {
-    assert(left.bits.size() == right.bits.size());
+    assert_except(left.bits.size() == right.bits.size());
     block_size = 2 * left.bits.size();
     bits.insert(bits.end(), left.bits.begin(), left.bits.end());
     bits.insert(bits.end(), right.bits.begin(), right.bits.end());

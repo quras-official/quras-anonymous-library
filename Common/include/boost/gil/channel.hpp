@@ -27,6 +27,7 @@
 #include <limits>
 #include <cassert>
 #include <boost/cstdint.hpp>
+#include <assert_except.h>
 #include "gil_config.hpp"
 #include "utilities.hpp"
 
@@ -426,7 +427,7 @@ public:
     explicit packed_channel_reference(void* data_ptr) : parent_t(data_ptr) {}
     packed_channel_reference(const packed_channel_reference& ref) : parent_t(ref._data_ptr) {}
 
-    const packed_channel_reference& operator=(integer_t value) const { assert(value<=parent_t::max_val); set_unsafe(value); return *this; }
+    const packed_channel_reference& operator=(integer_t value) const { assert_except(value<=parent_t::max_val); set_unsafe(value); return *this; }
     const packed_channel_reference& operator=(const mutable_reference& ref) const { set_from_reference(ref.get_data()); return *this; }
     const packed_channel_reference& operator=(const const_reference&   ref) const { set_from_reference(ref.get_data()); return *this; }
 
@@ -541,7 +542,7 @@ public:
     packed_dynamic_channel_reference(void* data_ptr, unsigned first_bit) : parent_t(data_ptr), _first_bit(first_bit) {}
     packed_dynamic_channel_reference(const packed_dynamic_channel_reference& ref) : parent_t(ref._data_ptr), _first_bit(ref._first_bit) {}
 
-    const packed_dynamic_channel_reference& operator=(integer_t value) const { assert(value<=parent_t::max_val); set_unsafe(value); return *this; }
+    const packed_dynamic_channel_reference& operator=(integer_t value) const { assert_except(value<=parent_t::max_val); set_unsafe(value); return *this; }
     const packed_dynamic_channel_reference& operator=(const mutable_reference& ref) const {  set_unsafe(ref.get()); return *this; }
     const packed_dynamic_channel_reference& operator=(const const_reference&   ref) const {  set_unsafe(ref.get()); return *this; }
 

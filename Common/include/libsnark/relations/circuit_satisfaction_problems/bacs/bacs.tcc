@@ -165,14 +165,14 @@ template<typename FieldT>
 bacs_variable_assignment<FieldT> bacs_circuit<FieldT>::get_all_wires(const bacs_primary_input<FieldT> &primary_input,
                                                                      const bacs_auxiliary_input<FieldT> &auxiliary_input) const
 {
-    assert(primary_input.size() == primary_input_size);
-    assert(auxiliary_input.size() == auxiliary_input_size);
+    assert_except(primary_input.size() == primary_input_size);
+    assert_except(auxiliary_input.size() == auxiliary_input_size);
 
     bacs_variable_assignment<FieldT> result;
     result.insert(result.end(), primary_input.begin(), primary_input.end());
     result.insert(result.end(), auxiliary_input.begin(), auxiliary_input.end());
 
-    assert(result.size() == num_inputs());
+    assert_except(result.size() == num_inputs());
 
     for (auto &g : gates)
     {
@@ -222,14 +222,14 @@ bool bacs_circuit<FieldT>::is_satisfied(const bacs_primary_input<FieldT> &primar
 template<typename FieldT>
 void bacs_circuit<FieldT>::add_gate(const bacs_gate<FieldT> &g)
 {
-    assert(g.output.index == num_wires()+1);
+    assert_except(g.output.index == num_wires()+1);
     gates.emplace_back(g);
 }
 
 template<typename FieldT>
 void bacs_circuit<FieldT>::add_gate(const bacs_gate<FieldT> &g, const std::string &annotation)
 {
-    assert(g.output.index == num_wires()+1);
+    assert_except(g.output.index == num_wires()+1);
     gates.emplace_back(g);
 #ifdef DEBUG
     gate_annotations[g.output.index] = annotation;

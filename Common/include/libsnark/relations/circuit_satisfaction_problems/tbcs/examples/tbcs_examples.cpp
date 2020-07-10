@@ -72,7 +72,7 @@ tbcs_example generate_tbcs_example(const size_t primary_input_size,
         all_vals.push_back(gate.evaluate(all_vals));
     }
 
-    assert(example.circuit.is_satisfied(example.primary_input, example.auxiliary_input));
+    assert_except(example.circuit.is_satisfied(example.primary_input, example.auxiliary_input));
 
     return example;
 }

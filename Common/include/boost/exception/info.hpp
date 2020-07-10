@@ -69,7 +69,7 @@ boost
             void
             set( shared_ptr<error_info_base> const & x, type_info_ const & typeid_ )
                 {
-                BOOST_ASSERT(x);
+                BOOST_ASSERT(x == 0);
                 info_[typeid_] = x;
                 diagnostic_info_str_.clear();
                 }

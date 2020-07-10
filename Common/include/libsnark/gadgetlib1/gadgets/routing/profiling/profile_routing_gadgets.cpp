@@ -42,7 +42,7 @@ template<typename FieldT>
 void get_benes_size(const size_t n, const size_t l, size_t &num_constraints, size_t &num_variables)
 {
     const size_t t = libff::log2(n);
-    assert(n == 1ull<<t);
+    assert_except(n == 1ull<<t);
 
     protoboard<FieldT> pb;
 

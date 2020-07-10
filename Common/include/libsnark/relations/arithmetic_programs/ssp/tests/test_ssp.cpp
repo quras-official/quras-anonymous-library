@@ -42,7 +42,7 @@ void test_ssp(const size_t num_constraints, const size_t num_inputs, const bool 
     libff::leave_block("Generate constraint system and assignment");
 
     libff::enter_block("Check satisfiability of constraint system");
-    assert(example.constraint_system.is_satisfied(example.primary_input, example.auxiliary_input));
+    assert_except(example.constraint_system.is_satisfied(example.primary_input, example.auxiliary_input));
     libff::leave_block("Check satisfiability of constraint system");
 
     const FieldT t = FieldT::random_element(),
@@ -61,11 +61,11 @@ void test_ssp(const size_t num_constraints, const size_t num_inputs, const bool 
     libff::leave_block("Compute SSP witness");
 
     libff::enter_block("Check satisfiability of SSP instance 1");
-    assert(ssp_inst_1.is_satisfied(ssp_wit));
+    assert_except(ssp_inst_1.is_satisfied(ssp_wit));
     libff::leave_block("Check satisfiability of SSP instance 1");
 
     libff::enter_block("Check satisfiability of SSP instance 2");
-    assert(ssp_inst_2.is_satisfied(ssp_wit));
+    assert_except(ssp_inst_2.is_satisfied(ssp_wit));
     libff::leave_block("Check satisfiability of SSP instance 2");
 
     libff::leave_block("Call to test_ssp");

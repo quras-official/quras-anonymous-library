@@ -102,7 +102,7 @@ bool run_r1cs_ppzkadsnark(const r1cs_example<libff::Fr<snark_pp<ppT>> > &example
 
     libff::print_header("R1CS ppzkADSNARK Symmetric Online Verifier");
     bool ans2 = r1cs_ppzkadsnark_online_verifier<ppT>(pvk, proof,auth_keys.sak,labels);
-    assert(ans == ans2);
+    assert_except(ans == ans2);
 
     libff::print_header("R1CS ppzkADSNARK Public Verifier");
     ans = r1cs_ppzkadsnark_verifier<ppT>(keypair.vk, auth_data, proof,auth_keys.pak,labels);
@@ -111,7 +111,7 @@ bool run_r1cs_ppzkadsnark(const r1cs_example<libff::Fr<snark_pp<ppT>> > &example
 
     libff::print_header("R1CS ppzkADSNARK Public Online Verifier");
     ans2 = r1cs_ppzkadsnark_online_verifier<ppT>(pvk, auth_data, proof,auth_keys.pak,labels);
-    assert(ans == ans2);
+    assert_except(ans == ans2);
 
     libff::leave_block("Call to run_r1cs_ppzkadsnark");
 

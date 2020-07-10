@@ -47,7 +47,7 @@ template<typename FieldT>
 void packing_gadget<FieldT>::generate_r1cs_witness_from_packed()
 {
     packed.evaluate(this->pb);
-    assert(this->pb.lc_val(packed).as_bigint().num_bits() <= bits.size()); // `bits` is large enough to represent this packed value
+    assert_except(this->pb.lc_val(packed).as_bigint().num_bits() <= bits.size()); // `bits` is large enough to represent this packed value
     bits.fill_with_bits_of_field_element(this->pb, this->pb.lc_val(packed));
 }
 
@@ -69,7 +69,7 @@ multipacking_gadget<FieldT>::multipacking_gadget(protoboard<FieldT> &pb,
     num_chunks(libff::div_ceil(bits.size(), chunk_size))
     // last_chunk_size(bits.size() - (num_chunks-1) * chunk_size)
 {
-    assert(packed_vars.size() == num_chunks);
+    assert_except(packed_vars.size() == num_chunks);
     for (size_t i = 0; i < num_chunks; ++i)
     {
         packers.emplace_back(packing_gadget<FieldT>(this->pb, pb_linear_combination_array<FieldT>(bits.begin() + i * chunk_size,
@@ -119,7 +119,7 @@ field_vector_copy_gadget<FieldT>::field_vector_copy_gadget(protoboard<FieldT> &p
                                                            const std::string &annotation_prefix) :
 gadget<FieldT>(pb, annotation_prefix), source(source), target(target), do_copy(do_copy)
 {
-    assert(source.size() == target.size());
+    assert_except(source.size() == target.size());
 }
 
 template<typename FieldT>
@@ -136,7 +136,7 @@ template<typename FieldT>
 void field_vector_copy_gadget<FieldT>::generate_r1cs_witness()
 {
     do_copy.evaluate(this->pb);
-    assert(this->pb.lc_val(do_copy) == FieldT::one() || this->pb.lc_val(do_copy) == FieldT::zero());
+    assert_except(this->pb.lc_val(do_copy) == FieldT::one() || this->pb.lc_val(do_copy) == FieldT::zero());
     if (this->pb.lc_val(do_copy) != FieldT::zero())
     {
         for (size_t i = 0; i < source.size(); ++i)
@@ -156,7 +156,7 @@ bit_vector_copy_gadget<FieldT>::bit_vector_copy_gadget(protoboard<FieldT> &pb,
     gadget<FieldT>(pb, annotation_prefix), source_bits(source_bits), target_bits(target_bits), do_copy(do_copy),
     chunk_size(chunk_size), num_chunks(libff::div_ceil(source_bits.size(), chunk_size))
 {
-    assert(source_bits.size() == target_bits.size());
+    assert_except(source_bits.size() == target_bits.size());
 
     packed_source.allocate(pb, num_chunks, FMT(annotation_prefix, " packed_source"));
     pack_source.reset(new multipacking_gadget<FieldT>(pb, source_bits, packed_source, chunk_size, FMT(annotation_prefix, " pack_source")));
@@ -180,7 +180,7 @@ template<typename FieldT>
 void bit_vector_copy_gadget<FieldT>::generate_r1cs_witness()
 {
     do_copy.evaluate(this->pb);
-    assert(this->pb.lc_val(do_copy) == FieldT::zero() || this->pb.lc_val(do_copy) == FieldT::one());
+    assert_except(this->pb.lc_val(do_copy) == FieldT::zero() || this->pb.lc_val(do_copy) == FieldT::one());
     if (this->pb.lc_val(do_copy) == FieldT::one())
     {
         for (size_t i = 0; i < source_bits.size(); ++i)
@@ -287,14 +287,14 @@ void test_disjunction_gadget(const size_t n)
 #ifdef DEBUG
         printf("positive test for %zu\n", w);
 #endif
-        assert(pb.val(output) == (w ? FieldT::one() : FieldT::zero()));
-        assert(pb.is_satisfied());
+        assert_except(pb.val(output) == (w ? FieldT::one() : FieldT::zero()));
+        assert_except(pb.is_satisfied());
 
 #ifdef DEBUG
         printf("negative test for %zu\n", w);
 #endif
         pb.val(output) = (w ? FieldT::zero() : FieldT::one());
-        assert(!pb.is_satisfied());
+        assert_except(!pb.is_satisfied());
     }
 
     libff::print_time("disjunction tests successful");
@@ -378,14 +378,14 @@ void test_conjunction_gadget(const size_t n)
 #ifdef DEBUG
         printf("positive test for %zu\n", w);
 #endif
-        assert(pb.val(output) == (w == (1ull<<n) - 1 ? FieldT::one() : FieldT::zero()));
-        assert(pb.is_satisfied());
+        assert_except(pb.val(output) == (w == (1ull<<n) - 1 ? FieldT::one() : FieldT::zero()));
+        assert_except(pb.is_satisfied());
 
 #ifdef DEBUG
         printf("negative test for %zu\n", w);
 #endif
         pb.val(output) = (w == (1ull<<n) - 1 ? FieldT::zero() : FieldT::one());
-        assert(!pb.is_satisfied());
+        assert_except(!pb.is_satisfied());
     }
 
     libff::print_time("conjunction tests successful");
@@ -466,9 +466,9 @@ void test_comparison_gadget(const size_t n)
 #ifdef DEBUG
             printf("positive test for %zu < %zu\n", a, b);
 #endif
-            assert(pb.val(less) == (a < b ? FieldT::one() : FieldT::zero()));
-            assert(pb.val(less_or_eq) == (a <= b ? FieldT::one() : FieldT::zero()));
-            assert(pb.is_satisfied());
+            assert_except(pb.val(less) == (a < b ? FieldT::one() : FieldT::zero()));
+            assert_except(pb.val(less_or_eq) == (a <= b ? FieldT::one() : FieldT::zero()));
+            assert_except(pb.is_satisfied());
         }
     }
 
@@ -539,14 +539,14 @@ void test_inner_product_gadget(const size_t n)
 #ifdef DEBUG
             printf("positive test for (%zu, %zu)\n", i, j);
 #endif
-            assert(pb.val(result) == FieldT(correct));
-            assert(pb.is_satisfied());
+            assert_except(pb.val(result) == FieldT(correct));
+            assert_except(pb.is_satisfied());
 
 #ifdef DEBUG
             printf("negative test for (%zu, %zu)\n", i, j);
 #endif
             pb.val(result) = FieldT(100*n+19);
-            assert(!pb.is_satisfied());
+            assert_except(!pb.is_satisfied());
         }
     }
 
@@ -641,19 +641,19 @@ void test_loose_multiplexing_gadget(const size_t n)
         if (0 <= idx && idx <= (int)(1ull<<n) - 1)
         {
             printf("demuxing element %d (in bounds)\n", idx);
-            assert(pb.val(result) == FieldT((19*idx) % (1ull<<n)));
-            assert(pb.val(success_flag) == FieldT::one());
-            assert(pb.is_satisfied());
+            assert_except(pb.val(result) == FieldT((19*idx) % (1ull<<n)));
+            assert_except(pb.val(success_flag) == FieldT::one());
+            assert_except(pb.is_satisfied());
             pb.val(result) -= FieldT::one();
-            assert(!pb.is_satisfied());
+            assert_except(!pb.is_satisfied());
         }
         else
         {
             printf("demuxing element %d (out of bounds)\n", idx);
-            assert(pb.val(success_flag) == FieldT::zero());
-            assert(pb.is_satisfied());
+            assert_except(pb.val(success_flag) == FieldT::zero());
+            assert_except(pb.is_satisfied());
             pb.val(success_flag) = FieldT::one();
-            assert(!pb.is_satisfied());
+            assert_except(!pb.is_satisfied());
         }
     }
     printf("loose_multiplexing_gadget tests successful\n");

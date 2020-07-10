@@ -26,8 +26,8 @@ sp_compliance_step_pcd_circuit_maker<ppT>::sp_compliance_step_pcd_circuit_maker(
     compliance_predicate(compliance_predicate)
 {
     /* calculate some useful sizes */
-    assert(compliance_predicate.is_well_formed());
-    assert(compliance_predicate.has_equal_input_and_output_lengths());
+    assert_except(compliance_predicate.is_well_formed());
+    assert_except(compliance_predicate.has_equal_input_and_output_lengths());
 
     const size_t compliance_predicate_arity = compliance_predicate.max_arity;
     const size_t digest_size = CRH_with_field_out_gadget<FieldT>::get_digest_len();
@@ -317,7 +317,7 @@ void sp_compliance_step_pcd_circuit_maker<ppT>::generate_r1cs_witness(const r1cs
 
 #ifdef DEBUG
     generate_r1cs_constraints(); // force generating constraints
-    assert(this->pb.is_satisfied());
+    assert_except(this->pb.is_satisfied());
 #endif
 }
 
@@ -427,7 +427,7 @@ void sp_translation_step_pcd_circuit_maker<ppT>::generate_r1cs_witness(const r1c
         this->pb.val(pb_variable<FieldT>(i+1)).print();
     }
 
-    assert(this->pb.is_satisfied());
+    assert_except(this->pb.is_satisfied());
 #endif
 }
 

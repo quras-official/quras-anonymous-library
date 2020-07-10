@@ -24,7 +24,7 @@ void test_ram_zksnark(const size_t w,
     const ram_example<ramT> example = gen_ram_example_complex<ramT>(ap, boot_trace_size_bound, time_bound, true);
     const bool test_serialization = true;
     const bool ans = run_ram_zksnark<ppT>(example, test_serialization);
-    assert(ans);
+    assert_except(ans);
 }
 
 int main(void)

@@ -299,7 +299,7 @@ sap_witness<FieldT> r1cs_to_sap_witness_map(const r1cs_constraint_system<FieldT>
     libff::enter_block("Call to r1cs_to_sap_witness_map");
 
     /* sanity check */
-    assert(cs.is_satisfied(primary_input, auxiliary_input));
+    assert_except(cs.is_satisfied(primary_input, auxiliary_input));
 
     const std::shared_ptr<libfqfft::evaluation_domain<FieldT> > domain =
         r1cs_to_sap_get_domain(cs);

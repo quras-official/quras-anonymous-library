@@ -27,6 +27,7 @@
 #include "image_view.hpp"
 #include "image_view_factory.hpp"
 #include "bit_aligned_pixel_iterator.hpp"
+#include "assert_except.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////
 /// \file               
@@ -290,7 +291,7 @@ namespace boost { namespace gil {
 /// \brief std::copy for image views
 template <typename View1, typename View2> GIL_FORCEINLINE
 void copy_pixels(const View1& src, const View2& dst) { 
-    assert(src.dimensions()==dst.dimensions());
+    assert_except(src.dimensions()==dst.dimensions());
     detail::copy_with_2d_iterators(src.begin(),src.end(),dst.begin());
 }
 
@@ -693,7 +694,7 @@ void uninitialized_copy_aux(It1 first1, It1 last1,
 template <typename View1, typename View2> 
 void uninitialized_copy_pixels(const View1& view1, const View2& view2) {
     typedef mpl::bool_<is_planar<View1>::value && is_planar<View2>::value> is_planar;  
-    assert(view1.dimensions()==view2.dimensions());
+    assert_except(view1.dimensions()==view2.dimensions());
     if (view1.is_1d_traversable() && view2.is_1d_traversable())
         detail::uninitialized_copy_aux(view1.begin().x(), view1.end().x(), 
                                        view2.begin().x(), 
@@ -928,7 +929,7 @@ namespace boost { namespace gil {
 /// \brief std::equal for image views
 template <typename View1, typename View2> GIL_FORCEINLINE 
 bool equal_pixels(const View1& v1, const View2& v2) {
-    assert(v1.dimensions()==v2.dimensions());
+    assert_except(v1.dimensions()==v2.dimensions());
     return std::equal(v1.begin(),v1.end(),v2.begin()); // std::equal has overloads with GIL iterators for optimal performance
 }
 
@@ -946,7 +947,7 @@ bool equal_pixels(const View1& v1, const View2& v2) {
 /// \brief std::transform for image views
 template <typename View1, typename View2, typename F> GIL_FORCEINLINE 
 F transform_pixels(const View1& src,const View2& dst, F fun) {
-    assert(src.dimensions()==dst.dimensions());
+    assert_except(src.dimensions()==dst.dimensions());
     for (std::ptrdiff_t y=0; y<src.height(); ++y) {
         typename View1::x_iterator srcIt=src.row_begin(y);
         typename View2::x_iterator dstIt=dst.row_begin(y);
@@ -978,7 +979,7 @@ F transform_pixels(const View1& src1, const View2& src2,const View3& dst, F fun)
 /// \brief Like transform_pixels but passes to the function object pixel locators instead of pixel references
 template <typename View1, typename View2, typename F> GIL_FORCEINLINE 
 F transform_pixel_positions(const View1& src,const View2& dst, F fun) {
-    assert(src.dimensions()==dst.dimensions());
+    assert_except(src.dimensions()==dst.dimensions());
     typename View1::xy_locator loc=src.xy_at(0,0);
     for (std::ptrdiff_t y=0; y<src.height(); ++y) {
         typename View2::x_iterator dstIt=dst.row_begin(y);
@@ -993,8 +994,8 @@ F transform_pixel_positions(const View1& src,const View2& dst, F fun) {
 /// \brief transform_pixel_positions with two sources
 template <typename View1, typename View2, typename View3, typename F> GIL_FORCEINLINE 
 F transform_pixel_positions(const View1& src1,const View2& src2,const View3& dst, F fun) {
-    assert(src1.dimensions()==dst.dimensions());
-    assert(src2.dimensions()==dst.dimensions());
+    assert_except(src1.dimensions()==dst.dimensions());
+    assert_except(src2.dimensions()==dst.dimensions());
     typename View1::xy_locator loc1=src1.xy_at(0,0);
     typename View2::xy_locator loc2=src2.xy_at(0,0);
     for (std::ptrdiff_t y=0; y<src1.height(); ++y) {

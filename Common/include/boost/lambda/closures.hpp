@@ -16,6 +16,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 #include "boost/lambda/core.hpp"
+#include "assert_except.h"
 ///////////////////////////////////////////////////////////////////////////////
 namespace boost {
 namespace lambda {
@@ -204,7 +205,7 @@ public:
     Ret
     call(A&, B&, C&) const
     {
-        assert(frame);
+        assert_except(frame);
         return boost::tuples::get<N>(*frame);
     }
 
@@ -236,8 +237,8 @@ public:
 
                             closure()
                             : frame(0)      { closure_frame_ref(&frame); }
-    closure_frame_t&        context()       { assert(frame); return frame; }
-    closure_frame_t const&  context() const { assert(frame); return frame; }
+    closure_frame_t&        context()       { assert_except(frame); return frame; }
+    closure_frame_t const&  context() const { assert_except(frame); return frame; }
 
     typedef lambda_functor<closure_member<0, self_t> > member1;
     typedef lambda_functor<closure_member<1, self_t> > member2;

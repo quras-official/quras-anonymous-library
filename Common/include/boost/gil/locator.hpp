@@ -26,6 +26,7 @@
 #include <cstddef>
 #include <cassert>
 #include "pixel_iterator.hpp"
+#include "assert_except.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ///                 Pixel 2D LOCATOR
@@ -303,7 +304,7 @@ public:
     // Returns the vertical distance (it2.y-it1.y) between two x_iterators given the difference of their x positions
     std::ptrdiff_t y_distance_to(const this_t& p2, x_coord_t xDiff) const { 
         std::ptrdiff_t rowDiff=memunit_distance(x(),p2.x())-pixel_size()*xDiff;
-        assert(( rowDiff % row_size())==0);
+        assert_except(( rowDiff % row_size())==0);
         return rowDiff / row_size();
     }
 

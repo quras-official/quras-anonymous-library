@@ -46,8 +46,8 @@ r1cs_ppzksnark_proof_variable<ppT>::r1cs_ppzksnark_proof_variable(protoboard<Fie
     }
     G2_checker.reset(new G2_checker_gadget<ppT>(pb, *g_B_g, FMT(annotation_prefix, " G2_checker")));
 
-    assert(all_G1_vars.size() == num_G1);
-    assert(all_G2_vars.size() == num_G2);
+    assert_except(all_G1_vars.size() == num_G1);
+    assert_except(all_G2_vars.size() == num_G2);
 }
 
 template<typename ppT>
@@ -70,8 +70,8 @@ void r1cs_ppzksnark_proof_variable<ppT>::generate_r1cs_witness(const r1cs_ppzksn
     G1_elems = { proof.g_A.g, proof.g_A.h, proof.g_B.h, proof.g_C.g, proof.g_C.h, proof.g_H, proof.g_K };
     G2_elems = { proof.g_B.g };
 
-    assert(G1_elems.size() == all_G1_vars.size());
-    assert(G2_elems.size() == all_G2_vars.size());
+    assert_except(G1_elems.size() == all_G1_vars.size());
+    assert_except(G2_elems.size() == all_G2_vars.size());
 
     for (size_t i = 0; i < G1_elems.size(); ++i)
     {
@@ -111,7 +111,7 @@ r1cs_ppzksnark_verification_key_variable<ppT>::r1cs_ppzksnark_verification_key_v
     const size_t num_G1 = 2 + (input_size + 1);
     const size_t num_G2 = 5;
 
-    assert(all_bits.size() == (G1_variable<ppT>::size_in_bits() * num_G1 + G2_variable<ppT>::size_in_bits() * num_G2));
+    assert_except(all_bits.size() == (G1_variable<ppT>::size_in_bits() * num_G1 + G2_variable<ppT>::size_in_bits() * num_G2));
 
     this->alphaA_g2.reset(new G2_variable<ppT>(pb, FMT(annotation_prefix, " alphaA_g2")));
     this->alphaB_g1.reset(new G1_variable<ppT>(pb, FMT(annotation_prefix, " alphaB_g1")));
@@ -144,9 +144,9 @@ r1cs_ppzksnark_verification_key_variable<ppT>::r1cs_ppzksnark_verification_key_v
         all_vars.insert(all_vars.end(), G2_var->all_vars.begin(), G2_var->all_vars.end());
     }
 
-    assert(all_G1_vars.size() == num_G1);
-    assert(all_G2_vars.size() == num_G2);
-    assert(all_vars.size() == (num_G1 * G1_variable<ppT>::num_variables() + num_G2 * G2_variable<ppT>::num_variables()));
+    assert_except(all_G1_vars.size() == num_G1);
+    assert_except(all_G2_vars.size() == num_G2);
+    assert_except(all_vars.size() == (num_G1 * G1_variable<ppT>::num_variables() + num_G2 * G2_variable<ppT>::num_variables()));
 
     packer.reset(new multipacking_gadget<FieldT>(pb, all_bits, all_vars, FieldT::size_in_bits(), FMT(annotation_prefix, " packer")));
 }
@@ -166,16 +166,16 @@ void r1cs_ppzksnark_verification_key_variable<ppT>::generate_r1cs_witness(const 
     G1_elems = { vk.alphaB_g1, vk.gamma_beta_g1 };
     G2_elems = { vk.alphaA_g2, vk.alphaC_g2, vk.gamma_g2, vk.gamma_beta_g2, vk.rC_Z_g2 };
 
-    assert(vk.encoded_IC_query.rest.indices.size() == input_size);
+    assert_except(vk.encoded_IC_query.rest.indices.size() == input_size);
     G1_elems.emplace_back(vk.encoded_IC_query.first);
     for (size_t i = 0; i < input_size; ++i)
     {
-        assert(vk.encoded_IC_query.rest.indices[i] == i);
+        assert_except(vk.encoded_IC_query.rest.indices[i] == i);
         G1_elems.emplace_back(vk.encoded_IC_query.rest.values[i]);
     }
 
-    assert(G1_elems.size() == all_G1_vars.size());
-    assert(G2_elems.size() == all_G2_vars.size());
+    assert_except(G1_elems.size() == all_G1_vars.size());
+    assert_except(G2_elems.size() == all_G2_vars.size());
 
     for (size_t i = 0; i < G1_elems.size(); ++i)
     {
@@ -246,7 +246,7 @@ r1cs_ppzksnark_preprocessed_r1cs_ppzksnark_verification_key_variable<ppT>::r1cs_
     encoded_IC_query.resize(r1cs_vk.encoded_IC_query.rest.indices.size());
     for (size_t i = 0; i < r1cs_vk.encoded_IC_query.rest.indices.size(); ++i)
     {
-        assert(r1cs_vk.encoded_IC_query.rest.indices[i] == i);
+        assert_except(r1cs_vk.encoded_IC_query.rest.indices[i] == i);
         encoded_IC_query[i].reset(new G1_variable<ppT>(pb, r1cs_vk.encoded_IC_query.rest.values[i], FMT(annotation_prefix, " encoded_IC_query")));
     }
 

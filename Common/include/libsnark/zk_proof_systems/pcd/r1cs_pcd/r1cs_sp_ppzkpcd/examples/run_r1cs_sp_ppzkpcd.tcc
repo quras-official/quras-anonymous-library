@@ -121,7 +121,7 @@ bool run_r1cs_sp_ppzkpcd_tally_example(const size_t wordsize,
 
             libff::print_header("R1CS ppzkPCD Online Verifier");
             const bool ans2 = r1cs_sp_ppzkpcd_online_verifier<PCD_ppT>(pvk, pcd_verifier_input, tree_proofs[cur_idx]);
-            assert(ans == ans2);
+            assert_except(ans == ans2);
 
             all_accept = all_accept && ans;
 

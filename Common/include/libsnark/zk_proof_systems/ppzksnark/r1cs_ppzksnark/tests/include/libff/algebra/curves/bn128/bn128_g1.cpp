@@ -36,7 +36,7 @@ bn::Fp bn128_G1::sqrt(const bn::Fp &el)
         bn::Fp::square(check, check);
     }
 
-    assert(check == bn::Fp(1));
+    assert_except(check == bn::Fp(1));
 #endif
 
     // compute square root with Tonelli--Shanks
@@ -244,7 +244,7 @@ bn128_G1 bn128_G1::mixed_add(const bn128_G1 &other) const
     // (they cannot exist in a prime-order subgroup)
 
 #ifdef DEBUG
-    assert(other.is_special());
+    assert_except(other.is_special());
 #endif
 
     // check for doubling case

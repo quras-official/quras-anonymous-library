@@ -62,13 +62,13 @@ void test_G1_variable_precomp(const std::string &annotation)
 
     g.generate_r1cs_witness(g_val);
     do_precomp.generate_r1cs_witness();
-    assert(pb.is_satisfied());
+    assert_except(pb.is_satisfied());
 
     G1_precomputation<ppT> const_precomp(pb, g_val, "const_precomp");
 
     libff::affine_ate_G1_precomp<other_curve<ppT> > native_precomp = other_curve<ppT>::affine_ate_precompute_G1(g_val);
-    assert(precomp.PY_twist_squared->get_element() == native_precomp.PY_twist_squared);
-    assert(const_precomp.PY_twist_squared->get_element() == native_precomp.PY_twist_squared);
+    assert_except(precomp.PY_twist_squared->get_element() == native_precomp.PY_twist_squared);
+    assert_except(const_precomp.PY_twist_squared->get_element() == native_precomp.PY_twist_squared);
 
     printf("number of constraints for G1 precomp (Fr is %s)  = %zu\n", annotation.c_str(), pb.num_constraints());
 }
@@ -424,17 +424,17 @@ void test_G2_variable_precomp(const std::string &annotation)
 
     g.generate_r1cs_witness(g_val);
     do_precomp.generate_r1cs_witness();
-    assert(pb.is_satisfied());
+    assert_except(pb.is_satisfied());
 
     libff::affine_ate_G2_precomp<other_curve<ppT> > native_precomp = other_curve<ppT>::affine_ate_precompute_G2(g_val);
 
-    assert(precomp.coeffs.size() - 1 == native_precomp.coeffs.size()); // the last precomp is unused, but remains for convenient programming
+    assert_except(precomp.coeffs.size() - 1 == native_precomp.coeffs.size()); // the last precomp is unused, but remains for convenient programming
     for (size_t i = 0; i < native_precomp.coeffs.size(); ++i)
     {
-        assert(precomp.coeffs[i]->RX->get_element() == native_precomp.coeffs[i].old_RX);
-        assert(precomp.coeffs[i]->RY->get_element() == native_precomp.coeffs[i].old_RY);
-        assert(precomp.coeffs[i]->gamma->get_element() == native_precomp.coeffs[i].gamma);
-        assert(precomp.coeffs[i]->gamma_X->get_element() == native_precomp.coeffs[i].gamma_X);
+        assert_except(precomp.coeffs[i]->RX->get_element() == native_precomp.coeffs[i].old_RX);
+        assert_except(precomp.coeffs[i]->RY->get_element() == native_precomp.coeffs[i].old_RY);
+        assert_except(precomp.coeffs[i]->gamma->get_element() == native_precomp.coeffs[i].gamma);
+        assert_except(precomp.coeffs[i]->gamma_X->get_element() == native_precomp.coeffs[i].gamma_X);
     }
 
     printf("number of constraints for G2 precomp (Fr is %s)  = %zu\n", annotation.c_str(), pb.num_constraints());

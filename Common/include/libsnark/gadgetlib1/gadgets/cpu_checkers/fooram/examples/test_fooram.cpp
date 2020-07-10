@@ -47,7 +47,7 @@ void profile_ram_zksnark(const size_t w)
     example.time_bound = 10;
     const bool test_serialization = true;
     const bool bit = run_ram_zksnark<ppT>(example, test_serialization);
-    assert(bit);
+    assert_except(bit);
 }
 
 template<typename ppT>
@@ -61,7 +61,7 @@ void profile_ram_ppzksnark(const size_t w)
     example.time_bound = 100;
     const bool test_serialization = true;
     const bool bit = run_ram_ppzksnark<ppT>(example, test_serialization);
-    assert(bit);
+    assert_except(bit);
 }
 
 int main(int argc, const char* argv[])

@@ -14,6 +14,7 @@
 #include <string>
 #include <cassert>
 #include <boost/limits.hpp>
+#include <assert_except.h>
 
 namespace boost {
 namespace numeric {
@@ -40,17 +41,17 @@ struct checking_base
 {
   static T pos_inf()
   {
-    assert(std::numeric_limits<T>::has_infinity);
+    assert_except(std::numeric_limits<T>::has_infinity);
     return std::numeric_limits<T>::infinity();
   }
   static T neg_inf()
   {
-    assert(std::numeric_limits<T>::has_infinity);
+    assert_except(std::numeric_limits<T>::has_infinity);
     return -std::numeric_limits<T>::infinity();
   }
   static T nan()
   {
-    assert(std::numeric_limits<T>::has_quiet_NaN);
+    assert_except(std::numeric_limits<T>::has_quiet_NaN);
     return std::numeric_limits<T>::quiet_NaN();
   }
   static bool is_nan(const T& x)
@@ -79,7 +80,7 @@ struct checking_no_empty: Checking
 {
   static T nan()
   {
-    assert(false);
+    assert_except(false);
     return Checking::nan();
   }
   static T empty_lower()

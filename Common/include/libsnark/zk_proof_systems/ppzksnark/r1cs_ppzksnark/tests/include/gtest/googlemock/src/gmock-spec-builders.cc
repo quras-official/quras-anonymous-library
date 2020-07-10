@@ -306,7 +306,7 @@ const void* UntypedFunctionMockerBase::MockObject() const
     // We protect mock_obj_ under g_gmock_mutex in case this mock
     // function is called from two threads concurrently.
     MutexLock l(&g_gmock_mutex);
-    Assert(mock_obj_ != NULL, __FILE__, __LINE__,
+    assert_except(mock_obj_ != NULL, __FILE__, __LINE__,
            "MockObject() must not be called before RegisterOwner() or "
            "SetOwnerAndName() has been called.");
     mock_obj = mock_obj_;
@@ -323,7 +323,7 @@ const char* UntypedFunctionMockerBase::Name() const
     // We protect name_ under g_gmock_mutex in case this mock
     // function is called from two threads concurrently.
     MutexLock l(&g_gmock_mutex);
-    Assert(name_ != NULL, __FILE__, __LINE__,
+    assert_except(name_ != NULL, __FILE__, __LINE__,
            "Name() must not be called before SetOwnerAndName() has "
            "been called.");
     name = name_;
@@ -454,7 +454,7 @@ Expectation UntypedFunctionMockerBase::GetHandleOf(ExpectationBase* exp) {
     }
   }
 
-  Assert(false, __FILE__, __LINE__, "Cannot find expectation.");
+  assert_except(false, __FILE__, __LINE__, "Cannot find expectation.");
   return Expectation();
   // The above statement is just to make the code compile, and will
   // never be executed.

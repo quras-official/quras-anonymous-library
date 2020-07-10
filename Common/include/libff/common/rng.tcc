@@ -26,10 +26,10 @@ namespace libff {
 template<typename FieldT>
 FieldT SHA512_rng(const uint64_t idx)
 {
-    assert(GMP_NUMB_BITS == 64); // current Python code cannot handle larger values, so testing here for some assumptions.
-    assert(is_little_endian());
+    assert_except(GMP_NUMB_BITS == 64); // current Python code cannot handle larger values, so testing here for some assumptions.
+    assert_except(is_little_endian());
 
-    assert(FieldT::size_in_bits() <= SHA512_DIGEST_LENGTH * 8);
+    assert_except(FieldT::size_in_bits() <= SHA512_DIGEST_LENGTH * 8);
 
     bigint<FieldT::num_limbs> rval;
     uint64_t iter = 0;

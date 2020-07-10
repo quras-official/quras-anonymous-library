@@ -21,7 +21,7 @@ namespace libsnark {
 template<typename FieldT>
 uscs_constraint_system<FieldT> tbcs_to_uscs_instance_map(const tbcs_circuit &circuit)
 {
-    assert(circuit.is_valid());
+    assert_except(circuit.is_valid());
     uscs_constraint_system<FieldT> result;
 
 #ifdef DEBUG
@@ -127,7 +127,7 @@ uscs_constraint_system<FieldT> tbcs_to_uscs_instance_map(const tbcs_circuit &cir
             result.add_constraint(0 * x + 0 * y + 1 * z + 0, annotation);
             break;
         default:
-            assert(0);
+            assert_except(0);
         }
     }
 

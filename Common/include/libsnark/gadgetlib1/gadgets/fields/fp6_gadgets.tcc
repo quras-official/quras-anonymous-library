@@ -264,8 +264,8 @@ void Fp6_mul_by_2345_gadget<Fp6T>::generate_r1cs_witness()
 
     const Fp3T A_c0_val = A.c0.get_element();
     const Fp3T B_c0_val = B.c0.get_element();
-    assert(B_c0_val.c0.is_zero());
-    assert(B_c0_val.c1.is_zero());
+    assert_except(B_c0_val.c0.is_zero());
+    assert_except(B_c0_val.c1.is_zero());
 
     const Fp3T v0_val = A_c0_val * B_c0_val;
     v0->generate_r1cs_witness(v0_val);

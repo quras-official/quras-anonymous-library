@@ -169,7 +169,7 @@ R dynamic_any_cast_impl(Any& arg, const static_binding<Map>& map)
  * > incrementable_any;
  * auto y = dynamic_any_cast<incrementable_any>(x);
  * ++y;
- * assert(any_cast<int>(y) == 2);
+ * assert_except(any_cast<int>(y) == 2);
  * \endcode
  */
 template<class R, class Any>

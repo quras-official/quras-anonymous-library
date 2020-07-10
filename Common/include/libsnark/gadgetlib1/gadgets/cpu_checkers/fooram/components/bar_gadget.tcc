@@ -31,7 +31,7 @@ bar_gadget<FieldT>::bar_gadget(protoboard<FieldT> &pb,
     b(b),
     Z_packed(Z_packed)
 {
-    assert(X.size() == Y.size());
+    assert_except(X.size() == Y.size());
     width = X.size();
 
     result.allocate(pb, FMT(annotation_prefix, " result"));

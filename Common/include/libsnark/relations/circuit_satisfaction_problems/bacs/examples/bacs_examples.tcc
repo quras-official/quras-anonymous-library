@@ -88,7 +88,7 @@ bacs_example<FieldT> generate_bacs_example(const size_t primary_input_size,
                 gate.rhs = gate.rhs + coeff * variable<FieldT>(var_idx);
             }
 
-            assert(gate.evaluate(all_vals).is_zero());
+            assert_except(gate.evaluate(all_vals).is_zero());
         }
         else
         {
@@ -99,7 +99,7 @@ bacs_example<FieldT> generate_bacs_example(const size_t primary_input_size,
         all_vals.emplace_back(gate.evaluate(all_vals));
     }
 
-    assert(example.circuit.is_satisfied(example.primary_input, example.auxiliary_input));
+    assert_except(example.circuit.is_satisfied(example.primary_input, example.auxiliary_input));
 
     return example;
 }

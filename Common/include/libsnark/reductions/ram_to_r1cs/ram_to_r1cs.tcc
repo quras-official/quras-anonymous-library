@@ -59,7 +59,7 @@ r1cs_primary_input<ram_base_field<ramT> > ram_to_r1cs<ramT>::auxiliary_input_map
 #ifdef DEBUG
     const r1cs_primary_input<FieldT> primary_input_from_input_map = ram_to_r1cs<ramT>::primary_input_map(main_protoboard.ap, boot_trace_size_bound, boot_trace);
     const r1cs_primary_input<FieldT> primary_input_from_witness_map = main_protoboard.primary_input();
-    assert(primary_input_from_input_map == primary_input_from_witness_map);
+    assert_except(primary_input_from_input_map == primary_input_from_witness_map);
 #endif
     libff::leave_block("Call to witness_map of ram_to_r1cs");
     return main_protoboard.auxiliary_input();
@@ -116,8 +116,8 @@ r1cs_primary_input<ram_base_field<ramT> > ram_to_r1cs<ramT>::primary_input_map(c
         const size_t input_pos = it.first;
         const address_and_value av = it.second;
 
-        assert(input_pos < boot_trace_size_bound);
-        assert(bound_input_locations.find(input_pos) == bound_input_locations.end());
+        assert_except(input_pos < boot_trace_size_bound);
+        assert_except(bound_input_locations.find(input_pos) == bound_input_locations.end());
 
         const std::vector<FieldT> packed_input_element = ram_to_r1cs<ramT>::pack_primary_input_address_and_value(ap, av);
         std::copy(packed_input_element.begin(), packed_input_element.end(), result.begin() + packed_input_element_size * (boot_trace_size_bound - 1 - input_pos));

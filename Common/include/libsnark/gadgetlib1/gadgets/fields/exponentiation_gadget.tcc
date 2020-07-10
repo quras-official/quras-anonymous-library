@@ -193,8 +193,8 @@ void test_exponentiation_gadget(const libff::bigint<m> &power, const std::string
         x.generate_r1cs_witness(x_val);
         exp_gadget.generate_r1cs_witness();
         const FpkT res = x_to_power.get_element();
-        assert(pb.is_satisfied());
-        assert(res == (x_val ^ power));
+        assert_except(pb.is_satisfied());
+        assert_except(res == (x_val ^ power));
     }
     printf("number of constraints for %s_exp = %zu\n", annotation.c_str(), pb.num_constraints());
     printf("exponent was: ");

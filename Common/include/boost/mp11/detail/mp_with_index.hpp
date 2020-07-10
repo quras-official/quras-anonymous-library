@@ -13,6 +13,7 @@
 #include <type_traits>
 #include <utility>
 #include <cassert>
+#include <assert_except.h>
 
 #if !defined( BOOST_NO_CXX14_CONSTEXPR )
 # define BOOST_MP11_CONSTEXPR14 constexpr
@@ -357,7 +358,7 @@ template<> struct mp_with_index_impl_<16>
 
 template<std::size_t N, class F> inline BOOST_MP11_CONSTEXPR14 decltype(std::declval<F>()(std::declval<mp_size_t<0>>())) mp_with_index( std::size_t i, F && f )
 {
-    assert( i < N );
+    assert_except( i < N );
     return detail::mp_with_index_impl_<N>::template call<0>( i, std::forward<F>(f) );
 }
 

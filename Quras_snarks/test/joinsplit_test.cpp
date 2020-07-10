@@ -423,8 +423,6 @@ int test_merkle_tree()
 	QRIncrementalMerkleTree tree_save;
 	ss1 >> tree_save;
 
-
-
 	return 0;
 }
 
@@ -437,6 +435,15 @@ void test_genereate_key()
 	printf("Finished generation of keys\n");
 }
 
+void test_generate_key_by_constraint()
+{
+	printf("Starting generation of keys\n");
+
+	JoinSplit<2, 2>::GenerateByConstraint( "crypto//constraint.key", "crypto//vk.key", "crypto//pk.key");
+
+	printf("Finished generation of keys\n");
+}
+
 void test_generate_key(uint256 seedKey)
 {
 	printf("Starting generation of keys\n");
@@ -444,4 +451,22 @@ void test_generate_key(uint256 seedKey)
 	JoinSplit<2, 2>::Generate(seedKey, "crypto//r1cs.key", "crypto//vk.key", "crypto//pk.key");
 
 	printf("Finished generation of keys\n");
+}
+
+void generate_constraint_file(uint256 seedKey, int nStart, int nSize)
+{
+	printf("Starting generation of keys\n");
+
+	JoinSplit<2, 2>::GenerateConstraint("crypto//constraint.key", seedKey, nStart, nSize);
+
+	printf("Finishing generation of keys\n");
+}
+
+bool verify_constraint_file(std::string path, int nSize)
+{
+	printf("Verfiying Constraints\n");
+
+	bool verified = JoinSplit<2, 2>::VerifyConstraint(path, nSize);
+	printf("%d", verified);
+	return verified;
 }

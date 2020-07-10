@@ -330,20 +330,20 @@ TEST(TupleMatchesTest, WorksForSize5) {
   EXPECT_FALSE(TupleMatches(matchers, values3));
 }
 
-// Tests that Assert(true, ...) succeeds.
+// Tests that assert_except(true, ...) succeeds.
 TEST(AssertTest, SucceedsOnTrue) {
-  Assert(true, __FILE__, __LINE__, "This should succeed.");
-  Assert(true, __FILE__, __LINE__);  // This should succeed too.
+  assert_except(true, __FILE__, __LINE__, "This should succeed.");
+  assert_except(true, __FILE__, __LINE__);  // This should succeed too.
 }
 
-// Tests that Assert(false, ...) generates a fatal failure.
+// Tests that assert_except(false, ...) generates a fatal failure.
 TEST(AssertTest, FailsFatallyOnFalse) {
   EXPECT_DEATH_IF_SUPPORTED({
-    Assert(false, __FILE__, __LINE__, "This should fail.");
+    assert_except(false, __FILE__, __LINE__, "This should fail.");
   }, "");
 
   EXPECT_DEATH_IF_SUPPORTED({
-    Assert(false, __FILE__, __LINE__);
+    assert_except(false, __FILE__, __LINE__);
   }, "");
 }
 

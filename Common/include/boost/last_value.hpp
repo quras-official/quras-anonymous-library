@@ -12,6 +12,7 @@
 
 #include <cassert>
 #include <boost/config.hpp>
+#include <assert_except.h>
 
 namespace boost {
   template<typename T>
@@ -21,7 +22,7 @@ namespace boost {
     template<typename InputIterator>
     T operator()(InputIterator first, InputIterator last) const
     {
-      assert(first != last);
+      assert_except(first != last);
       T value = *first++;
       while (first != last)
         value = *first++;

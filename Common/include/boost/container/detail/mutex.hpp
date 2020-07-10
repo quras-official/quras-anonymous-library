@@ -27,6 +27,7 @@
 
 #include <boost/container/detail/config_begin.hpp>
 #include <boost/container/detail/workaround.hpp>
+#include <assert_except.h>
 
 // Extremely Light-Weight wrapper classes for OS thread synchronization
 
@@ -114,7 +115,7 @@
       }
 
       static inline void boost_container_x86_clear_lock(int* sl) {
-         assert(*sl != 0);
+         assert_except(*sl != 0);
          int prev = 0;
          int ret;
          __asm__ __volatile__ ("lock; xchgl %0, %1"

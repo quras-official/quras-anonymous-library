@@ -44,6 +44,36 @@ namespace libquras {
 		fh.flush();
 		fh.close();
 	}
+	template <typename T>
+	void saveConstraintToFile(const std::string path, T &cs, int nStart, int nSize) {
+		LOCK(cs_ParamsIO);
+
+		std::stringstream ss;
+		printf("starting from %d to %d\n", nStart, nStart + nSize);
+		cs.ConstraintRangeStreamOut(ss, nStart, nSize);
+		std::ofstream fh;
+		fh.open(path, std::ios::binary);
+		ss.rdbuf()->pubseekpos(0, std::ios_base::out);
+		fh << ss.rdbuf();
+		fh.flush();
+		fh.close();
+	}
+
+	template <typename T>
+	void readConstraintFromFile(const std::string path, T &cs, size_t nSize)
+	{
+		std::stringstream ss;
+		std::ifstream fh(path, std::ios::binary);
+
+		if (!fh.is_open()) {
+			throw std::runtime_error(strprintf("could not load param file at %s", path));
+		}
+		ss << fh.rdbuf();
+		fh.close();
+
+		ss.rdbuf()->pubseekpos(0, std::ios_base::in);
+		cs.ConstraintRangeStreamIn(ss, nSize);
+	}
 
 	template<typename T>
 	void loadFromFile(const std::string path, T& objIn) {
@@ -98,6 +128,73 @@ namespace libquras {
 			}
 		}
 
+		static void GenerateConstraint(const std::string path, uint256 seedHash, int nStart, int nSize)
+		{
+			protoboard<FieldT> pb;
+
+			int n = FieldT::capacity();
+
+			randomSeed = seedHash;
+
+			joinsplit_gadget<FieldT, NumInputs, NumOutputs> g(pb);
+			g.generate_r1cs_constraints();
+
+			auto constraint = pb.get_constraint_system();
+
+			saveConstraintToFile(path, constraint, nStart, nSize);
+		}
+
+		static bool VerifyConstraint(const std::string path, int nSize)
+		{
+			try
+			{
+				std::stringstream ss;
+				std::ifstream fh(path, std::ios::binary);
+
+				if (!fh.is_open()) {
+					throw std::runtime_error(strprintf("could not load param file at %s", path));
+				}
+				ss << fh.rdbuf();
+				fh.close();
+
+				ss.rdbuf()->pubseekpos(0, std::ios_base::in);
+
+				for (size_t i = 0; i < nSize; i++)
+				{
+					r1cs_constraint<FieldT> c;
+					ss >> c;
+				}
+				return true;
+			}
+			catch (...)
+			{
+				return false;
+			}
+		}
+
+
+		static void GenerateByConstraint(const std::string constraintPath,
+			const std::string vkPath,
+			const std::string pkPath)
+		{
+			protoboard<FieldT> pb;
+
+			int n = FieldT::capacity();
+
+			joinsplit_gadget<FieldT, NumInputs, NumOutputs> g(pb);
+			g.generate_r1cs_constraints();
+
+			auto r1cs = pb.get_constraint_system();
+
+			readConstraintFromFile(constraintPath, r1cs, r1cs.num_constraints());
+
+			r1cs_ppzksnark_keypair<ppzksnark_ppT> keypair = r1cs_ppzksnark_generator<ppzksnark_ppT>(r1cs);
+
+			saveToFile(vkPath, keypair.vk);
+			saveToFile(pkPath, keypair.pk);
+		}
+
+
 		static void generate(const std::string r1csPath,
 			const std::string vkPath,
 			const std::string pkPath)
@@ -135,8 +232,6 @@ namespace libquras {
 			g.generate_r1cs_constraints();
 
 			auto r1cs = pb.get_constraint_system();
-
-			saveToFile(r1csPath, r1cs);
 
 			r1cs_ppzksnark_keypair<ppzksnark_ppT> keypair = r1cs_ppzksnark_generator<ppzksnark_ppT>(r1cs);
 
@@ -256,8 +351,11 @@ namespace libquras {
 				out_nullifiers[i] = inputs[i].nullifier();
 			}
 
+			// Sample randomSeed
+			out_randomSeed = random_uint256();
+
 			// Compute h_sig
-			uint256 h_sig = this->h_sig(randomSeed, out_nullifiers, pubKeyHash);
+			uint256 h_sig = this->h_sig(out_randomSeed, out_nullifiers, pubKeyHash);
 
 			// Sample phi
 			uint252 phi = random_uint252();
@@ -405,6 +503,15 @@ namespace libquras {
 	}
 
 	template<size_t NumInputs, size_t NumOutputs>
+	void JoinSplit<NumInputs, NumOutputs>::GenerateByConstraint(const std::string constraintPath,
+		const std::string vkPath,
+		const std::string pkPath)
+	{
+		initialize_curve_params();
+		JoinSplitCircuit<NumInputs, NumOutputs>::GenerateByConstraint(constraintPath, vkPath, pkPath);
+	}
+
+	template<size_t NumInputs, size_t NumOutputs>
 	void JoinSplit<NumInputs, NumOutputs>::Generate(uint256 seedHash,
 		const std::string r1csPath,
 		const std::string vkPath,
@@ -412,6 +519,20 @@ namespace libquras {
 	{
 		initialize_curve_params();
 		JoinSplitCircuit<NumInputs, NumOutputs>::generate(seedHash, r1csPath, vkPath, pkPath);
+	}
+
+	template<size_t NumInputs, size_t NumOutputs>
+	void JoinSplit<NumInputs, NumOutputs>::GenerateConstraint(const std::string constraintPath, uint256 seedHash, int nStart, int nSize)
+	{
+		initialize_curve_params();
+		JoinSplitCircuit<NumInputs, NumOutputs>::GenerateConstraint(constraintPath, seedHash, nStart, nSize);
+	}
+
+	template<size_t NumInputs, size_t NumOutputs>
+	bool JoinSplit<NumInputs, NumOutputs>::VerifyConstraint(const std::string constraintPath, int nSize)
+	{
+		return JoinSplitCircuit<NumInputs, NumOutputs>::VerifyConstraint(constraintPath, nSize);
+		
 	}
 
 	template<size_t NumInputs, size_t NumOutputs>

@@ -36,7 +36,7 @@ void test_two_to_one()
     f.generate_r1cs_witness();
     output.generate_r1cs_witness(hash_bv);
 
-    assert(pb.is_satisfied());
+    assert_except(pb.is_satisfied());
 }
 
 int main(void)

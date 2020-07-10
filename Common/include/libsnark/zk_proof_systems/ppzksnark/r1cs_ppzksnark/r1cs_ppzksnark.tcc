@@ -320,7 +320,7 @@ r1cs_ppzksnark_keypair<ppT> r1cs_ppzksnark_generator(const r1cs_ppzksnark_constr
     for (size_t i = 0; i < qap_inst.num_inputs() + 1; ++i)
     {
         IC_coefficients.emplace_back(At[i]);
-        assert(!IC_coefficients[i].is_zero());
+        assert_except(!IC_coefficients[i].is_zero());
         At[i] = libff::Fr<ppT>::zero();
     }
 
@@ -434,7 +434,7 @@ r1cs_ppzksnark_proof<ppT> r1cs_ppzksnark_prover(const r1cs_ppzksnark_proving_key
     libff::enter_block("Call to r1cs_ppzksnark_prover");
 
 #ifdef DEBUG
-    assert(pk.constraint_system.is_satisfied(primary_input, auxiliary_input));
+    assert_except(pk.constraint_system.is_satisfied(primary_input, auxiliary_input));
 #endif
 
     const libff::Fr<ppT> d1 = libff::Fr<ppT>::random_element(),
@@ -448,7 +448,7 @@ r1cs_ppzksnark_proof<ppT> r1cs_ppzksnark_prover(const r1cs_ppzksnark_proving_key
 #ifdef DEBUG
     const libff::Fr<ppT> t = libff::Fr<ppT>::random_element();
     qap_instance_evaluation<libff::Fr<ppT> > qap_inst = r1cs_to_qap_instance_map_with_evaluation(pk.constraint_system, t);
-    assert(qap_inst.is_satisfied(qap_wit));
+    assert_except(qap_inst.is_satisfied(qap_wit));
 #endif
 
     knowledge_commitment<libff::G1<ppT>, libff::G1<ppT> > g_A = pk.A_query[0] + qap_wit.d1*pk.A_query[qap_wit.num_variables()+1];
@@ -464,13 +464,13 @@ r1cs_ppzksnark_proof<ppT> r1cs_ppzksnark_prover(const r1cs_ppzksnark_proving_key
 #ifdef DEBUG
     for (size_t i = 0; i < qap_wit.num_inputs() + 1; ++i)
     {
-        assert(pk.A_query[i].g == libff::G1<ppT>::zero());
+        assert_except(pk.A_query[i].g == libff::G1<ppT>::zero());
     }
-    assert(pk.A_query.domain_size() == qap_wit.num_variables()+2);
-    assert(pk.B_query.domain_size() == qap_wit.num_variables()+2);
-    assert(pk.C_query.domain_size() == qap_wit.num_variables()+2);
-    assert(pk.H_query.size() == qap_wit.degree()+1);
-    assert(pk.K_query.size() == qap_wit.num_variables()+4);
+    assert_except(pk.A_query.domain_size() == qap_wit.num_variables()+2);
+    assert_except(pk.B_query.domain_size() == qap_wit.num_variables()+2);
+    assert_except(pk.C_query.domain_size() == qap_wit.num_variables()+2);
+    assert_except(pk.H_query.size() == qap_wit.degree()+1);
+    assert_except(pk.K_query.size() == qap_wit.num_variables()+4);
 #endif
 
 #ifdef MULTICORE
@@ -570,7 +570,7 @@ bool r1cs_ppzksnark_online_verifier_weak_IC(const r1cs_ppzksnark_processed_verif
                                             const r1cs_ppzksnark_proof<ppT> &proof)
 {
     libff::enter_block("Call to r1cs_ppzksnark_online_verifier_weak_IC");
-    assert(pvk.encoded_IC_query.domain_size() >= primary_input.size());
+    assert_except(pvk.encoded_IC_query.domain_size() >= primary_input.size());
 
     libff::enter_block("Compute input-dependent part of A");
     const accumulation_vector<libff::G1<ppT> > accumulated_IC = pvk.encoded_IC_query.template accumulate_chunk<libff::Fr<ppT> >(primary_input.begin(), primary_input.end(), 0);
@@ -730,7 +730,7 @@ bool r1cs_ppzksnark_affine_verifier_weak_IC(const r1cs_ppzksnark_verification_ke
                                             const r1cs_ppzksnark_proof<ppT> &proof)
 {
     libff::enter_block("Call to r1cs_ppzksnark_affine_verifier_weak_IC");
-    assert(vk.encoded_IC_query.domain_size() >= primary_input.size());
+    assert_except(vk.encoded_IC_query.domain_size() >= primary_input.size());
 
     libff::affine_ate_G2_precomp<ppT> pvk_pp_G2_one_precomp        = ppT::affine_ate_precompute_G2(libff::G2<ppT>::one());
     libff::affine_ate_G2_precomp<ppT> pvk_vk_alphaA_g2_precomp     = ppT::affine_ate_precompute_G2(vk.alphaA_g2);
@@ -743,7 +743,7 @@ bool r1cs_ppzksnark_affine_verifier_weak_IC(const r1cs_ppzksnark_verification_ke
 
     libff::enter_block("Compute input-dependent part of A");
     const accumulation_vector<libff::G1<ppT> > accumulated_IC = vk.encoded_IC_query.template accumulate_chunk<libff::Fr<ppT> >(primary_input.begin(), primary_input.end(), 0);
-    assert(accumulated_IC.is_fully_accumulated());
+    assert_except(accumulated_IC.is_fully_accumulated());
     const libff::G1<ppT> &acc = accumulated_IC.first;
     libff::leave_block("Compute input-dependent part of A");
 

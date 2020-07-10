@@ -27,7 +27,7 @@ void test_benes(const size_t N)
 
     do {
         const benes_routing routing = get_benes_routing(permutation);
-        assert(valid_benes_routing(permutation, routing));
+        assert_except(valid_benes_routing(permutation, routing));
     } while (permutation.next_permutation());
 }
 
@@ -40,7 +40,7 @@ void test_as_waksman(const size_t N)
 
     do {
         const as_waksman_routing routing = get_as_waksman_routing(permutation);
-        assert(valid_as_waksman_routing(permutation, routing));
+        assert_except(valid_as_waksman_routing(permutation, routing));
     } while (permutation.next_permutation());
 }
 

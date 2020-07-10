@@ -12,6 +12,7 @@
 #include <functional>
 #include <boost/property_map/property_map.hpp>
 #include <boost/optional.hpp>
+#include <assert_except.h>
 #include <vector>
 #include <climits> // for CHAR_BIT
 #include <boost/none.hpp>
@@ -163,7 +164,7 @@ public:
   void remove(const value_type& x)
   {
     group* a = &index_to_group[get(id, x) / log_n];
-    assert(groups[get(id, x)]);
+    assert_except(groups[get(id, x)]);
     a->value = x;
     a->kind = smallest_key;
     promote(a);
@@ -174,14 +175,14 @@ public:
   value_type& top()
   {
     find_smallest();
-    assert(smallest_value->value != none);
+    assert_except(smallest_value->value != none);
     return *smallest_value->value;
   }
 
   const value_type& top() const
   {
     find_smallest();
-    assert(smallest_value->value != none);
+    assert_except(smallest_value->value != none);
     return *smallest_value->value;
   }
 
@@ -207,7 +208,7 @@ public:
     rank_type r = x->rank;
     group* p = x->parent;
     {
-      assert(x->value != none);
+      assert_except(x->value != none);
 
       // Find x's group
       size_type start = get(id, *x->value) - get(id, *x->value) % log_n;
@@ -241,7 +242,7 @@ public:
       y->parent = p;
       p->children[r] = y;
 
-      assert(r == y->rank);
+      assert_except(r == y->rank);
       if (A[y->rank] == x)
         A[y->rank] = do_compare(y, p)? y : 0;
     }
@@ -303,7 +304,7 @@ public:
         }
         out << "];\n";
       } else {
-        assert(p->parent == p);
+        assert_except(p->parent == p);
       }
     }
     if (!in_progress) out << "}\n";
@@ -397,10 +398,10 @@ private:
 
   void promote(group* a)
   {
-    assert(a != 0);
+    assert_except(a != 0);
     rank_type r = a->rank;
     group* p = a->parent;
-    assert(p != 0);
+    assert_except(p != 0);
     if (do_compare(a, p)) {
       // s is the rank + 1 sibling
       group* s = p->rank > r + 1? p->children[r + 1] : 0;
@@ -410,7 +411,7 @@ private:
         if (!A[r]) A[r] = a;
         else if (A[r] != a) pair_transform(a);
       } else {
-        assert(s != 0);
+        assert_except(s != 0);
         if (A[r + 1] == s) active_sibling_transform(a, s);
         else good_sibling_transform(a, s);
       }
@@ -419,7 +420,7 @@ private:
 
   group* combine(group* a1, group* a2)
   {
-    assert(a1->rank == a2->rank);
+    assert_except(a1->rank == a2->rank);
     if (do_compare(a2, a1)) do_swap(a1, a2);
     a1->children[a1->rank++] = a2;
     a2->parent = a1;
@@ -434,7 +435,7 @@ private:
     rank_type s = q->rank - 2;
     group* x = q->children[s];
     group* xp = qp->children[s];
-    assert(s == x->rank);
+    assert_except(s == x->rank);
 
     // If x is active, swap x and xp
     if (A[s] == x) {
@@ -454,34 +455,34 @@ private:
 
     // p is a's parent
     group* p = a->parent;
-    assert(p != 0);
+    assert_except(p != 0);
 
     // g is p's parent (a's grandparent)
     group* g = p->parent;
-    assert(g != 0);
+    assert_except(g != 0);
 
     // a' <- A(r)
-    assert(A[r] != 0);
+    assert_except(A[r] != 0);
     group* ap = A[r];
-    assert(ap != 0);
+    assert_except(ap != 0);
 
     // A(r) <- nil
     A[r] = 0;
 
     // let a' have parent p'
     group* pp = ap->parent;
-    assert(pp != 0);
+    assert_except(pp != 0);
 
     // let a' have grandparent g'
     group* gp = pp->parent;
-    assert(gp != 0);
+    assert_except(gp != 0);
 
     // Remove a and a' from their parents
-    assert(ap == pp->children[pp->rank-1]); // Guaranteed because ap is active
+    assert_except(ap == pp->children[pp->rank-1]); // Guaranteed because ap is active
     --pp->rank;
 
     // Guaranteed by caller
-    assert(a == p->children[p->rank-1]);
+    assert_except(a == p->children[p->rank-1]);
     --p->rank;
 
     // Note: a, ap, p, pp all have rank r
@@ -493,7 +494,7 @@ private:
 
     // Assuming k(p) <= k(p')
     // make p' the rank r child of p
-    assert(r == p->rank);
+    assert_except(r == p->rank);
     p->children[p->rank++] = pp;
     pp->parent = p;
 
@@ -501,7 +502,7 @@ private:
     group* c = combine(a, ap);
 
     // make c the rank r+1 child of g'
-    assert(gp->rank > r+1);
+    assert_except(gp->rank > r+1);
     gp->children[r+1] = c;
     c->parent = gp;
 
@@ -523,10 +524,10 @@ private:
     group* g = p->parent;
 
     // remove a, s from their parents
-    assert(s->parent == p);
-    assert(p->children[p->rank-1] == s);
+    assert_except(s->parent == p);
+    assert_except(p->children[p->rank-1] == s);
     --p->rank;
-    assert(p->children[p->rank-1] == a);
+    assert_except(p->children[p->rank-1] == a);
     --p->rank;
 
     rank_type r = a->rank;
@@ -535,7 +536,7 @@ private:
     group* c = combine(a, s);
 
     // make c the rank r+2 child of g
-    assert(g->children[r+2] == p);
+    assert_except(g->children[r+2] == p);
     g->children[r+2] = c;
     c->parent = g;
     if (A[r+2] == p) A[r+2] = c;
@@ -549,7 +550,7 @@ private:
 #endif
     rank_type r = a->rank;
     group* c = s->children[s->rank-1];
-    assert(c->rank == r);
+    assert_except(c->rank == r);
     if (A[r] == c) {
 #if defined(BOOST_RELAXED_HEAP_DEBUG) && BOOST_RELAXED_HEAP_DEBUG > 1
       std::cerr << "- good sibling pair transform\n";
@@ -565,7 +566,7 @@ private:
       p->children[r] = s;
 
       // combine a, c and let the result by the rank r+1 child of p
-      assert(p->rank > r+1);
+      assert_except(p->rank > r+1);
       group* x = combine(a, c);
       x->parent = p;
       p->children[r+1] = x;

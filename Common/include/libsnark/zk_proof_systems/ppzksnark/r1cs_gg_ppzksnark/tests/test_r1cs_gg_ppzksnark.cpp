@@ -29,7 +29,7 @@ void test_r1cs_gg_ppzksnark(size_t num_constraints,
     const bool test_serialization = true;
     r1cs_example<libff::Fr<ppT> > example = generate_r1cs_example_with_binary_input<libff::Fr<ppT> >(num_constraints, input_size);
     const bool bit = run_r1cs_gg_ppzksnark<ppT>(example, test_serialization);
-    assert(bit);
+    assert_except(bit);
 
     libff::print_header("(leave) Test R1CS GG-ppzkSNARK");
 }

@@ -61,12 +61,12 @@ void test_ALU_jmp_gadget()
 
     jmp.generate_r1cs_witness();
 
-    assert(pb.val(result) == FieldT(123));
-    assert(pb.is_satisfied());
+    assert_except(pb.val(result) == FieldT(123));
+    assert_except(pb.is_satisfied());
     libff::print_time("positive jmp test successful");
 
     pb.val(result) = FieldT(1);
-    assert(!pb.is_satisfied());
+    assert_except(!pb.is_satisfied());
     libff::print_time("negative jmp test successful");
 }
 
@@ -129,23 +129,23 @@ void test_ALU_cjmp_gadget()
     pb.val(flag) = FieldT(1);
     cjmp.generate_r1cs_witness();
 
-    assert(pb.val(result) == FieldT(123));
-    assert(pb.is_satisfied());
+    assert_except(pb.val(result) == FieldT(123));
+    assert_except(pb.is_satisfied());
     libff::print_time("positive cjmp test successful");
 
     pb.val(flag) = FieldT(0);
-    assert(!pb.is_satisfied());
+    assert_except(!pb.is_satisfied());
     libff::print_time("negative cjmp test successful");
 
     pb.val(flag) = FieldT(0);
     cjmp.generate_r1cs_witness();
 
-    assert(pb.val(result) == FieldT(456+2*ap.w/8));
-    assert(pb.is_satisfied());
+    assert_except(pb.val(result) == FieldT(456+2*ap.w/8));
+    assert_except(pb.is_satisfied());
     libff::print_time("positive cjmp test successful");
 
     pb.val(flag) = FieldT(1);
-    assert(!pb.is_satisfied());
+    assert_except(!pb.is_satisfied());
     libff::print_time("negative cjmp test successful");
 }
 
@@ -208,23 +208,23 @@ void test_ALU_cnjmp_gadget()
     pb.val(flag) = FieldT(0);
     cnjmp.generate_r1cs_witness();
 
-    assert(pb.val(result) == FieldT(123));
-    assert(pb.is_satisfied());
+    assert_except(pb.val(result) == FieldT(123));
+    assert_except(pb.is_satisfied());
     libff::print_time("positive cnjmp test successful");
 
     pb.val(flag) = FieldT(1);
-    assert(!pb.is_satisfied());
+    assert_except(!pb.is_satisfied());
     libff::print_time("negative cnjmp test successful");
 
     pb.val(flag) = FieldT(1);
     cnjmp.generate_r1cs_witness();
 
-    assert(pb.val(result) == FieldT(456 + (2*pb.ap.w/8)));
-    assert(pb.is_satisfied());
+    assert_except(pb.val(result) == FieldT(456 + (2*pb.ap.w/8)));
+    assert_except(pb.is_satisfied());
     libff::print_time("positive cnjmp test successful");
 
     pb.val(flag) = FieldT(0);
-    assert(!pb.is_satisfied());
+    assert_except(!pb.is_satisfied());
     libff::print_time("negative cnjmp test successful");
 }
 

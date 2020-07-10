@@ -19,6 +19,7 @@
 #include <vector>
 #include <cassert>
 #include <boost/limits.hpp>
+#include <assert_except.h>
 
 namespace boost {
 
@@ -116,7 +117,7 @@ namespace boost {
     };
     
     stack operator[](const bucket_type& i) {
-      assert(i < head.size());
+      assert_except(i < head.size());
       return stack(i, head.begin(), next.begin(), prev.begin(),
                    id_to_value.begin(), id);
     }

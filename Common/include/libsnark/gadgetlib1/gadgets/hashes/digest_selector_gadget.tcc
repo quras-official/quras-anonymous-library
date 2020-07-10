@@ -40,7 +40,7 @@ void digest_selector_gadget<FieldT>::generate_r1cs_witness()
 {
     is_right.evaluate(this->pb);
 
-    assert(this->pb.lc_val(is_right) == FieldT::one() || this->pb.lc_val(is_right) == FieldT::zero());
+    assert_except(this->pb.lc_val(is_right) == FieldT::one() || this->pb.lc_val(is_right) == FieldT::zero());
     if (this->pb.lc_val(is_right) == FieldT::one())
     {
         for (size_t i = 0; i < digest_size; ++i)

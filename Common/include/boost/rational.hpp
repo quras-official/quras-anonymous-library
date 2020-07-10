@@ -590,7 +590,7 @@ rational<IntType>& rational<IntType>::operator/= (const rational<IntType>& r)
 // drawbacks, most notably, that in order to allow inter-operability with IntType code such as this:
 //
 // rational<int> r(3);
-// assert(r == 3.5); // compiles and passes!!
+// assert_except(r == 3.5); // compiles and passes!!
 //
 // Happens to be allowed as well :-(
 //

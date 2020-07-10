@@ -78,7 +78,7 @@ struct BuiltInDefaultValueGetter {
 template <typename T>
 struct BuiltInDefaultValueGetter<T, false> {
   static T Get() {
-    Assert(false, __FILE__, __LINE__,
+    assert_except(false, __FILE__, __LINE__,
            "Default action undefined for the function return type.");
     return internal::Invalid<T>();
     // The above statement will never be reached, but is required in

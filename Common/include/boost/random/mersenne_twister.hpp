@@ -435,9 +435,9 @@ private:
         for(std::size_t j = 0; j < num_bits; ++j) {
             if(tmp.i >= n) tmp.twist();
             if(j == num_bits - 1)
-                assert((tmp.x[tmp.i] & 1) == 1);
+                assert_except((tmp.x[tmp.i] & 1) == 1);
             else
-                assert((tmp.x[tmp.i] & 1) == 0);
+                assert_except((tmp.x[tmp.i] & 1) == 0);
             ++tmp.i;
         }
         detail::polynomial phi;

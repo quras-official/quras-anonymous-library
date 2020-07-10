@@ -29,7 +29,7 @@ void test_qap(const size_t qap_degree, const size_t num_inputs, const bool binar
       See the transformation from R1CS to QAP for why this is the case.
       So we need that qap_degree >= num_inputs + 1.
     */
-    assert(num_inputs + 1 <= qap_degree);
+    assert_except(num_inputs + 1 <= qap_degree);
     libff::enter_block("Call to test_qap");
 
     const size_t num_constraints = qap_degree - num_inputs - 1;
@@ -52,7 +52,7 @@ void test_qap(const size_t qap_degree, const size_t num_inputs, const bool binar
     libff::leave_block("Generate constraint system and assignment");
 
     libff::enter_block("Check satisfiability of constraint system");
-    assert(example.constraint_system.is_satisfied(example.primary_input, example.auxiliary_input));
+    assert_except(example.constraint_system.is_satisfied(example.primary_input, example.auxiliary_input));
     libff::leave_block("Check satisfiability of constraint system");
 
     const FieldT t = FieldT::random_element(),
@@ -73,11 +73,11 @@ void test_qap(const size_t qap_degree, const size_t num_inputs, const bool binar
     libff::leave_block("Compute QAP witness");
 
     libff::enter_block("Check satisfiability of QAP instance 1");
-    assert(qap_inst_1.is_satisfied(qap_wit));
+    assert_except(qap_inst_1.is_satisfied(qap_wit));
     libff::leave_block("Check satisfiability of QAP instance 1");
 
     libff::enter_block("Check satisfiability of QAP instance 2");
-    assert(qap_inst_2.is_satisfied(qap_wit));
+    assert_except(qap_inst_2.is_satisfied(qap_wit));
     libff::leave_block("Check satisfiability of QAP instance 2");
 
     libff::leave_block("Call to test_qap");

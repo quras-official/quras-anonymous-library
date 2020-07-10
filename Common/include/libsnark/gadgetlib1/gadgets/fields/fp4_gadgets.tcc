@@ -388,9 +388,9 @@ Fp4_cyclotomic_sqr_gadget<Fp4T>::Fp4_cyclotomic_sqr_gadget(protoboard<FieldT> &p
 
   Corresponding test code:
 
-    assert(B.squared() == A + G + my_Fp2(A.c1 * non_residue + my_Fp::one(), A.c0));
-    assert(this->c1.squared().c0 == F.c1 * my_Fp(2).inverse());
-    assert(this->c1.squared().c1 == (F.c0 - my_Fp(1)) * (my_Fp(2) * non_residue).inverse());
+    assert_except(B.squared() == A + G + my_Fp2(A.c1 * non_residue + my_Fp::one(), A.c0));
+    assert_except(this->c1.squared().c0 == F.c1 * my_Fp(2).inverse());
+    assert_except(this->c1.squared().c1 == (F.c0 - my_Fp(1)) * (my_Fp(2) * non_residue).inverse());
 */
     c0_expr_c0.assign(pb, result.c0.c1 * FieldT(2).inverse());
     c0_expr_c1.assign(pb, (result.c0.c0 - FieldT(1)) * (FieldT(2) * Fp4T::non_residue).inverse());

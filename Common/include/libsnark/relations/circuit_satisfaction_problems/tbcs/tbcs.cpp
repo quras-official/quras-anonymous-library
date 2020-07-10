@@ -218,14 +218,14 @@ bool tbcs_circuit::is_valid() const
 tbcs_variable_assignment tbcs_circuit::get_all_wires(const tbcs_primary_input &primary_input,
                                                      const tbcs_auxiliary_input &auxiliary_input) const
 {
-    assert(primary_input.size() == primary_input_size);
-    assert(auxiliary_input.size() == auxiliary_input_size);
+    assert_except(primary_input.size() == primary_input_size);
+    assert_except(auxiliary_input.size() == auxiliary_input_size);
 
     tbcs_variable_assignment result;
     result.insert(result.end(), primary_input.begin(), primary_input.end());
     result.insert(result.end(), auxiliary_input.begin(), auxiliary_input.end());
 
-    assert(result.size() == num_inputs());
+    assert_except(result.size() == num_inputs());
 
     for (auto &g : gates)
     {
@@ -271,13 +271,13 @@ bool tbcs_circuit::is_satisfied(const tbcs_primary_input &primary_input,
 
 void tbcs_circuit::add_gate(const tbcs_gate &g)
 {
-    assert(g.output == num_wires()+1);
+    assert_except(g.output == num_wires()+1);
     gates.emplace_back(g);
 }
 
 void tbcs_circuit::add_gate(const tbcs_gate &g, const std::string &annotation)
 {
-    assert(g.output == num_wires()+1);
+    assert_except(g.output == num_wires()+1);
     gates.emplace_back(g);
 #ifdef DEBUG
     gate_annotations[g.output] = annotation;

@@ -623,7 +623,7 @@ namespace boost
      *     v ( [](vector<int>> & vec)
      *     {
      *       vec.push_back(42);
-     *       assert(vec.back() == 42);
+     *       assert_except(vec.back() == 42);
      *     } );
      *   }
      */
@@ -689,7 +689,7 @@ namespace boost
      *   void fun(synchronized_value<vector<int>> & v) {
      *     auto&& vec=v.synchronize();
      *     vec.push_back(42);
-     *     assert(vec.back() == 42);
+     *     assert_except(vec.back() == 42);
      *   }
      */
     strict_lock_ptr<T,Lockable> synchronize()

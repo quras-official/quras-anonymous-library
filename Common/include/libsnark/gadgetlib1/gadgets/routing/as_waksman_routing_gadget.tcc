@@ -272,18 +272,18 @@ void test_as_waksman_routing_gadget(const size_t num_packets, const size_t packe
     libff::print_time("generated routing assignment");
 
     printf("positive test\n");
-    assert(pb.is_satisfied());
+    assert_except(pb.is_satisfied());
     for (size_t packet_idx = 0; packet_idx < num_packets; ++packet_idx)
     {
         for (size_t bit_idx = 0; bit_idx < packet_size; ++bit_idx)
         {
-            assert(pb.val(outbits[permutation.get(packet_idx)][bit_idx]) == pb.val(randbits[packet_idx][bit_idx]));
+            assert_except(pb.val(outbits[permutation.get(packet_idx)][bit_idx]) == pb.val(randbits[packet_idx][bit_idx]));
         }
     }
 
     printf("negative test\n");
     pb.val(pb_variable<FieldT>(10)) = FieldT(12345);
-    assert(!pb.is_satisfied());
+    assert_except(!pb.is_satisfied());
 
     printf("num_constraints = %zu, num_variables = %zu\n",
            pb.num_constraints(),

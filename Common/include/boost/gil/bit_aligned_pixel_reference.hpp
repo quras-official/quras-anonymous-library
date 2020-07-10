@@ -30,6 +30,7 @@
 #include <boost/mpl/plus.hpp>
 #include <boost/mpl/push_back.hpp>
 #include <boost/mpl/vector.hpp>
+#include <assert_except.h>
 #include "gil_config.hpp"
 #include "pixel.hpp"
 #include "channel.hpp"
@@ -54,7 +55,7 @@ private:
 
 public:
     bit_range() : _current_byte(NULL), _bit_offset(0) {}
-    bit_range(byte_t* current_byte, int bit_offset) : _current_byte(current_byte), _bit_offset(bit_offset) { assert(bit_offset>=0 && bit_offset<8); } 
+    bit_range(byte_t* current_byte, int bit_offset) : _current_byte(current_byte), _bit_offset(bit_offset) { assert_except(bit_offset>=0 && bit_offset<8); } 
 
     bit_range(const bit_range& br) : _current_byte(br._current_byte), _bit_offset(br._bit_offset) {}
     template <bool M> bit_range(const bit_range<RangeSize,M>& br) : _current_byte(br._current_byte), _bit_offset(br._bit_offset) {}

@@ -114,9 +114,9 @@ void brute_force_arithmetic_gadget(const size_t w,
                     printf("flag: ");
                     pb.val(result_flag).print();
 #endif
-                    assert(pb.is_satisfied());
-                    assert(pb.val(result) == FieldT(res));
-                    assert(pb.val(result_flag) == (res_f ? FieldT::one() : FieldT::zero()));
+                    assert_except(pb.is_satisfied());
+                    assert_except(pb.val(result) == FieldT(res));
+                    assert_except(pb.val(result_flag) == (res_f ? FieldT::one() : FieldT::zero()));
                 }
             }
         }

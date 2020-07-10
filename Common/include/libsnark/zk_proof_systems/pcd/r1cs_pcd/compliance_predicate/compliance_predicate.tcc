@@ -73,7 +73,7 @@ r1cs_pcd_compliance_predicate<FieldT>::r1cs_pcd_compliance_predicate(const size_
     relies_on_same_type_inputs(relies_on_same_type_inputs),
     accepted_input_types(accepted_input_types)
 {
-    assert(max_arity == incoming_message_payload_lengths.size());
+    assert_except(max_arity == incoming_message_payload_lengths.size());
 }
 
 template<typename FieldT>
@@ -163,7 +163,7 @@ std::ostream& operator<<(std::ostream &out, const r1cs_pcd_compliance_predicate<
     out << cp.name << "\n";
     out << cp.type << "\n";
     out << cp.max_arity << "\n";
-    assert(cp.max_arity == cp.incoming_message_payload_lengths.size());
+    assert_except(cp.max_arity == cp.incoming_message_payload_lengths.size());
     for (size_t i = 0; i < cp.max_arity; ++i)
     {
         out << cp.incoming_message_payload_lengths[i] << "\n";
@@ -214,13 +214,13 @@ bool r1cs_pcd_compliance_predicate<FieldT>::is_satisfied(const std::shared_ptr<r
                                                          const std::shared_ptr<r1cs_pcd_local_data<FieldT> > &local_data,
                                                          const r1cs_pcd_witness<FieldT> &witness) const
 {
-    assert(outgoing_message.payload_as_r1cs_variable_assignment().size() == outgoing_message_payload_length);
-    assert(incoming_messages.size() <= max_arity);
+    assert_except(outgoing_message.payload_as_r1cs_variable_assignment().size() == outgoing_message_payload_length);
+    assert_except(incoming_messages.size() <= max_arity);
     for (size_t i = 0; i < incoming_messages.size(); ++i)
     {
-        assert(incoming_messages[i].payload_as_r1cs_variable_assignment().size() == incoming_message_payload_lengths[i]);
+        assert_except(incoming_messages[i].payload_as_r1cs_variable_assignment().size() == incoming_message_payload_lengths[i]);
     }
-    assert(local_data.as_r1cs_variable_assignment().size() == local_data_length);
+    assert_except(local_data.as_r1cs_variable_assignment().size() == local_data_length);
 
     r1cs_pcd_compliance_predicate_primary_input<FieldT> cp_primary_input(outgoing_message);
     r1cs_pcd_compliance_predicate_auxiliary_input<FieldT> cp_auxiliary_input(incoming_messages, local_data, witness);

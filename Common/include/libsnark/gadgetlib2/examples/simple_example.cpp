@@ -46,8 +46,8 @@ r1cs_example<libff::Fr<libff::default_ec_pp> > gen_r1cs_example_from_gadgetlib2_
     const r1cs_primary_input<FieldT> primary_input(full_assignment.begin(), full_assignment.begin() + cs.num_inputs());
     const r1cs_auxiliary_input<FieldT> auxiliary_input(full_assignment.begin() + cs.num_inputs(), full_assignment.end());
 
-    assert(cs.is_valid());
-    assert(cs.is_satisfied(primary_input, auxiliary_input));
+    assert_except(cs.is_valid());
+    assert_except(cs.is_satisfied(primary_input, auxiliary_input));
 
     return r1cs_example<FieldT>(cs, primary_input, auxiliary_input);
 }

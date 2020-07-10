@@ -41,13 +41,13 @@ ram_pcd_message<ramT>::ram_pcd_message(const size_t type,
     has_accepted(has_accepted)
 {
     const size_t digest_size = CRH_with_bit_out_gadget<FieldT>::get_digest_len();
-    assert(libff::log2(timestamp) < ramT::timestamp_length);
-    assert(root_initial.size() == digest_size);
-    assert(root.size() == digest_size);
-    assert(libff::log2(pc_addr) < ap.address_size());
-    assert(cpu_state.size() == ap.cpu_state_size());
-    assert(libff::log2(pc_addr_initial) < ap.address_size());
-    assert(cpu_state_initial.size() == ap.cpu_state_size());
+    assert_except(libff::log2(timestamp) < ramT::timestamp_length);
+    assert_except(root_initial.size() == digest_size);
+    assert_except(root.size() == digest_size);
+    assert_except(libff::log2(pc_addr) < ap.address_size());
+    assert_except(cpu_state.size() == ap.cpu_state_size());
+    assert_except(libff::log2(pc_addr_initial) < ap.address_size());
+    assert_except(cpu_state_initial.size() == ap.cpu_state_size());
 }
 
 template<typename ramT>
@@ -68,7 +68,7 @@ libff::bit_vector ram_pcd_message<ramT>::unpacked_payload_as_bits() const
     result.insert(result.end(), cpu_state_initial.begin(), cpu_state_initial.end());
     result.insert(result.end(), has_accepted);
 
-    assert(result.size() == unpacked_payload_size_in_bits(ap));
+    assert_except(result.size() == unpacked_payload_size_in_bits(ap));
     return result;
 }
 
@@ -512,7 +512,7 @@ void ram_compliance_predicate_handler<ramT>::generate_r1cs_witness(const std::ve
                                                                    const std::shared_ptr<r1cs_pcd_local_data<FieldT> > &local_data_value)
 {
     const std::shared_ptr<ram_pcd_local_data<ramT> > ram_local_data_value = std::dynamic_pointer_cast<ram_pcd_local_data<ramT> >(local_data_value);
-    assert(ram_local_data_value->mem.num_addresses == 1ull << addr_size); // check value_size and num_addresses too
+    assert_except(ram_local_data_value->mem.num_addresses == 1ull << addr_size); // check value_size and num_addresses too
 
     base_handler::generate_r1cs_witness(incoming_message_values, local_data_value);
     cur->generate_r1cs_witness_from_packed();
@@ -533,7 +533,7 @@ void ram_compliance_predicate_handler<ramT>::generate_r1cs_witness(const std::ve
     {
         this->pb.val(cur->root_initial[i]).print();
         this->pb.val(next->root_initial[i]).print();
-        assert(this->pb.val(cur->root_initial[i]) == this->pb.val(next->root_initial[i]));
+        assert_except(this->pb.val(cur->root_initial[i]) == this->pb.val(next->root_initial[i]));
     }
 
     copy_pc_addr_initial->generate_r1cs_witness();
@@ -598,7 +598,7 @@ void ram_compliance_predicate_handler<ramT>::generate_r1cs_witness(const std::ve
     const size_t int_ls_prev_val = ram_local_data_value->mem.get_value(int_ls_addr);
     const merkle_authentication_path prev_path = ram_local_data_value->mem.get_path(int_ls_addr);
     ls_prev_val.fill_with_bits_of_ulong(this->pb, int_ls_prev_val);
-    assert(ls_prev_val.get_field_element_from_bits(this->pb) == FieldT(int_ls_prev_val, true));
+    assert_except(ls_prev_val.get_field_element_from_bits(this->pb) == FieldT(int_ls_prev_val, true));
     // Step 2: Execute CPU checker and delegated memory
     cpu_checker->generate_r1cs_witness_other(ram_local_data_value->aux_it, ram_local_data_value->aux_end);
 #ifdef DEBUG

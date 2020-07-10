@@ -7,6 +7,7 @@
 #define BOOST_ENVIRONMENT_ITERATOR_VP_2004_05_14
 
 #include "eof_iterator.hpp"
+#include "assert_except.h"
 
 #include <utility>
 #include <string>
@@ -37,7 +38,7 @@ namespace boost {
             else {
                 std::string s(*m_environment);
                 std::string::size_type n = s.find('=');
-                assert(n != s.npos);
+                assert_except(n != s.npos);
                 value().first = s.substr(0, n);
                 value().second = s.substr(n+1);
                 

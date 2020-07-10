@@ -46,7 +46,7 @@ tinyram_standard_gadget<FieldT>(pb, annotation_prefix), prev_pc_addr(prev_pc_add
     arg2_is_imm = *pc_val_it; std::advance(pc_val_it, 1);
     opcode = pb_variable_array<FieldT>(pc_val_it, pc_val_it + pb.ap.opcode_width()); std::advance(pc_val_it, pb.ap.opcode_width());
 
-    assert(pc_val_it == prev_pc_val.end());
+    assert_except(pc_val_it == prev_pc_val.end());
 
     /* parse state as registers + flags */
     pb_variable_array<FieldT> packed_prev_registers, packed_next_registers;

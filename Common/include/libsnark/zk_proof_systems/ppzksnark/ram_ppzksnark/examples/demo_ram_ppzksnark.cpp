@@ -146,7 +146,7 @@ int main(int argc, const char * argv[])
     const r1cs_constraint_system<FieldT> constraint_system = r.get_constraint_system();
 
     r.print_execution_trace();
-    assert(constraint_system.is_satisfied(r1cs_primary_input, r1cs_auxiliary_input));
+    assert_except(constraint_system.is_satisfied(r1cs_primary_input, r1cs_auxiliary_input));
 
     printf("\nPress enter to continue.\n");
     std::cin.get();

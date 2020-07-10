@@ -75,7 +75,7 @@ bool run_uscs_ppzksnark(const uscs_example<libff::Fr<ppT> > &example,
 
     libff::print_header("USCS ppzkSNARK Online Verifier");
     bool ans2 = uscs_ppzksnark_online_verifier_strong_IC<ppT>(pvk, example.primary_input, proof);
-    assert(ans == ans2);
+    assert_except(ans == ans2);
 
     libff::leave_block("Call to run_uscs_ppzksnark");
 

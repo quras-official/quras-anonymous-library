@@ -15,6 +15,7 @@
 #include <functional>
 #include <boost/config.hpp>
 #include <boost/property_map/property_map.hpp>
+#include <assert_except.h>
 
 //
 // An adaptation of Knuth's Fibonacci heap implementation
@@ -174,7 +175,7 @@ public:
   // 34
   void update(const T& d) {
     size_type v = get(_id, d);
-    assert(!_compare(_key[v], d));
+    assert_except(!_compare(_key[v], d));
     _key[v] = d;
     size_type p = _p[v];
     if (p == nil()) {

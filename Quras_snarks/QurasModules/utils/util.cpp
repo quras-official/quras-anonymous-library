@@ -124,6 +124,7 @@ public:
 	{
 		// Init OpenSSL library multithreading support
 		ppmutexOpenSSL = (CCriticalSection**)OPENSSL_malloc(CRYPTO_num_locks() * sizeof(CCriticalSection*));
+		assert(ppmutexOpenSSL != NULL);
 		for (int i = 0; i < CRYPTO_num_locks(); i++)
 			ppmutexOpenSSL[i] = new CCriticalSection();
 		CRYPTO_set_locking_callback(locking_callback);

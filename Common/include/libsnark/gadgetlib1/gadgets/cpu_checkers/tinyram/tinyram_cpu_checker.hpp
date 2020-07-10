@@ -87,7 +87,7 @@ public:
                         const std::string &annotation_prefix);
 
     void generate_r1cs_constraints();
-    void generate_r1cs_witness() { assert(0); }
+    void generate_r1cs_witness() { assert_except(0); }
     void generate_r1cs_witness_address();
     void generate_r1cs_witness_other(tinyram_input_tape_iterator &aux_it,
                                      const tinyram_input_tape_iterator &aux_end);

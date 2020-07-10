@@ -48,6 +48,7 @@
 #include "boost/utility/addressof.hpp"
 #include "boost/detail/no_exceptions_support.hpp"
 #include "boost/throw_exception.hpp"
+#include "assert_except.h"
 
 
 namespace boost {
@@ -63,7 +64,7 @@ class dynamic_bitset
     // of VC++ are likely able to digest a more drinking form of the
     // code; but changing it now is probably not worth the risks...]
 
-    BOOST_STATIC_ASSERT((bool)detail::dynamic_bitset_impl::allowed_block_type<Block>::value);
+    BOOST_STATIC_assert_except((bool)detail::dynamic_bitset_impl::allowed_block_type<Block>::value);
     typedef std::vector<Block, Allocator> buffer_type;
 
 public:
@@ -88,7 +89,7 @@ public:
         // the one and only non-copy ctor
         reference(block_type & b, block_width_type pos)
             :m_block(b),
-             m_mask( (assert(pos < bits_per_block),
+             m_mask( (assert_except(pos < bits_per_block),
                       block_type(1) << pos )
                    )
         { }
@@ -204,7 +205,7 @@ public:
     template <typename BlockIter>
     void init_from_block_range(BlockIter first, BlockIter last)
     {
-        assert(m_bits.size() == 0);
+        assert_except(m_bits.size() == 0);
         m_bits.insert(m_bits.end(), first, last);
         m_num_bits = m_bits.size() * bits_per_block;
     }
@@ -240,7 +241,7 @@ public:
     template <typename BlockInputIterator>
     void m_append(BlockInputIterator first, BlockInputIterator last, std::forward_iterator_tag)
     {
-        assert(first != last);
+        assert_except(first != last);
         block_width_type r = count_extra_bits();
         std::size_t d = boost::detail::distance(first, last);
         m_bits.reserve(num_blocks() + d);
@@ -376,7 +377,7 @@ private:
         typename std::basic_string<CharT, Traits, Alloc>::size_type n,
         size_type num_bits)
     {
-        assert(pos <= s.size());
+        assert_except(pos <= s.size());
 
         typedef typename std::basic_string<CharT, Traits, Alloc> StrT;
         typedef typename StrT::traits_type Tr;
@@ -396,7 +397,7 @@ private:
 
             const CharT c = s[(pos + m - 1) - i];
 
-            assert( Tr::eq(c, one)
+            assert_except( Tr::eq(c, one)
                     || Tr::eq(c, BOOST_DYNAMIC_BITSET_WIDEN_CHAR(fac, '0')) );
 
             if (Tr::eq(c, one))
@@ -411,7 +412,7 @@ private:
                                  const Allocator& alloc*/)
     {
 
-        assert(m_bits.size() == 0);
+        assert_except(m_bits.size() == 0);
 
         m_bits.resize(calc_num_blocks(num_bits));
         m_num_bits = num_bits;
@@ -483,7 +484,7 @@ BOOST_DYNAMIC_BITSET_PRIVATE:
             if (offs)
                 bs >>= (bits_per_block - offs);
             bs.resize(n); // doesn't enlarge, so can't throw
-            assert(bs.m_check_invariants());
+            assert_except(bs.m_check_invariants());
         }
         inline void do_append(bool value) {
 
@@ -641,7 +642,7 @@ template <typename Block, typename Allocator>
 inline dynamic_bitset<Block, Allocator>::
 ~dynamic_bitset()
 {
-    assert(m_check_invariants());
+    assert_except(m_check_invariants());
 }
 
 template <typename Block, typename Allocator>
@@ -668,8 +669,8 @@ inline dynamic_bitset<Block, Allocator>::
 dynamic_bitset(dynamic_bitset<Block, Allocator>&& b)
   : m_bits(boost::move(b.m_bits)), m_num_bits(boost::move(b.m_num_bits))
 {
-    // Required so that assert(m_check_invariants()); works.
-    assert((b.m_bits = buffer_type()).empty());
+    // Required so that assert_except(m_check_invariants()); works.
+    assert_except((b.m_bits = buffer_type()).empty());
     b.m_num_bits = 0;
 }
 
@@ -681,8 +682,8 @@ operator=(dynamic_bitset<Block, Allocator>&& b)
 
     m_bits = boost::move(b.m_bits);
     m_num_bits = boost::move(b.m_num_bits);
-    // Required so that assert(m_check_invariants()); works.
-    assert((b.m_bits = buffer_type()).empty());
+    // Required so that assert_except(m_check_invariants()); works.
+    assert_except((b.m_bits = buffer_type()).empty());
     b.m_num_bits = 0;
     return *this;
 }
@@ -728,7 +729,7 @@ resize(size_type num_bits, bool value) // strong guarantee
 
     const block_width_type extra_bits = count_extra_bits();
     if (extra_bits) {
-        assert(old_num_blocks >= 1 && old_num_blocks <= m_bits.size());
+        assert_except(old_num_blocks >= 1 && old_num_blocks <= m_bits.size());
 
         // Set them.
         m_bits[old_num_blocks - 1] |= (v << extra_bits);
@@ -791,7 +792,7 @@ append(Block value) // strong guarantee
     }
 
     m_num_bits += bits_per_block;
-    assert(m_check_invariants());
+    assert_except(m_check_invariants());
 
 }
 
@@ -802,7 +803,7 @@ template <typename Block, typename Allocator>
 dynamic_bitset<Block, Allocator>&
 dynamic_bitset<Block, Allocator>::operator&=(const dynamic_bitset& rhs)
 {
-    assert(size() == rhs.size());
+    assert_except(size() == rhs.size());
     for (size_type i = 0; i < num_blocks(); ++i)
         m_bits[i] &= rhs.m_bits[i];
     return *this;
@@ -812,7 +813,7 @@ template <typename Block, typename Allocator>
 dynamic_bitset<Block, Allocator>&
 dynamic_bitset<Block, Allocator>::operator|=(const dynamic_bitset& rhs)
 {
-    assert(size() == rhs.size());
+    assert_except(size() == rhs.size());
     for (size_type i = 0; i < num_blocks(); ++i)
         m_bits[i] |= rhs.m_bits[i];
     //m_zero_unused_bits();
@@ -823,7 +824,7 @@ template <typename Block, typename Allocator>
 dynamic_bitset<Block, Allocator>&
 dynamic_bitset<Block, Allocator>::operator^=(const dynamic_bitset& rhs)
 {
-    assert(size() == rhs.size());
+    assert_except(size() == rhs.size());
     for (size_type i = 0; i < this->num_blocks(); ++i)
         m_bits[i] ^= rhs.m_bits[i];
     //m_zero_unused_bits();
@@ -834,7 +835,7 @@ template <typename Block, typename Allocator>
 dynamic_bitset<Block, Allocator>&
 dynamic_bitset<Block, Allocator>::operator-=(const dynamic_bitset& rhs)
 {
-    assert(size() == rhs.size());
+    assert_except(size() == rhs.size());
     for (size_type i = 0; i < num_blocks(); ++i)
         m_bits[i] &= ~rhs.m_bits[i];
     //m_zero_unused_bits();
@@ -963,7 +964,7 @@ template <typename Block, typename Allocator>
 dynamic_bitset<Block, Allocator>&
 dynamic_bitset<Block, Allocator>::set(size_type pos, bool val)
 {
-    assert(pos < m_num_bits);
+    assert_except(pos < m_num_bits);
 
     if (val)
         m_bits[block_index(pos)] |= bit_mask(pos);
@@ -986,7 +987,7 @@ template <typename Block, typename Allocator>
 dynamic_bitset<Block, Allocator>&
 dynamic_bitset<Block, Allocator>::reset(size_type pos)
 {
-    assert(pos < m_num_bits);
+    assert_except(pos < m_num_bits);
 #if defined __MWERKS__ && BOOST_WORKAROUND(__MWERKS__, <= 0x3003) // 8.x
     // CodeWarrior 8 generates incorrect code when the &=~ is compiled,
     // use the |^ variation instead.. <grafik>
@@ -1010,7 +1011,7 @@ template <typename Block, typename Allocator>
 dynamic_bitset<Block, Allocator>&
 dynamic_bitset<Block, Allocator>::flip(size_type pos)
 {
-    assert(pos < m_num_bits);
+    assert_except(pos < m_num_bits);
     m_bits[block_index(pos)] ^= bit_mask(pos);
     return *this;
 }
@@ -1034,7 +1035,7 @@ bool dynamic_bitset<Block, Allocator>::m_unchecked_test(size_type pos) const
 template <typename Block, typename Allocator>
 bool dynamic_bitset<Block, Allocator>::test(size_type pos) const
 {
-    assert(pos < m_num_bits);
+    assert_except(pos < m_num_bits);
     return m_unchecked_test(pos);
 }
 
@@ -1225,7 +1226,7 @@ to_ulong() const
 
   const size_type last_block = block_index( maximum_size - 1 );
 
-  assert((last_block * bits_per_block) < static_cast<size_type>(ulong_width));
+  assert_except((last_block * bits_per_block) < static_cast<size_type>(ulong_width));
 
   result_type result = 0;
   for (size_type i = 0; i <= last_block; ++i) {
@@ -1303,7 +1304,7 @@ template <typename Block, typename Allocator>
 bool dynamic_bitset<Block, Allocator>::
 is_subset_of(const dynamic_bitset<Block, Allocator>& a) const
 {
-    assert(size() == a.size());
+    assert_except(size() == a.size());
     for (size_type i = 0; i < num_blocks(); ++i)
         if (m_bits[i] & ~a.m_bits[i])
             return false;
@@ -1314,8 +1315,8 @@ template <typename Block, typename Allocator>
 bool dynamic_bitset<Block, Allocator>::
 is_proper_subset_of(const dynamic_bitset<Block, Allocator>& a) const
 {
-    assert(size() == a.size());
-    assert(num_blocks() == a.num_blocks());
+    assert_except(size() == a.size());
+    assert_except(num_blocks() == a.num_blocks());
 
     bool proper = false;
     for (size_type i = 0; i < num_blocks(); ++i) {
@@ -1424,7 +1425,7 @@ template <typename Block, typename Allocator>
 bool operator<(const dynamic_bitset<Block, Allocator>& a,
                const dynamic_bitset<Block, Allocator>& b)
 {
-//    assert(a.size() == b.size());
+//    assert_except(a.size() == b.size());
 
     typedef BOOST_DEDUCED_TYPENAME dynamic_bitset<Block, Allocator>::size_type size_type;
     
@@ -1473,14 +1474,14 @@ template <typename Block, typename Allocator>
 bool oplessthan(const dynamic_bitset<Block, Allocator>& a,
                const dynamic_bitset<Block, Allocator>& b)
 {
-//    assert(a.size() == b.size());
+//    assert_except(a.size() == b.size());
 
     typedef BOOST_DEDUCED_TYPENAME dynamic_bitset<Block, Allocator>::size_type size_type;
     
     size_type asize(a.num_blocks());
     size_type bsize(b.num_blocks());
-    assert(asize == 3);
-    assert(bsize == 4);
+    assert_except(asize == 3);
+    assert_except(bsize == 4);
 
     if (!bsize)
         {
@@ -1494,7 +1495,7 @@ bool oplessthan(const dynamic_bitset<Block, Allocator>& a,
         {
         
         size_type leqsize(std::min BOOST_PREVENT_MACRO_SUBSTITUTION(asize,bsize));
-        assert(leqsize == 3);
+        assert_except(leqsize == 3);
     
         //if (a.size() == 0)
         //  return false;
@@ -1921,7 +1922,7 @@ inline Block& dynamic_bitset<Block, Allocator>::m_highest_block()
 template <typename Block, typename Allocator>
 inline const Block& dynamic_bitset<Block, Allocator>::m_highest_block() const
 {
-    assert(size() > 0 && num_blocks() > 0);
+    assert_except(size() > 0 && num_blocks() > 0);
     return m_bits.back();
 }
 

@@ -71,7 +71,7 @@ ram_universal_gadget<ramT>::ram_universal_gadget(ram_protoboard<ramT> &pb,
     const size_t line_size_bits = pb.ap.address_size() + pb.ap.value_size();
     const size_t max_chunk_size = FieldT::capacity();
     const size_t packed_line_size = libff::div_ceil(line_size_bits, max_chunk_size);
-    assert(packed_input.size() == packed_line_size * boot_trace_size_bound);
+    assert_except(packed_input.size() == packed_line_size * boot_trace_size_bound);
 
     auto input_it = packed_input.begin();
     for (size_t i = 0; i < boot_trace_size_bound; ++i)
@@ -249,7 +249,7 @@ void ram_universal_gadget<ramT>::generate_r1cs_witness(const ram_boot_trace<ramT
     for (auto it : boot_trace.get_all_trace_entries())
     {
         const size_t boot_pos = it.first;
-        assert(boot_pos < boot_trace_size_bound);
+        assert_except(boot_pos < boot_trace_size_bound);
         const size_t address = it.second.first;
         const size_t contents = it.second.second;
 

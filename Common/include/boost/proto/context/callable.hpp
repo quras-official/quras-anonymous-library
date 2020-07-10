@@ -191,7 +191,7 @@ namespace boost { namespace proto
         /// literal<int> i = 0, j = 10;
         /// proto::eval( i - j * 3.14, increment_ints() );
         ///
-        /// assert( i.get() == 1 && j.get() == 11 );
+        /// assert_except( i.get() == 1 && j.get() == 11 );
         /// \endcode
         template<
             typename Context

@@ -149,7 +149,7 @@ public:
     reg_count_t k; /* number of registers */
 
     tinyram_architecture_params() {};
-    tinyram_architecture_params(const reg_width_t w, const reg_count_t k) : w(w), k(k) { assert(w == 1ull << libff::log2(w)); };
+    tinyram_architecture_params(const reg_width_t w, const reg_count_t k) : w(w), k(k) { assert_except(w == 1ull << libff::log2(w)); };
 
     size_t address_size() const;
     size_t value_size() const;

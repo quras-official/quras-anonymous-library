@@ -345,13 +345,13 @@ void test_mnt_miller_loop(const std::string &annotation)
     Q.generate_r1cs_witness(Q_val);
     compute_prec_Q.generate_r1cs_witness();
     miller.generate_r1cs_witness();
-    assert(pb.is_satisfied());
+    assert_except(pb.is_satisfied());
 
     libff::affine_ate_G1_precomp<other_curve<ppT> > native_prec_P = other_curve<ppT>::affine_ate_precompute_G1(P_val);
     libff::affine_ate_G2_precomp<other_curve<ppT> > native_prec_Q = other_curve<ppT>::affine_ate_precompute_G2(Q_val);
     libff::Fqk<other_curve<ppT> > native_result = other_curve<ppT>::affine_ate_miller_loop(native_prec_P, native_prec_Q);
 
-    assert(result.get_element() == native_result);
+    assert_except(result.get_element() == native_result);
     printf("number of constraints for Miller loop (Fr is %s)  = %zu\n", annotation.c_str(), pb.num_constraints());
 }
 
@@ -588,7 +588,7 @@ void test_mnt_e_over_e_miller_loop(const std::string &annotation)
     Q2.generate_r1cs_witness(Q2_val);
     compute_prec_Q2.generate_r1cs_witness();
     miller.generate_r1cs_witness();
-    assert(pb.is_satisfied());
+    assert_except(pb.is_satisfied());
 
     libff::affine_ate_G1_precomp<other_curve<ppT> > native_prec_P1 = other_curve<ppT>::affine_ate_precompute_G1(P1_val);
     libff::affine_ate_G2_precomp<other_curve<ppT> > native_prec_Q1 = other_curve<ppT>::affine_ate_precompute_G2(Q1_val);
@@ -597,7 +597,7 @@ void test_mnt_e_over_e_miller_loop(const std::string &annotation)
     libff::Fqk<other_curve<ppT> > native_result = (other_curve<ppT>::affine_ate_miller_loop(native_prec_P1, native_prec_Q1) *
                                             other_curve<ppT>::affine_ate_miller_loop(native_prec_P2, native_prec_Q2).inverse());
 
-    assert(result.get_element() == native_result);
+    assert_except(result.get_element() == native_result);
     printf("number of constraints for e over e Miller loop (Fr is %s)  = %zu\n", annotation.c_str(), pb.num_constraints());
 }
 
@@ -880,7 +880,7 @@ void test_mnt_e_times_e_over_e_miller_loop(const std::string &annotation)
     Q3.generate_r1cs_witness(Q3_val);
     compute_prec_Q3.generate_r1cs_witness();
     miller.generate_r1cs_witness();
-    assert(pb.is_satisfied());
+    assert_except(pb.is_satisfied());
 
     libff::affine_ate_G1_precomp<other_curve<ppT> > native_prec_P1 = other_curve<ppT>::affine_ate_precompute_G1(P1_val);
     libff::affine_ate_G2_precomp<other_curve<ppT> > native_prec_Q1 = other_curve<ppT>::affine_ate_precompute_G2(Q1_val);
@@ -892,7 +892,7 @@ void test_mnt_e_times_e_over_e_miller_loop(const std::string &annotation)
                                             other_curve<ppT>::affine_ate_miller_loop(native_prec_P2, native_prec_Q2) *
                                             other_curve<ppT>::affine_ate_miller_loop(native_prec_P3, native_prec_Q3).inverse());
 
-    assert(result.get_element() == native_result);
+    assert_except(result.get_element() == native_result);
     printf("number of constraints for e times e over e Miller loop (Fr is %s)  = %zu\n", annotation.c_str(), pb.num_constraints());
 }
 

@@ -48,8 +48,8 @@ public:
                             RealType beta_arg = RealType(1.0))
           : _alpha(alpha_arg), _beta(beta_arg)
         {
-            assert(alpha_arg > 0);
-            assert(beta_arg > 0);
+            assert_except(alpha_arg > 0);
+            assert_except(beta_arg > 0);
         }
 
         /** Returns the "alpha" parameter of the distribtuion. */
@@ -86,8 +86,8 @@ public:
                                RealType beta_arg = RealType(1.0))
       : _alpha(alpha_arg), _beta(beta_arg)
     {
-        assert(alpha_arg > 0);
-        assert(beta_arg > 0);
+        assert_except(alpha_arg > 0);
+        assert_except(beta_arg > 0);
     }
     /** Constructs an @c beta_distribution from its parameters. */
     explicit beta_distribution(const param_type& parm)

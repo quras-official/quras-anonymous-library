@@ -36,7 +36,7 @@ test_affine_verifier(const r1cs_ppzksnark_verification_key<ppT> &vk,
 {
     libff::print_header("R1CS ppzkSNARK Affine Verifier");
     const bool answer = r1cs_ppzksnark_affine_verifier_weak_IC<ppT>(vk, primary_input, proof);
-    assert(answer == expected_answer);
+    assert_except(answer == expected_answer);
 }
 
 template<typename ppT>
@@ -156,7 +156,7 @@ bool run_r1cs_ppzksnark(const r1cs_example<libff::Fr<ppT> > &example,
 	
 
     const bool ans2 = r1cs_ppzksnark_online_verifier_strong_IC<ppT>(pvk, input, proof);
-    assert(ans == ans2);
+    assert_except(ans == ans2);
 
     test_affine_verifier<ppT>(keypair.vk, example.primary_input, proof, ans);
 

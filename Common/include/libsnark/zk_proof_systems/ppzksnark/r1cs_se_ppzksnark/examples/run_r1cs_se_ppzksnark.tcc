@@ -76,7 +76,7 @@ bool run_r1cs_se_ppzksnark(const r1cs_example<libff::Fr<ppT> > &example,
 
     libff::print_header("R1CS SEppzkSNARK Online Verifier");
     const bool ans2 = r1cs_se_ppzksnark_online_verifier_strong_IC<ppT>(pvk, example.primary_input, proof);
-    assert(ans == ans2);
+    assert_except(ans == ans2);
 
     libff::leave_block("Call to run_r1cs_se_ppzksnark");
 

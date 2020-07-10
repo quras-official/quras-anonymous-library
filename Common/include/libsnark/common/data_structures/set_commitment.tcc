@@ -27,7 +27,7 @@ set_commitment_accumulator<HashT>::set_commitment_accumulator(const size_t max_e
 template<typename HashT>
 void set_commitment_accumulator<HashT>::add(const libff::bit_vector &value)
 {
-    assert(value_size == 0 || value.size() == value_size);
+    assert_except(value_size == 0 || value.size() == value_size);
     const libff::bit_vector hash = HashT::get_hash(value);
     if (hash_to_pos.find(hash) == hash_to_pos.end())
     {
@@ -40,7 +40,7 @@ void set_commitment_accumulator<HashT>::add(const libff::bit_vector &value)
 template<typename HashT>
 bool set_commitment_accumulator<HashT>::is_in_set(const libff::bit_vector &value) const
 {
-    assert(value_size == 0 || value.size() == value_size);
+    assert_except(value_size == 0 || value.size() == value_size);
     const libff::bit_vector hash = HashT::get_hash(value);
     return (hash_to_pos.find(hash) != hash_to_pos.end());
 }
@@ -56,7 +56,7 @@ set_membership_proof set_commitment_accumulator<HashT>::get_membership_proof(con
 {
     const libff::bit_vector hash = HashT::get_hash(value);
     auto it = hash_to_pos.find(hash);
-    assert(it != hash_to_pos.end());
+    assert_except(it != hash_to_pos.end());
 
     set_membership_proof proof;
     proof.address = it->second;

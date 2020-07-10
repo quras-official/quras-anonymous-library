@@ -419,7 +419,7 @@ inline api::object_base& api::object_base::operator=(api::object_base const& rhs
 
 inline api::object_base::~object_base()
 {
-    assert( Py_REFCNT(m_ptr) > 0 );
+    assert_except( Py_REFCNT(m_ptr) > 0 );
     Py_DECREF(m_ptr);
 }
 

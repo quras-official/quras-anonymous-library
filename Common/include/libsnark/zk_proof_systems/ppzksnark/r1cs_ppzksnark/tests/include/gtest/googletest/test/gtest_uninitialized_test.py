@@ -39,7 +39,7 @@ import gtest_test_utils
 COMMAND = gtest_test_utils.GetTestExecutablePath('gtest_uninitialized_test_')
 
 
-def Assert(condition):
+def assert_except(condition):
   if not condition:
     raise AssertionError
 
@@ -56,9 +56,9 @@ def TestExitCodeAndOutput(command):
 
   # Verifies that 'command' exits with code 1.
   p = gtest_test_utils.Subprocess(command)
-  Assert(p.exited)
+  assert_except(p.exited)
   AssertEq(1, p.exit_code)
-  Assert('InitGoogleTest' in p.output)
+  assert_except('InitGoogleTest' in p.output)
 
 
 class GTestUninitializedTest(gtest_test_utils.TestCase):

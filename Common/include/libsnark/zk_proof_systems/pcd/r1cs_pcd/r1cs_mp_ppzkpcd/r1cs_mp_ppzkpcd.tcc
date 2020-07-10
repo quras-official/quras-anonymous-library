@@ -223,8 +223,8 @@ std::istream& operator>>(std::istream &in, r1cs_mp_ppzkpcd_proof<PCD_ppT> &proof
 template<typename PCD_ppT>
 r1cs_mp_ppzkpcd_keypair<PCD_ppT> r1cs_mp_ppzkpcd_generator(const std::vector<r1cs_mp_ppzkpcd_compliance_predicate<PCD_ppT> > &compliance_predicates)
 {
-    assert(libff::Fr<typename PCD_ppT::curve_A_pp>::mod == libff::Fq<typename PCD_ppT::curve_B_pp>::mod);
-    assert(libff::Fq<typename PCD_ppT::curve_A_pp>::mod == libff::Fr<typename PCD_ppT::curve_B_pp>::mod);
+    assert_except(libff::Fr<typename PCD_ppT::curve_A_pp>::mod == libff::Fq<typename PCD_ppT::curve_B_pp>::mod);
+    assert_except(libff::Fq<typename PCD_ppT::curve_A_pp>::mod == libff::Fr<typename PCD_ppT::curve_B_pp>::mod);
 
     typedef typename PCD_ppT::curve_A_pp curve_A_pp;
     typedef typename PCD_ppT::curve_B_pp curve_B_pp;
@@ -255,12 +255,12 @@ r1cs_mp_ppzkpcd_keypair<PCD_ppT> r1cs_mp_ppzkpcd_generator(const std::vector<r1c
         {
             for (size_t type : cp.accepted_input_types)
             {
-                assert(type_counts[type] == 1); /* each of accepted_input_types must be unique */
+                assert_except(type_counts[type] == 1); /* each of accepted_input_types must be unique */
             }
         }
         else
         {
-            assert(cp.accepted_input_types.empty());
+            assert_except(cp.accepted_input_types.empty());
         }
     }
     libff::leave_block("Perform type checks");
@@ -268,7 +268,7 @@ r1cs_mp_ppzkpcd_keypair<PCD_ppT> r1cs_mp_ppzkpcd_generator(const std::vector<r1c
     for (size_t i = 0; i < compliance_predicates.size(); ++i)
     {
         libff::enter_block(FMT("", "Process predicate %zu (with name %zu and type %zu)", i, compliance_predicates[i].name, compliance_predicates[i].type));
-        assert(compliance_predicates[i].is_well_formed());
+        assert_except(compliance_predicates[i].is_well_formed());
 
         libff::enter_block("Construct compliance step PCD circuit");
         mp_compliance_step_pcd_circuit_maker<curve_A_pp> mp_compliance_step_pcd_circuit(compliance_predicates[i], compliance_predicates.size());
@@ -302,7 +302,7 @@ r1cs_mp_ppzkpcd_keypair<PCD_ppT> r1cs_mp_ppzkpcd_generator(const std::vector<r1c
         keypair.pk.compliance_step_r1cs_vks.emplace_back(mp_compliance_step_keypair.vk);
         keypair.pk.translation_step_r1cs_vks.emplace_back(mp_translation_step_keypair.vk);
         const size_t cp_name = compliance_predicates[i].name;
-        assert(keypair.pk.compliance_predicate_name_to_idx.find(cp_name) == keypair.pk.compliance_predicate_name_to_idx.end()); // all names must be distinct
+        assert_except(keypair.pk.compliance_predicate_name_to_idx.find(cp_name) == keypair.pk.compliance_predicate_name_to_idx.end()); // all names must be distinct
         keypair.pk.compliance_predicate_name_to_idx[cp_name] = i;
 
         keypair.vk.compliance_step_r1cs_vks.emplace_back(mp_compliance_step_keypair.vk);
@@ -350,7 +350,7 @@ r1cs_mp_ppzkpcd_proof<PCD_ppT> r1cs_mp_ppzkpcd_prover(const r1cs_mp_ppzkpcd_prov
     printf("Compliance predicate name: %zu\n", compliance_predicate_name);
 #endif
     auto it = pk.compliance_predicate_name_to_idx.find(compliance_predicate_name);
-    assert(it != pk.compliance_predicate_name_to_idx.end());
+    assert_except(it != pk.compliance_predicate_name_to_idx.end());
     const size_t compliance_predicate_idx = it->second;
 
 #ifdef DEBUG
@@ -359,8 +359,8 @@ r1cs_mp_ppzkpcd_proof<PCD_ppT> r1cs_mp_ppzkpcd_prover(const r1cs_mp_ppzkpcd_prov
 #endif
 
     libff::enter_block("Prove compliance step");
-    assert(compliance_predicate_idx < pk.compliance_predicates.size());
-    assert(prev_proofs.size() <= pk.compliance_predicates[compliance_predicate_idx].max_arity);
+    assert_except(compliance_predicate_idx < pk.compliance_predicates.size());
+    assert_except(prev_proofs.size() <= pk.compliance_predicates[compliance_predicate_idx].max_arity);
 
     const size_t arity = prev_proofs.size();
     const size_t max_arity = pk.compliance_predicates[compliance_predicate_idx].max_arity;
@@ -370,7 +370,7 @@ r1cs_mp_ppzkpcd_proof<PCD_ppT> r1cs_mp_ppzkpcd_prover(const r1cs_mp_ppzkpcd_prov
         const size_t input_predicate_idx = prev_proofs[0].compliance_predicate_idx;
         for (size_t i = 1; i < arity; ++i)
         {
-            assert(prev_proofs[i].compliance_predicate_idx == input_predicate_idx);
+            assert_except(prev_proofs[i].compliance_predicate_idx == input_predicate_idx);
         }
     }
 
@@ -396,7 +396,7 @@ r1cs_mp_ppzkpcd_proof<PCD_ppT> r1cs_mp_ppzkpcd_prover(const r1cs_mp_ppzkpcd_prov
             const r1cs_primary_input<FieldT_B> translated_msg = get_mp_translation_step_pcd_circuit_input<curve_B_pp>(pk.commitment_to_translation_step_r1cs_vks,
                                                                                                                       auxiliary_input.incoming_messages[i]);
             const bool bit = r1cs_ppzksnark_verifier_strong_IC<curve_B_pp>(translation_step_vks[i], translated_msg, padded_proofs[i]);
-            assert(bit);
+            assert_except(bit);
         }
         else
         {
@@ -430,7 +430,7 @@ r1cs_mp_ppzkpcd_proof<PCD_ppT> r1cs_mp_ppzkpcd_prover(const r1cs_mp_ppzkpcd_prov
 #ifdef DEBUG
     const r1cs_primary_input<FieldT_A> compliance_step_input = get_mp_compliance_step_pcd_circuit_input<curve_A_pp>(pk.commitment_to_translation_step_r1cs_vks, primary_input.outgoing_message);
     const bool compliance_step_ok = r1cs_ppzksnark_verifier_strong_IC<curve_A_pp>(pk.compliance_step_r1cs_vks[compliance_predicate_idx], compliance_step_input, compliance_step_proof);
-    assert(compliance_step_ok);
+    assert_except(compliance_step_ok);
 #endif
 
     libff::enter_block("Prove translation step");
@@ -446,7 +446,7 @@ r1cs_mp_ppzkpcd_proof<PCD_ppT> r1cs_mp_ppzkpcd_prover(const r1cs_mp_ppzkpcd_prov
 
 #ifdef DEBUG
     const bool translation_step_ok = r1cs_ppzksnark_verifier_strong_IC<curve_B_pp>(pk.translation_step_r1cs_vks[compliance_predicate_idx], translation_step_primary_input, translation_step_proof);
-    assert(translation_step_ok);
+    assert_except(translation_step_ok);
 #endif
 
     libff::print_indent(); libff::print_mem("in prover");

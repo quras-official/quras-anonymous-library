@@ -52,10 +52,19 @@ namespace libquras {
 		static void Generate(const std::string r1csPath,
 			const std::string vkPath,
 			const std::string pkPath);
+		static void GenerateByConstraint(const std::string constraintPath, 
+			const std::string vkPath, 
+			const std::string pkPath);
 		static void Generate(uint256 seedHash,
 			const std::string r1csPath,
 			const std::string vkPath,
 			const std::string pkPath);
+		static void GenerateConstraint(const std::string constraintPath, 
+			uint256 seedHash,
+			int nStart, 
+			int nSize);
+		static bool VerifyConstraint(const std::string constraintPath,
+			int nSize);
 		static JoinSplit<NumInputs, NumOutputs>* Prepared(const std::string vkPath,
 			const std::string pkPath);
 

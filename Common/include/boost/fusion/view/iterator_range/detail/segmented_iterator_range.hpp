@@ -77,12 +77,12 @@ namespace boost { namespace fusion { namespace detail
     //    return nil_;
     //  case 2:
     //    // car(cdr(stack_begin)) is a range over values.
-    //    assert(end(front(car(stack_begin))) == end(car(cdr(stack_begin))));
+    //    assert_except(end(front(car(stack_begin))) == end(car(cdr(stack_begin))));
     //    return iterator_range(begin(car(cdr(stack_begin))), end(front(car(stack_begin))));
     //  default:
     //    // car(cdr(stack_begin)) is a range over segments. We replace the
     //    // front with a view that is restricted.
-    //    assert(end(segments(front(car(stack_begin)))) == end(car(cdr(stack_begin))));
+    //    assert_except(end(segments(front(car(stack_begin)))) == end(car(cdr(stack_begin))));
     //    return segment_sequence(
     //      push_front(
     //        // The following could be a segment_sequence. It then gets wrapped
@@ -96,7 +96,7 @@ namespace boost { namespace fusion { namespace detail
     template <typename Stack, std::size_t Size = Stack::size::value>
     struct make_segment_sequence_front
     {
-        // assert(end(segments(front(car(stack_begin)))) == end(car(cdr(stack_begin))));
+        // assert_except(end(segments(front(car(stack_begin)))) == end(car(cdr(stack_begin))));
         BOOST_MPL_ASSERT((
             result_of::equal_to<
                 typename result_of::end<
@@ -170,7 +170,7 @@ namespace boost { namespace fusion { namespace detail
     template <typename Stack>
     struct make_segment_sequence_front<Stack, 2>
     {
-        // assert(end(front(car(stack_begin))) == end(car(cdr(stack_begin))));
+        // assert_except(end(front(car(stack_begin))) == end(car(cdr(stack_begin))));
         BOOST_MPL_ASSERT((
             result_of::equal_to<
                 typename result_of::end<
@@ -228,12 +228,12 @@ namespace boost { namespace fusion { namespace detail
     //    return nil_;
     //  case 2:
     //    // car(cdr(stack_back)) is a range over values.
-    //    assert(end(front(car(stack_end))) == end(car(cdr(stack_end))));
+    //    assert_except(end(front(car(stack_end))) == end(car(cdr(stack_end))));
     //    return iterator_range(begin(front(car(stack_end))), begin(car(cdr(stack_end))));
     //  default:
     //    // car(cdr(stack_begin)) is a range over segments. We replace the
     //    // back with a view that is restricted.
-    //    assert(end(segments(front(car(stack_end)))) == end(car(cdr(stack_end))));
+    //    assert_except(end(segments(front(car(stack_end)))) == end(car(cdr(stack_end))));
     //    return segment_sequence(
     //      push_back(
     //        iterator_range(begin(segments(front(car(stack_end)))), begin(car(cdr(stack_end)))),
@@ -244,7 +244,7 @@ namespace boost { namespace fusion { namespace detail
     template <typename Stack, std::size_t Size = Stack::size::value>
     struct make_segment_sequence_back
     {
-        // assert(end(segments(front(car(stack_begin)))) == end(car(cdr(stack_begin))));
+        // assert_except(end(segments(front(car(stack_begin)))) == end(car(cdr(stack_begin))));
         BOOST_MPL_ASSERT((
             result_of::equal_to<
                 typename result_of::end<
@@ -316,7 +316,7 @@ namespace boost { namespace fusion { namespace detail
     template <typename Stack>
     struct make_segment_sequence_back<Stack, 2>
     {
-        // assert(end(front(car(stack_end))) == end(car(cdr(stack_end))));
+        // assert_except(end(front(car(stack_end))) == end(car(cdr(stack_end))));
         BOOST_MPL_ASSERT((
             result_of::equal_to<
                 typename result_of::end<

@@ -246,7 +246,7 @@ struct extended_edwards_G1_projective {
 
     void test_invariant() const
         {
-            assert(T*Z == X*Y);
+            assert_except(T*Z == X*Y);
         }
 };
 
@@ -464,7 +464,7 @@ struct extended_edwards_G2_projective {
 
     void test_invariant() const
         {
-            assert(T*Z == X*Y);
+            assert_except(T*Z == X*Y);
         }
 };
 

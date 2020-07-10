@@ -264,7 +264,7 @@ class UntypedOnCallSpecBase {
   // Asserts that the ON_CALL() statement has a certain property.
   void AssertSpecProperty(bool property,
                           const std::string& failure_message) const {
-    Assert(property, file_, line_, failure_message);
+    assert_except(property, file_, line_, failure_message);
   }
 
   // Expects that the ON_CALL() statement has a certain property.
@@ -740,7 +740,7 @@ class GTEST_API_ ExpectationBase {
   // Asserts that the EXPECT_CALL() statement has the given property.
   void AssertSpecProperty(bool property,
                           const std::string& failure_message) const {
-    Assert(property, file_, line_, failure_message);
+    assert_except(property, file_, line_, failure_message);
   }
 
   // Expects that the EXPECT_CALL() statement has the given property.
@@ -1156,7 +1156,7 @@ class TypedExpectation : public ExpectationBase {
           GTEST_EXCLUSIVE_LOCK_REQUIRED_(g_gmock_mutex) {
     g_gmock_mutex.AssertHeld();
     const int count = call_count();
-    Assert(count >= 1, __FILE__, __LINE__,
+    assert_except(count >= 1, __FILE__, __LINE__,
            "call_count() is <= 0 when GetCurrentAction() is "
            "called - this should never happen.");
 
@@ -1514,7 +1514,7 @@ class FunctionMockerBase : public UntypedFunctionMockerBase {
       throw std::runtime_error(message);
     }
 #else
-    Assert(DefaultValue<Result>::Exists(), "", -1, message);
+    assert_except(DefaultValue<Result>::Exists(), "", -1, message);
 #endif
     return DefaultValue<Result>::Get();
   }

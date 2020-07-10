@@ -23,7 +23,7 @@ template<typename FieldT>
 r1cs_constraint_system<FieldT> bacs_to_r1cs_instance_map(const bacs_circuit<FieldT> &circuit)
 {
     libff::enter_block("Call to bacs_to_r1cs_instance_map");
-    assert(circuit.is_valid());
+    assert_except(circuit.is_valid());
     r1cs_constraint_system<FieldT> result;
 
 #ifdef DEBUG

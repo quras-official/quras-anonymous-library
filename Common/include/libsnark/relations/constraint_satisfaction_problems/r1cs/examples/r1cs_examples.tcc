@@ -27,7 +27,7 @@ r1cs_example<FieldT> generate_r1cs_example_with_field_input(const size_t num_con
 {
     libff::enter_block("Call to generate_r1cs_example_with_field_input");
 
-    assert(num_inputs <= num_constraints + 2);
+    assert_except(num_inputs <= num_constraints + 2);
 
     r1cs_constraint_system<FieldT> cs;
     cs.primary_input_size = num_inputs;
@@ -85,11 +85,11 @@ r1cs_example<FieldT> generate_r1cs_example_with_field_input(const size_t num_con
     r1cs_primary_input<FieldT> auxiliary_input(full_variable_assignment.begin() + num_inputs, full_variable_assignment.end());
 
     /* sanity checks */
-    assert(cs.num_variables() == full_variable_assignment.size());
-    assert(cs.num_variables() >= num_inputs);
-    assert(cs.num_inputs() == num_inputs);
-    assert(cs.num_constraints() == num_constraints);
-    assert(cs.is_satisfied(primary_input, auxiliary_input));
+    assert_except(cs.num_variables() == full_variable_assignment.size());
+    assert_except(cs.num_variables() >= num_inputs);
+    assert_except(cs.num_inputs() == num_inputs);
+    assert_except(cs.num_constraints() == num_constraints);
+    assert_except(cs.is_satisfied(primary_input, auxiliary_input));
 
     libff::leave_block("Call to generate_r1cs_example_with_field_input");
 
@@ -102,7 +102,7 @@ r1cs_example<FieldT> generate_r1cs_example_with_binary_input(const size_t num_co
 {
     libff::enter_block("Call to generate_r1cs_example_with_binary_input");
 
-    assert(num_inputs >= 1);
+    assert_except(num_inputs >= 1);
 
     r1cs_constraint_system<FieldT> cs;
     cs.primary_input_size = num_inputs;
@@ -148,11 +148,11 @@ r1cs_example<FieldT> generate_r1cs_example_with_binary_input(const size_t num_co
     r1cs_primary_input<FieldT> auxiliary_input(full_variable_assignment.begin() + num_inputs, full_variable_assignment.end());
 
     /* sanity checks */
-    assert(cs.num_variables() == full_variable_assignment.size());
-    assert(cs.num_variables() >= num_inputs);
-    assert(cs.num_inputs() == num_inputs);
-    assert(cs.num_constraints() == num_constraints);
-    assert(cs.is_satisfied(primary_input, auxiliary_input));
+    assert_except(cs.num_variables() == full_variable_assignment.size());
+    assert_except(cs.num_variables() >= num_inputs);
+    assert_except(cs.num_inputs() == num_inputs);
+    assert_except(cs.num_constraints() == num_constraints);
+    assert_except(cs.is_satisfied(primary_input, auxiliary_input));
 
     libff::leave_block("Call to generate_r1cs_example_with_binary_input");
 

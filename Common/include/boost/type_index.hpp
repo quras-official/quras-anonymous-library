@@ -181,7 +181,7 @@ typedef type_index::type_info_t type_info;
 ///
 /// C c1;
 /// A* pc1 = &c1;
-/// assert(boost::typeindex::type_id<C>() == boost::typeindex::type_id_runtime(*pc1));
+/// assert_except(boost::typeindex::type_id<C>() == boost::typeindex::type_id_runtime(*pc1));
 /// \endcode
 #define BOOST_TYPE_INDEX_REGISTER_CLASS nothing-or-some-virtual-functions
 

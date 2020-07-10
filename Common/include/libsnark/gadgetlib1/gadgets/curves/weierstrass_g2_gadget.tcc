@@ -115,12 +115,12 @@ void test_G2_checker_gadget(const std::string &annotation)
     printf("positive test\n");
     g.generate_r1cs_witness(libff::G2<other_curve<ppT> >::one());
     g_check.generate_r1cs_witness();
-    assert(pb.is_satisfied());
+    assert_except(pb.is_satisfied());
 
     printf("negative test\n");
     g.generate_r1cs_witness(libff::G2<other_curve<ppT> >::zero());
     g_check.generate_r1cs_witness();
-    assert(!pb.is_satisfied());
+    assert_except(!pb.is_satisfied());
 
     printf("number of constraints for G2 checker (Fr is %s)  = %zu\n", annotation.c_str(), pb.num_constraints());
 }

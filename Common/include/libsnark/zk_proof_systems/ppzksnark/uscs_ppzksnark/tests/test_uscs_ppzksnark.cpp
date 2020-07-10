@@ -29,7 +29,7 @@ void test_uscs_ppzksnark(size_t num_constraints,
     const bool test_serialization = true;
     uscs_example<libff::Fr<ppT> > example = generate_uscs_example_with_binary_input<libff::Fr<ppT> >(num_constraints, input_size);
     const bool bit = run_uscs_ppzksnark<ppT>(example, test_serialization);
-    assert(bit);
+    assert_except(bit);
 
     libff::print_header("(leave) Test USCS ppzkSNARK");
 }

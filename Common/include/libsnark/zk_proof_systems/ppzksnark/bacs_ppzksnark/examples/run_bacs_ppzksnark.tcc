@@ -75,7 +75,7 @@ bool run_bacs_ppzksnark(const bacs_example<libff::Fr<ppT> > &example,
 
     libff::print_header("BACS ppzkSNARK Online Verifier");
     bool ans2 = bacs_ppzksnark_online_verifier_strong_IC<ppT>(pvk, example.primary_input, proof);
-    assert(ans == ans2);
+    assert_except(ans == ans2);
 
     libff::leave_block("Call to run_bacs_ppzksnark");
 

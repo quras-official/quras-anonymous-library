@@ -173,8 +173,8 @@ sha256_two_to_one_hash_gadget<FieldT>::sha256_two_to_one_hash_gadget(protoboard<
                                                                      const std::string &annotation_prefix) :
     gadget<FieldT>(pb, annotation_prefix)
 {
-    assert(block_length == SHA256_block_size);
-    assert(input_block.bits.size() == block_length);
+    assert_except(block_length == SHA256_block_size);
+    assert_except(input_block.bits.size() == block_length);
     f.reset(new sha256_compression_function_gadget<FieldT>(pb, SHA256_default_IV<FieldT>(pb), input_block.bits, output, FMT(this->annotation_prefix, " f")));
 }
 

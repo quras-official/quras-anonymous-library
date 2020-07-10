@@ -21,6 +21,7 @@
 #endif
 #include <boost/limits.hpp>
 #include <boost/config.hpp>
+#include <assert_except.h>
 
 
 namespace boost {
@@ -93,7 +94,7 @@ namespace boost {
  template <typename T>
  int integer_log2(T x) {
 
-     assert(x > 0);
+     assert_except(x > 0);
 
      const int n = detail::max_pow2_less<
                      detail::width<T> :: value, 4

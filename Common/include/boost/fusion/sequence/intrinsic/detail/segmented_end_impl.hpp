@@ -25,7 +25,7 @@ namespace boost { namespace fusion { namespace detail
 {
     //auto segmented_end_impl( seq, stack )
     //{
-    //    assert(is_segmented(seq));
+    //    assert_except(is_segmented(seq));
     //    auto it = end(segments(seq));
     //    return cons(iterator_range(it, it), stack);
     //}

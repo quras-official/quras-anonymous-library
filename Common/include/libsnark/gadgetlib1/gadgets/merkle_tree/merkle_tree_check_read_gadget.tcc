@@ -43,8 +43,8 @@ merkle_tree_check_read_gadget<FieldT, HashT>::merkle_tree_check_read_gadget(prot
        leaf, and address_bits[tree_depth-1] is MSB, and corresponds to
        the subtree directly under the root.
     */
-    assert(tree_depth > 0);
-    assert(tree_depth == address_bits.size());
+    assert_except(tree_depth > 0);
+    assert_except(tree_depth == address_bits.size());
 
     for (size_t i = 0; i < tree_depth-1; ++i)
     {
@@ -175,7 +175,7 @@ void test_merkle_tree_check_read_gadget()
     ml.generate_r1cs_constraints();
 
     address_bits_va.fill_with_bits(pb, address_bits);
-    assert(address_bits_va.get_field_element_from_bits(pb).as_ulong() == address);
+    assert_except(address_bits_va.get_field_element_from_bits(pb).as_ulong() == address);
     leaf_digest.generate_r1cs_witness(leaf);
     path_var.generate_r1cs_witness(address, path);
     ml.generate_r1cs_witness();
@@ -184,11 +184,11 @@ void test_merkle_tree_check_read_gadget()
     address_bits_va.fill_with_bits(pb, address_bits);
     leaf_digest.generate_r1cs_witness(leaf);
     root_digest.generate_r1cs_witness(root);
-    assert(pb.is_satisfied());
+    assert_except(pb.is_satisfied());
 
     const size_t num_constraints = pb.num_constraints();
     const size_t expected_constraints = merkle_tree_check_read_gadget<FieldT, HashT>::expected_constraints(tree_depth);
-    assert(num_constraints == expected_constraints);
+    assert_except(num_constraints == expected_constraints);
 }
 
 } // libsnark

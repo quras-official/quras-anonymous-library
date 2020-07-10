@@ -54,7 +54,7 @@ int main(int argc, const char * argv[])
     int input_size = atoi(argv[2]);
     if (argc == 4)
     {
-        assert(strcmp(argv[3], "Fr") == 0 || strcmp(argv[3], "bytes") == 0);
+        assert_except(strcmp(argv[3], "Fr") == 0 || strcmp(argv[3], "bytes") == 0);
         if (strcmp(argv[3], "bytes") == 0)
         {
             input_size = libff::div_ceil(8 * input_size, libff::Fr<libff::default_ec_pp>::capacity());

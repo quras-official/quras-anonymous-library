@@ -128,8 +128,8 @@ std::istream& operator>>(std::istream &in, r1cs_sp_ppzkpcd_processed_verificatio
 template<typename PCD_ppT>
 r1cs_sp_ppzkpcd_keypair<PCD_ppT> r1cs_sp_ppzkpcd_generator(const r1cs_sp_ppzkpcd_compliance_predicate<PCD_ppT> &compliance_predicate)
 {
-    assert(libff::Fr<typename PCD_ppT::curve_A_pp>::mod == libff::Fq<typename PCD_ppT::curve_B_pp>::mod);
-    assert(libff::Fq<typename PCD_ppT::curve_A_pp>::mod == libff::Fr<typename PCD_ppT::curve_B_pp>::mod);
+    assert_except(libff::Fr<typename PCD_ppT::curve_A_pp>::mod == libff::Fq<typename PCD_ppT::curve_B_pp>::mod);
+    assert_except(libff::Fq<typename PCD_ppT::curve_A_pp>::mod == libff::Fr<typename PCD_ppT::curve_B_pp>::mod);
 
     typedef libff::Fr<typename PCD_ppT::curve_A_pp> FieldT_A;
     typedef libff::Fr<typename PCD_ppT::curve_B_pp> FieldT_B;
@@ -139,7 +139,7 @@ r1cs_sp_ppzkpcd_keypair<PCD_ppT> r1cs_sp_ppzkpcd_generator(const r1cs_sp_ppzkpcd
 
     libff::enter_block("Call to r1cs_sp_ppzkpcd_generator");
 
-    assert(compliance_predicate.is_well_formed());
+    assert_except(compliance_predicate.is_well_formed());
 
     libff::enter_block("Construct compliance step PCD circuit");
     sp_compliance_step_pcd_circuit_maker<curve_A_pp> compliance_step_pcd_circuit(compliance_predicate);
@@ -211,7 +211,7 @@ r1cs_sp_ppzkpcd_proof<PCD_ppT> r1cs_sp_ppzkpcd_prover(const r1cs_sp_ppzkpcd_prov
 #ifdef DEBUG
     const r1cs_primary_input<FieldT_A> compliance_step_input = get_sp_compliance_step_pcd_circuit_input<curve_A_pp>(translation_step_r1cs_vk_bits, primary_input);
     const bool compliance_step_ok = r1cs_ppzksnark_verifier_strong_IC<curve_A_pp>(pk.compliance_step_r1cs_vk, compliance_step_input, compliance_step_proof);
-    assert(compliance_step_ok);
+    assert_except(compliance_step_ok);
 #endif
 
     libff::enter_block("Prove translation step");
@@ -226,7 +226,7 @@ r1cs_sp_ppzkpcd_proof<PCD_ppT> r1cs_sp_ppzkpcd_prover(const r1cs_sp_ppzkpcd_prov
 
 #ifdef DEBUG
     const bool translation_step_ok = r1cs_ppzksnark_verifier_strong_IC<curve_B_pp>(pk.translation_step_r1cs_vk, translation_step_primary_input, translation_step_proof);
-    assert(translation_step_ok);
+    assert_except(translation_step_ok);
 #endif
 
     libff::print_indent(); libff::print_mem("in prover");

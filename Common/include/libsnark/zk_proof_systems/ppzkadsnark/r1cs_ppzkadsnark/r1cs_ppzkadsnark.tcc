@@ -648,7 +648,7 @@ r1cs_ppzkadsnark_proof<ppT> r1cs_ppzkadsnark_prover(const r1cs_ppzkadsnark_provi
     libff::enter_block("Call to r1cs_ppzkadsnark_prover");
 
 #ifdef DEBUG
-    assert(pk.constraint_system.is_satisfied(primary_input, auxiliary_input));
+    assert_except(pk.constraint_system.is_satisfied(primary_input, auxiliary_input));
 #endif
 
     const libff::Fr<snark_pp<ppT>> d1 = libff::Fr<snark_pp<ppT>>::random_element(),
@@ -664,7 +664,7 @@ r1cs_ppzkadsnark_proof<ppT> r1cs_ppzkadsnark_prover(const r1cs_ppzkadsnark_provi
 #ifdef DEBUG
     const libff::Fr<snark_pp<ppT>> t = libff::Fr<snark_pp<ppT>>::random_element();
     qap_instance_evaluation<libff::Fr<snark_pp<ppT>> > qap_inst = r1cs_to_qap_instance_map_with_evaluation(pk.constraint_system, t);
-    assert(qap_inst.is_satisfied(qap_wit));
+    assert_except(qap_inst.is_satisfied(qap_wit));
 #endif
 
     knowledge_commitment<libff::G1<snark_pp<ppT>>, libff::G1<snark_pp<ppT>> > g_A =
@@ -685,13 +685,13 @@ r1cs_ppzkadsnark_proof<ppT> r1cs_ppzkadsnark_prover(const r1cs_ppzkadsnark_provi
 #ifdef DEBUG
     for (size_t i = 0; i < qap_wit.num_inputs() + 1; ++i)
     {
-        assert(pk.A_query[i].g == libff::G1<snark_pp<ppT>>::zero());
+        assert_except(pk.A_query[i].g == libff::G1<snark_pp<ppT>>::zero());
     }
-    assert(pk.A_query.domain_size() == qap_wit.num_variables()+2);
-    assert(pk.B_query.domain_size() == qap_wit.num_variables()+2);
-    assert(pk.C_query.domain_size() == qap_wit.num_variables()+2);
-    assert(pk.H_query.size() == qap_wit.degree()+1);
-    assert(pk.K_query.size() == qap_wit.num_variables()+4);
+    assert_except(pk.A_query.domain_size() == qap_wit.num_variables()+2);
+    assert_except(pk.B_query.domain_size() == qap_wit.num_variables()+2);
+    assert_except(pk.C_query.domain_size() == qap_wit.num_variables()+2);
+    assert_except(pk.H_query.size() == qap_wit.degree()+1);
+    assert_except(pk.K_query.size() == qap_wit.num_variables()+4);
 #endif
 
 #ifdef MULTICORE
@@ -1231,7 +1231,7 @@ bool r1cs_ppzkadsnark_verifier(const r1cs_ppzkadsnark_verification_key<ppT> &vk,
                                const r1cs_ppzkadsnark_pub_auth_key<ppT> &pak,
                                const std::vector<labelT> &labels)
 {
-    assert(labels.size() == auth_data.size());
+    assert_except(labels.size() == auth_data.size());
     libff::enter_block("Call to r1cs_ppzkadsnark_verifier");
     r1cs_ppzkadsnark_processed_verification_key<ppT> pvk = r1cs_ppzkadsnark_verifier_process_vk<ppT>(vk);
     bool result = r1cs_ppzkadsnark_online_verifier<ppT>(pvk, auth_data, proof, pak,labels);

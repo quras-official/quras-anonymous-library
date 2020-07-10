@@ -182,7 +182,7 @@ public:
                        const std::string &annotation_prefix="") :
         gadget<FieldT>(pb, annotation_prefix), inputs(inputs), output(output)
     {
-        assert(inputs.size() >= 1);
+        assert_except(inputs.size() >= 1);
         inv.allocate(pb, FMT(this->annotation_prefix, " inv"));
     }
 
@@ -207,7 +207,7 @@ public:
                        const std::string &annotation_prefix="") :
         gadget<FieldT>(pb, annotation_prefix), inputs(inputs), output(output)
     {
-        assert(inputs.size() >= 1);
+        assert_except(inputs.size() >= 1);
         inv.allocate(pb, FMT(this->annotation_prefix, " inv"));
     }
 
@@ -282,8 +282,8 @@ public:
                          const std::string &annotation_prefix="") :
         gadget<FieldT>(pb, annotation_prefix), A(A), B(B), result(result)
     {
-        assert(A.size() >= 1);
-        assert(A.size() == B.size());
+        assert_except(A.size() >= 1);
+        assert_except(A.size() == B.size());
 
         S.allocate(pb, A.size()-1, FMT(this->annotation_prefix, " S"));
     }

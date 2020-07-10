@@ -90,7 +90,7 @@ void profile_ram_zksnark(const tinyram_architecture_params &ap, const size_t pro
     const ram_example<ramT> example = gen_ram_example_complex<ramT>(ap, boot_trace_size_bound, time_bound, true);
     const bool test_serialization = true;
     const bool bit = run_ram_zksnark<ppT>(example, test_serialization);
-    assert(bit);
+    assert_except(bit);
 }
 
 namespace po = boost::program_options;

@@ -40,8 +40,8 @@ merkle_tree_check_update_gadget<FieldT, HashT>::merkle_tree_check_update_gadget(
     next_path(next_path),
     update_successful(update_successful)
 {
-    assert(tree_depth > 0);
-    assert(tree_depth == address_bits.size());
+    assert_except(tree_depth > 0);
+    assert_except(tree_depth == address_bits.size());
 
     for (size_t i = 0; i < tree_depth-1; ++i)
     {
@@ -240,7 +240,7 @@ void test_merkle_tree_check_update_gadget()
     mls.generate_r1cs_constraints();
 
     address_bits_va.fill_with_bits(pb, address_bits);
-    assert(address_bits_va.get_field_element_from_bits(pb).as_ulong() == address);
+    assert_except(address_bits_va.get_field_element_from_bits(pb).as_ulong() == address);
     prev_leaf_digest.generate_r1cs_witness(loaded_leaf);
     prev_path_var.generate_r1cs_witness(address, prev_path);
     next_leaf_digest.generate_r1cs_witness(stored_leaf);
@@ -253,11 +253,11 @@ void test_merkle_tree_check_update_gadget()
     prev_root_digest.generate_r1cs_witness(load_root);
     next_root_digest.generate_r1cs_witness(store_root);
     address_bits_va.fill_with_bits(pb, address_bits);
-    assert(pb.is_satisfied());
+    assert_except(pb.is_satisfied());
 
     const size_t num_constraints = pb.num_constraints();
     const size_t expected_constraints = merkle_tree_check_update_gadget<FieldT, HashT>::expected_constraints(tree_depth);
-    assert(num_constraints == expected_constraints);
+    assert_except(num_constraints == expected_constraints);
 }
 
 } // libsnark

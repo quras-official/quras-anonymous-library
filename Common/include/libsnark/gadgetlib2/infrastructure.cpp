@@ -48,7 +48,7 @@ const static size_t MAX_FMT = 256;
 
 /** Safely converts 64-bit types to 32-bit. */
 long long safeConvert(const int64_t num) {
-    assert(num <= INT_MAX && num >= INT_MIN);
+    assert_except(num <= INT_MAX && num >= INT_MIN);
     return (long long)num;
 }
 

@@ -23,6 +23,7 @@
 
 #include <cassert>
 #include <boost/iterator/iterator_facade.hpp>
+#include <assert_except.h>
 #include "gil_concept.hpp"
 #include "gil_config.hpp"
 #include "pixel_iterator.hpp"
@@ -126,7 +127,7 @@ private:
     }
 
     bool equal(const iterator_from_2d& it) const {
-        assert(_width==it.width());     // they must belong to the same image
+        assert_except(_width==it.width());     // they must belong to the same image
         return _coords==it._coords && _p==it._p;
     }
 

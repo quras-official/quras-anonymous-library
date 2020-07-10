@@ -75,8 +75,8 @@ template<typename FieldT>
 bool uscs_constraint_system<FieldT>::is_satisfied(const uscs_primary_input<FieldT> &primary_input,
                                                   const uscs_auxiliary_input<FieldT> &auxiliary_input) const
 {
-    assert(primary_input.size() == num_inputs());
-    assert(primary_input.size() + auxiliary_input.size() == num_variables());
+    assert_except(primary_input.size() == num_inputs());
+    assert_except(primary_input.size() + auxiliary_input.size() == num_variables());
 
     uscs_variable_assignment<FieldT> full_variable_assignment = primary_input;
     full_variable_assignment.insert(full_variable_assignment.end(), auxiliary_input.begin(), auxiliary_input.end());

@@ -33,7 +33,7 @@ void test_bacs_ppzksnark(const size_t primary_input_size,
     example.circuit.print();
 #endif
     const bool bit = run_bacs_ppzksnark<ppT>(example, test_serialization);
-    assert(bit);
+    assert_except(bit);
 
     libff::print_header("(leave) Test BACS ppzkSNARK");
 }

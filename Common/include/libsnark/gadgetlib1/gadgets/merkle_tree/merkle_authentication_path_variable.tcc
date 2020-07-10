@@ -37,7 +37,7 @@ void merkle_authentication_path_variable<FieldT, HashT>::generate_r1cs_constrain
 template<typename FieldT, typename HashT>
 void merkle_authentication_path_variable<FieldT, HashT>::generate_r1cs_witness(const size_t address, const merkle_authentication_path &path)
 {
-    assert(path.size() == tree_depth);
+    assert_except(path.size() == tree_depth);
 
     for (size_t i = 0; i < tree_depth; ++i)
     {

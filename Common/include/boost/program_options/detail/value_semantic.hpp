@@ -7,6 +7,7 @@
 // ../value_semantic.hpp.
 
 #include <boost/throw_exception.hpp>
+#include <assert_except.hpp>
 
 // forward declaration
 namespace boost { template<class T> class optional; }
@@ -136,7 +137,7 @@ namespace boost { namespace program_options {
             v = boost::any(std::vector<T>());
         }
         std::vector<T>* tv = boost::any_cast< std::vector<T> >(&v);
-        assert(NULL != tv);
+        assert_except(NULL != tv);
         for (unsigned i = 0; i < s.size(); ++i)
         {
             try {

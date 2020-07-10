@@ -33,12 +33,12 @@ void init_alt_bn128_params()
     typedef bigint<alt_bn128_r_limbs> bigint_r;
     typedef bigint<alt_bn128_q_limbs> bigint_q;
 
-    assert(sizeof(mp_limb_t) == 8 || sizeof(mp_limb_t) == 4); // Montgomery assumes this
+    assert_except(sizeof(mp_limb_t) == 8 || sizeof(mp_limb_t) == 4); // Montgomery assumes this
 
     /* parameters for scalar field Fr */
 
     alt_bn128_modulus_r = bigint_r("21888242871839275222246405745257275088548364400416034343698204186575808495617");
-    assert(alt_bn128_Fr::modulus_is_valid());
+    assert_except(alt_bn128_Fr::modulus_is_valid());
     if (sizeof(mp_limb_t) == 8)
     {
         alt_bn128_Fr::Rsquared = bigint_r("944936681149208446651664254269745548490766851729442924617792859073125903783");
@@ -64,7 +64,7 @@ void init_alt_bn128_params()
     /* parameters for base field Fq */
 
     alt_bn128_modulus_q = bigint_q("21888242871839275222246405745257275088696311157297823662689037894645226208583");
-    assert(alt_bn128_Fq::modulus_is_valid());
+    assert_except(alt_bn128_Fq::modulus_is_valid());
     if (sizeof(mp_limb_t) == 8)
     {
         alt_bn128_Fq::Rsquared = bigint_q("3096616502983703923843567936837374451735540968419076528771170197431451843209");

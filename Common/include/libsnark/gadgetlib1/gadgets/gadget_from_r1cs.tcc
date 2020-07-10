@@ -61,7 +61,7 @@ gadget_from_r1cs<FieldT>::gadget_from_r1cs(protoboard<FieldT> &pb,
     printf("gadget_from_r1cs: cs.num_variables(): %zu\n", cs.num_variables());
 #endif
 
-    assert(cs_var_idx - 1 == cs.num_variables());
+    assert_except(cs_var_idx - 1 == cs.num_variables());
 }
 
 template<typename FieldT>
@@ -104,8 +104,8 @@ template<typename FieldT>
 void gadget_from_r1cs<FieldT>::generate_r1cs_witness(const r1cs_primary_input<FieldT> &primary_input,
                                                      const r1cs_auxiliary_input<FieldT> &auxiliary_input)
 {
-    assert(cs.num_inputs() == primary_input.size());
-    assert(cs.num_variables() == primary_input.size() + auxiliary_input.size());
+    assert_except(cs.num_inputs() == primary_input.size());
+    assert_except(cs.num_variables() == primary_input.size() + auxiliary_input.size());
 
     for (size_t i = 0; i < primary_input.size(); ++i)
     {

@@ -37,9 +37,9 @@ argument_decoder_gadget<FieldT>::argument_decoder_gadget(tinyram_protoboard<Fiel
     packed_arg1val(packed_arg1val),
     packed_arg2val(packed_arg2val)
 {
-    assert(desidx.size() == pb.ap.reg_arg_width());
-    assert(arg1idx.size() == pb.ap.reg_arg_width());
-    assert(arg2idx.size() == pb.ap.reg_arg_or_imm_width());
+    assert_except(desidx.size() == pb.ap.reg_arg_width());
+    assert_except(arg1idx.size() == pb.ap.reg_arg_width());
+    assert_except(arg2idx.size() == pb.ap.reg_arg_or_imm_width());
 
     /* decode accordingly */
     packed_desidx.allocate(pb, FMT(this->annotation_prefix, " packed_desidx"));
@@ -164,19 +164,19 @@ void test_argument_decoder_gadget()
 
     g.generate_r1cs_witness();
 
-    assert(pb.val(packed_desval) == FieldT(1002));
-    assert(pb.val(packed_arg1val) == FieldT(1005));
-    assert(pb.val(packed_arg2val) == FieldT(1007));
-    assert(pb.is_satisfied());
+    assert_except(pb.val(packed_desval) == FieldT(1002));
+    assert_except(pb.val(packed_arg1val) == FieldT(1005));
+    assert_except(pb.val(packed_arg2val) == FieldT(1007));
+    assert_except(pb.is_satisfied());
     printf("positive test (get reg) successful\n");
 
     pb.val(arg2_is_imm) = FieldT::one();
     g.generate_r1cs_witness();
 
-    assert(pb.val(packed_desval) == FieldT(1002));
-    assert(pb.val(packed_arg1val) == FieldT(1005));
-    assert(pb.val(packed_arg2val) == FieldT(7));
-    assert(pb.is_satisfied());
+    assert_except(pb.val(packed_desval) == FieldT(1002));
+    assert_except(pb.val(packed_arg1val) == FieldT(1005));
+    assert_except(pb.val(packed_arg2val) == FieldT(7));
+    assert_except(pb.is_satisfied());
     printf("positive test (get imm) successful\n");
 
     libff::print_time("argument_decoder_gadget tests successful");

@@ -44,7 +44,7 @@ ra_memory::ra_memory(const size_t num_addresses,
 
 size_t ra_memory::get_value(const size_t address) const
 {
-    assert(address < num_addresses);
+    assert_except(address < num_addresses);
     auto it = contents.find(address);
     return (it == contents.end() ? 0 : it->second);
 }

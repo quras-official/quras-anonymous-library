@@ -88,7 +88,7 @@ void test_set_commitment_gadget()
         std::generate(elem.begin(), elem.end(), [&]() { return std::rand() % 2; });
         set_elems.emplace_back(elem);
         accumulator.add(elem);
-        assert(accumulator.is_in_set(elem));
+        assert_except(accumulator.is_in_set(elem));
     }
 
     protoboard<FieldT> pb;
@@ -112,7 +112,7 @@ void test_set_commitment_gadget()
         proof.generate_r1cs_witness(accumulator.get_membership_proof(set_elems[i]));
         sc.generate_r1cs_witness();
         root_digest.generate_r1cs_witness(accumulator.get_commitment());
-        assert(pb.is_satisfied());
+        assert_except(pb.is_satisfied());
     }
     printf("membership tests OK\n");
 
@@ -126,13 +126,13 @@ void test_set_commitment_gadget()
     proof.generate_r1cs_witness(accumulator.get_membership_proof(set_elems[0])); /* try it with invalid proof */
     sc.generate_r1cs_witness();
     root_digest.generate_r1cs_witness(accumulator.get_commitment());
-    assert(pb.is_satisfied());
+    assert_except(pb.is_satisfied());
 
     pb.val(check_succesful) = FieldT::one(); /* now require the check result to be succesful */
     proof.generate_r1cs_witness(accumulator.get_membership_proof(set_elems[0])); /* try it with invalid proof */
     sc.generate_r1cs_witness();
     root_digest.generate_r1cs_witness(accumulator.get_commitment());
-    assert(!pb.is_satisfied()); /* the protoboard should be unsatisfied */
+    assert_except(!pb.is_satisfied()); /* the protoboard should be unsatisfied */
     printf("non-membership test OK\n");
 }
 

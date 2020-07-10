@@ -31,7 +31,7 @@ mp_compliance_step_pcd_circuit_maker<ppT>::mp_compliance_step_pcd_circuit_maker(
     /* calculate some useful sizes */
     const size_t digest_size = CRH_with_field_out_gadget<FieldT>::get_digest_len();
     const size_t outgoing_msg_size_in_bits = field_logsize() * (1 + compliance_predicate.outgoing_message_payload_length);
-    assert(compliance_predicate.has_equal_input_lengths());
+    assert_except(compliance_predicate.has_equal_input_lengths());
     const size_t translation_step_vk_size_in_bits = r1cs_ppzksnark_verification_key_variable<ppT>::size_in_bits(mp_translation_step_pcd_circuit_maker<other_curve<ppT> >::input_size_in_elts());
     const size_t padded_verifier_input_size = mp_translation_step_pcd_circuit_maker<other_curve<ppT> >::input_capacity_in_bits();
     const size_t commitment_size = set_commitment_gadget<FieldT, CRH_with_bit_out_gadget<FieldT> >::root_size_in_bits();
@@ -436,7 +436,7 @@ void mp_compliance_step_pcd_circuit_maker<ppT>::generate_r1cs_witness(const set_
             }
             else
             {
-                assert(this->pb.val(common_type) == this->pb.val(incoming_message_types[i]));
+                assert_except(this->pb.val(common_type) == this->pb.val(incoming_message_types[i]));
             }
         }
 
@@ -476,7 +476,7 @@ void mp_compliance_step_pcd_circuit_maker<ppT>::generate_r1cs_witness(const set_
 
 #ifdef DEBUG
     get_circuit(); // force generating constraints
-    assert(this->pb.is_satisfied());
+    assert_except(this->pb.is_satisfied());
 #endif
 }
 
@@ -578,7 +578,7 @@ void mp_translation_step_pcd_circuit_maker<ppT>::generate_r1cs_witness(const r1c
 
 #ifdef DEBUG
     get_circuit(); // force generating constraints
-    assert(this->pb.is_satisfied());
+    assert_except(this->pb.is_satisfied());
 #endif
 }
 

@@ -153,6 +153,11 @@ Fp2_model<n,modulus> Fp2_model<n,modulus>::sqrt() const
     Fp2_model<n,modulus> x = (*this) * w;
     Fp2_model<n,modulus> b = x * w; // b = (*this)^t
 
+	if (z.is_zero() || w.is_zero() || x.is_zero() || b.is_zero())
+	{
+		assert(0);
+	}
+
 #if DEBUG
     // check if square with euler's criterion
     Fp2_model<n,modulus> check = b;
@@ -162,8 +167,19 @@ Fp2_model<n,modulus> Fp2_model<n,modulus>::sqrt() const
     }
     if (check != one)
     {
-        assert(0);
+        assert_except(0);
     }
+
+	check = z;
+	for (size_t i = 0; i < v-1 && check != one; ++i)
+	{
+		check = check.squared();
+	}
+	if (check != one)
+	{
+		assert(0);
+	}
+
 #endif
 
     // compute square root with Tonelli--Shanks

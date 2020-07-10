@@ -214,7 +214,7 @@ unsigned int utf8_codecvt_facet::get_octet_count(
     if (lead_octet <= 0x7f) return 1;
 
     // Otherwise the count number of consecutive 1 bits starting at MSB
-//    assert(0xc0 <= lead_octet && lead_octet <= 0xfd);
+//    assert_except(0xc0 <= lead_octet && lead_octet <= 0xfd);
 
     if (0xc0 <= lead_octet && lead_octet <= 0xdf) return 2;
     else if (0xe0 <= lead_octet && lead_octet <= 0xef) return 3;

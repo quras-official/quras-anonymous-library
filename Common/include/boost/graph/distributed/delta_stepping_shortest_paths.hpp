@@ -442,7 +442,7 @@ synchronize()
 //   typedef typename ProcessGroup::process_id_type process_id_type;
 //   while (optional<std::pair<process_id_type, int> > stp = probe(pg)) {
 //     // Receive the relaxation message
-//     assert(stp->second == msg_relax);
+//     assert_except(stp->second == msg_relax);
 //     std::pair<Vertex, typename MessageValue::type> data;
 //     receive(pg, stp->first, stp->second, data);
 

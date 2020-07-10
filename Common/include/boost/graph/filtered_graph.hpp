@@ -313,7 +313,7 @@ namespace boost {
   // However, the current solution is still unsatisfactory because
   // the following semantic constraints no longer hold:
   // boost::tie(vi, viend) = vertices(g);
-  // assert(std::distance(vi, viend) == num_vertices(g));
+  // assert_except(std::distance(vi, viend) == num_vertices(g));
 
   template <typename G, typename EP, typename VP>  
   typename filtered_graph<G, EP, VP>::vertices_size_type

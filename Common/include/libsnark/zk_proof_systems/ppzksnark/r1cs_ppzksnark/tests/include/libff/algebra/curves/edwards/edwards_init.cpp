@@ -39,12 +39,12 @@ void init_edwards_params()
     typedef bigint<edwards_r_limbs> bigint_r;
     typedef bigint<edwards_q_limbs> bigint_q;
 
-    assert(sizeof(mp_limb_t) == 8 || sizeof(mp_limb_t) == 4); // Montgomery assumes this
+    assert_except(sizeof(mp_limb_t) == 8 || sizeof(mp_limb_t) == 4); // Montgomery assumes this
 
     /* parameters for scalar field Fr */
 
     edwards_modulus_r = bigint_r("1552511030102430251236801561344621993261920897571225601");
-    assert(edwards_Fr::modulus_is_valid());
+    assert_except(edwards_Fr::modulus_is_valid());
     if (sizeof(mp_limb_t) == 8)
     {
         edwards_Fr::Rsquared = bigint_r("621738487827897760168419760282818735947979812540885779");
@@ -70,7 +70,7 @@ void init_edwards_params()
     /* parameters for base field Fq */
 
     edwards_modulus_q = bigint_q("6210044120409721004947206240885978274523751269793792001");
-    assert(edwards_Fq::modulus_is_valid());
+    assert_except(edwards_Fq::modulus_is_valid());
     if (sizeof(mp_limb_t) == 8)
     {
         edwards_Fq::Rsquared = bigint_q("5943559676554581037560514598978484097352477055348195432");

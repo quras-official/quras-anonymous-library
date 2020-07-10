@@ -26,7 +26,7 @@
 #if defined(BOOST_ASIO_HAS_BOOST_ASSERT)
 # define BOOST_ASIO_ASSERT(expr) BOOST_ASSERT(expr)
 #else // defined(BOOST_ASIO_HAS_BOOST_ASSERT)
-# define BOOST_ASIO_ASSERT(expr) assert(expr)
+# define BOOST_ASIO_ASSERT(expr) assert_except(expr)
 #endif // defined(BOOST_ASIO_HAS_BOOST_ASSERT)
 
 #endif // BOOST_ASIO_DETAIL_ASSERT_HPP

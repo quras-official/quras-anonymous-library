@@ -22,6 +22,7 @@
 #include <boost/mpi/allocator.hpp>
 #include <cstring> // for memcpy
 #include <cassert>
+#include <assert_except.h>
 
 namespace boost { namespace mpi {
 
@@ -68,7 +69,7 @@ public:
     template<class T>
     void load_array(serialization::array_wrapper<T> const& x, unsigned int /* file_version */)
     {
-      BOOST_MPL_ASSERT((serialization::is_bitwise_serializable<BOOST_DEDUCED_TYPENAME remove_const<T>::type>));
+      BOOST_MPL_assert_except((serialization::is_bitwise_serializable<BOOST_DEDUCED_TYPENAME remove_const<T>::type>));
       if (x.count())
         load_impl(x.address(), sizeof(T)*x.count());
     }
@@ -85,7 +86,7 @@ public:
     template<class T>
     void load( T & t)
     {
-      BOOST_MPL_ASSERT((serialization::is_bitwise_serializable<BOOST_DEDUCED_TYPENAME remove_const<T>::type>));
+      BOOST_MPL_assert_except((serialization::is_bitwise_serializable<BOOST_DEDUCED_TYPENAME remove_const<T>::type>));
       load_impl(&t, sizeof(T));
     }
 
@@ -107,7 +108,7 @@ private:
 
     void load_impl(void * p, int l)
     {
-      assert(position+l<=static_cast<int>(buffer_.size()));
+      assert_except(position+l<=static_cast<int>(buffer_.size()));
       if (l)
         std::memcpy(p,&buffer_[position],l);
       position += l;

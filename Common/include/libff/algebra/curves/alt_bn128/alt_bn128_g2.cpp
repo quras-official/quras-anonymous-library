@@ -266,7 +266,7 @@ alt_bn128_G2 alt_bn128_G2::add(const alt_bn128_G2 &other) const
 alt_bn128_G2 alt_bn128_G2::mixed_add(const alt_bn128_G2 &other) const
 {
 #ifdef DEBUG
-    assert(other.is_special());
+    assert_except(other.is_special());
 #endif
 
     // handle special cases having to do with O

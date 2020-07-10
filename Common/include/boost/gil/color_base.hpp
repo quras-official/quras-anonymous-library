@@ -28,6 +28,7 @@
 #include <boost/mpl/vector_c.hpp>
 #include <boost/type_traits.hpp>
 #include <boost/utility/enable_if.hpp>
+#include <assert_except.h>
 
 #include "gil_config.hpp"
 #include "utilities.hpp"
@@ -340,28 +341,28 @@ public:
 template <typename Element, typename Layout, int K>
 typename element_reference_type<homogeneous_color_base<Element,Layout,K> >::type       
 dynamic_at_c(homogeneous_color_base<Element,Layout,K>& cb, std::size_t i) {
-    assert(i<K);
+    assert_except(i<K);
     return (gil_reinterpret_cast<Element*>(&cb))[i];
 }
 
 template <typename Element, typename Layout, int K>
 typename element_const_reference_type<homogeneous_color_base<Element,Layout,K> >::type 
 dynamic_at_c(const homogeneous_color_base<Element,Layout,K>& cb, std::size_t i) {
-    assert(i<K);
+    assert_except(i<K);
     return (gil_reinterpret_cast_c<const Element*>(&cb))[i];
 }
 
 template <typename Element, typename Layout, int K>
 typename element_reference_type<homogeneous_color_base<Element&,Layout,K> >::type       
 dynamic_at_c(const homogeneous_color_base<Element&,Layout,K>& cb, std::size_t i) {
-    assert(i<K);
+    assert_except(i<K);
     return cb.at_c_dynamic(i);
 }
 
 template <typename Element, typename Layout, int K>
 typename element_const_reference_type<homogeneous_color_base<const Element&,Layout,K> >::type 
 dynamic_at_c(const homogeneous_color_base<const Element&,Layout,K>& cb, std::size_t i) {
-    assert(i<K);
+    assert_except(i<K);
     return cb.at_c_dynamic(i);
 }
 

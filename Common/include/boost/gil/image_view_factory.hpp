@@ -30,6 +30,7 @@
 #include "metafunctions.hpp"
 #include "gray.hpp"
 #include "color_convert.hpp"
+#include "assert_except.h"
 
 /// \defgroup ImageViewConstructors Image View From Raw Data
 /// \ingroup ImageViewAlgorithm
@@ -99,8 +100,8 @@ namespace detail {
 /// \brief Returns C pointer to the the channels of an interleaved homogeneous view.
 template <typename HomogeneousView>
 typename detail::channel_pointer_type<HomogeneousView>::type interleaved_view_get_raw_data(const HomogeneousView& view) {
-    BOOST_STATIC_ASSERT((!is_planar<HomogeneousView>::value && view_is_basic<HomogeneousView>::value));
-    BOOST_STATIC_ASSERT((boost::is_pointer<typename HomogeneousView::x_iterator>::value));
+    BOOST_STATIC_assert_except((!is_planar<HomogeneousView>::value && view_is_basic<HomogeneousView>::value));
+    BOOST_STATIC_assert_except((boost::is_pointer<typename HomogeneousView::x_iterator>::value));
 
     return &gil::at_c<0>(view(0,0));
 }
@@ -109,7 +110,7 @@ typename detail::channel_pointer_type<HomogeneousView>::type interleaved_view_ge
 /// \brief Returns C pointer to the the channels of a given color plane of a planar homogeneous view.
 template <typename HomogeneousView>
 typename detail::channel_pointer_type<HomogeneousView>::type planar_view_get_raw_data(const HomogeneousView& view, int plane_index) {
-    BOOST_STATIC_ASSERT((is_planar<HomogeneousView>::value && view_is_basic<HomogeneousView>::value));
+    BOOST_STATIC_assert_except((is_planar<HomogeneousView>::value && view_is_basic<HomogeneousView>::value));
     return dynamic_at_c(view.row_begin(0),plane_index);
 }
 
@@ -273,7 +274,7 @@ inline View subimage_view(const View& src, int xMin, int yMin, int width, int he
 /// \ingroup ImageViewTransformationsSubsampled
 template <typename View> 
 inline typename dynamic_xy_step_type<View>::type subsampled_view(const View& src, typename View::coord_t xStep, typename View::coord_t yStep) {
-    assert(xStep>0 && yStep>0);
+    assert_except(xStep>0 && yStep>0);
     typedef typename dynamic_xy_step_type<View>::type RView;
     return RView((src.width()+(xStep-1))/xStep,(src.height()+(yStep-1))/yStep,
                                           typename RView::xy_locator(src.xy_at(0,0),xStep,yStep));

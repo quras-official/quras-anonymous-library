@@ -266,7 +266,7 @@ class hyperexponential_distribution
         {
             hyperexp_detail::normalize(probs_);
 
-            assert( hyperexp_detail::check_params(probs_, rates_) );
+            assert_except( hyperexp_detail::check_params(probs_, rates_) );
         }
 
         /**
@@ -299,7 +299,7 @@ class hyperexponential_distribution
         {
             hyperexp_detail::normalize(probs_);
 
-            assert( hyperexp_detail::check_params(probs_, rates_) );
+            assert_except( hyperexp_detail::check_params(probs_, rates_) );
         }
 
         /**
@@ -336,7 +336,7 @@ class hyperexponential_distribution
         : probs_(std::distance(rate_first, rate_last), 1), // will be normalized below
           rates_(rate_first, rate_last)
         {
-            assert(probs_.size() == rates_.size());
+            assert_except(probs_.size() == rates_.size());
         }
 
         /**
@@ -360,7 +360,7 @@ class hyperexponential_distribution
         {
             hyperexp_detail::normalize(probs_);
 
-            assert( hyperexp_detail::check_params(probs_, rates_) );
+            assert_except( hyperexp_detail::check_params(probs_, rates_) );
         }
 
 #ifndef BOOST_NO_CXX11_HDR_INITIALIZER_LIST
@@ -387,7 +387,7 @@ class hyperexponential_distribution
         {
             hyperexp_detail::normalize(probs_);
 
-            assert( hyperexp_detail::check_params(probs_, rates_) );
+            assert_except( hyperexp_detail::check_params(probs_, rates_) );
         }
 
         /**
@@ -413,7 +413,7 @@ class hyperexponential_distribution
         {
             hyperexp_detail::normalize(probs_);
 
-            assert( hyperexp_detail::check_params(probs_, rates_) );
+            assert_except( hyperexp_detail::check_params(probs_, rates_) );
         }
 #endif // BOOST_NO_CXX11_HDR_INITIALIZER_LIST
 
@@ -529,7 +529,7 @@ class hyperexponential_distribution
             }
 
             //post: vector size conformance
-            assert(param.probs_.size() == param.rates_.size());
+            assert_except(param.probs_.size() == param.rates_.size());
 
             return is;
         }
@@ -589,7 +589,7 @@ class hyperexponential_distribution
     : dd_(prob_first, prob_last),
       rates_(rate_first, rate_last)
     {
-        assert( hyperexp_detail::check_params(dd_.probabilities(), rates_) );
+        assert_except( hyperexp_detail::check_params(dd_.probabilities(), rates_) );
     }
 
     /**
@@ -621,7 +621,7 @@ class hyperexponential_distribution
     : dd_(prob_range),
       rates_(boost::begin(rate_range), boost::end(rate_range))
     {
-        assert( hyperexp_detail::check_params(dd_.probabilities(), rates_) );
+        assert_except( hyperexp_detail::check_params(dd_.probabilities(), rates_) );
     }
 
     /**
@@ -659,7 +659,7 @@ class hyperexponential_distribution
     : dd_(std::vector<RealT>(std::distance(rate_first, rate_last), 1)),
       rates_(rate_first, rate_last)
     {
-        assert( hyperexp_detail::check_params(dd_.probabilities(), rates_) );
+        assert_except( hyperexp_detail::check_params(dd_.probabilities(), rates_) );
     }
 
     /**
@@ -681,7 +681,7 @@ class hyperexponential_distribution
     : dd_(std::vector<RealT>(boost::size(rate_range), 1)),
       rates_(boost::begin(rate_range), boost::end(rate_range))
     {
-        assert( hyperexp_detail::check_params(dd_.probabilities(), rates_) );
+        assert_except( hyperexp_detail::check_params(dd_.probabilities(), rates_) );
     }
 
     /**
@@ -693,7 +693,7 @@ class hyperexponential_distribution
     : dd_(param.probabilities()),
       rates_(param.rates())
     {
-        assert( hyperexp_detail::check_params(dd_.probabilities(), rates_) );
+        assert_except( hyperexp_detail::check_params(dd_.probabilities(), rates_) );
     }
 
 #ifndef BOOST_NO_CXX11_HDR_INITIALIZER_LIST
@@ -719,7 +719,7 @@ class hyperexponential_distribution
     : dd_(l1.begin(), l1.end()),
       rates_(l2.begin(), l2.end())
     {
-        assert( hyperexp_detail::check_params(dd_.probabilities(), rates_) );
+        assert_except( hyperexp_detail::check_params(dd_.probabilities(), rates_) );
     }
 
     /**
@@ -744,7 +744,7 @@ class hyperexponential_distribution
     : dd_(std::vector<RealT>(std::distance(l1.begin(), l1.end()), 1)),
       rates_(l1.begin(), l1.end())
     {
-        assert( hyperexp_detail::check_params(dd_.probabilities(), rates_) );
+        assert_except( hyperexp_detail::check_params(dd_.probabilities(), rates_) );
     }
 #endif
 

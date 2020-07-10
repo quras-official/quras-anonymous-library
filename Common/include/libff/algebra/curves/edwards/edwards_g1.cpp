@@ -96,7 +96,7 @@ void edwards_G1::to_special()
     this->Z = edwards_Fq::one();
 
 #ifdef DEBUG
-    assert((*this) == copy);
+    assert_except((*this) == copy);
 #endif
 }
 
@@ -210,7 +210,7 @@ edwards_G1 edwards_G1::mixed_add(const edwards_G1 &other) const
     }
 
 #ifdef DEBUG
-    assert(other.is_special());
+    assert_except(other.is_special());
 #endif
 
     // NOTE: does not handle O and pts of order 2,4

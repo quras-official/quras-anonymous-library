@@ -16,6 +16,7 @@
 
 #include <cassert>
 #include <sstream>
+#include <assert_except.hpp>
 
 #include <libff/common/utils.hpp>
 
@@ -59,7 +60,7 @@ inline void input_bool(std::istream &in, bool &b)
     size_t tmp;
     in >> tmp;
     consume_newline(in);
-    assert(tmp == 0 || tmp == 1);
+    assert_except(tmp == 0 || tmp == 1);
 
     b = (tmp == 1 ? true : false);
 }
@@ -94,7 +95,7 @@ T reserialize(const T &obj)
     ss << obj;
     T tmp;
     ss >> tmp;
-    assert(obj == tmp);
+    assert_except(obj == tmp);
     return tmp;
 }
 

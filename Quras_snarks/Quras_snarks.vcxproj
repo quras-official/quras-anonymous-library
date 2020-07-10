@@ -50,7 +50,7 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CLRSupport>false</CLRSupport>
@@ -121,7 +121,7 @@
     <Link>
       <AdditionalDependencies>legacy_stdio_definitions.lib;snarkd.lib;ffd.lib;libgcc.a;libgmp.a;libgmpxx.a;libcryptoMD.lib;zmd.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;libboost_filesystem-vc141-mt-gd-x64-1_66.lib;libboost_system-vc141-mt-gd-x64-1_66.lib;libboost_thread-vc141-mt-gd-x64-1_66.lib;libboost_date_time-vc141-mt-gd-x64-1_66.lib;libboost_chrono-vc141-mt-gd-x64-1_66.lib;libboost_program_options-vc141-mt-gd-x64-1_66.lib;ws2_32.lib;libsodium.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>../common/libs/lib_debug</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../common/libs/lib_debug;../common/include</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

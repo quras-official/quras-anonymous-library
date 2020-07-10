@@ -1114,7 +1114,7 @@ namespace boost { namespace xpressive
         // questionable ones.
         sregex rex = +( _d [ ++i ] >> '!' );
         regex_search(str, rex);
-        assert( i.get() == 2 );
+        assert_except( i.get() == 2 );
         \endcode
     */
     ///

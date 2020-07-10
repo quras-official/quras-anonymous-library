@@ -24,6 +24,7 @@
 #include <algorithm>
 #include <cassert>
 #include <boost/config/no_tr1/cmath.hpp>
+#include <assert_except.h>
 
 namespace boost {
 namespace numeric {
@@ -271,7 +272,7 @@ interval<T, Policies> nth_root(interval<T, Policies> const &x, int k)
 {
   typedef interval<T, Policies> I;
   if (interval_lib::detail::test_input(x)) return I::empty();
-  assert(k > 0);
+  assert_except(k > 0);
   if (k == 1) return x;
   typename Policies::rounding rnd;
   typedef typename interval_lib::unprotect<I>::type R;
